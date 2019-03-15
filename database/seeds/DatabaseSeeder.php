@@ -12,8 +12,20 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $this->call([
+            /*
+             * 1
+             */
+            SalasTableSeeder::class,
+            TelasTableSeeder::class,
             TipoTableSeeder::class,
-            SenhasTableSeeder::class
+            /*
+             * 2
+             */
+            TelaSalasTableSeeder::class,
+            /*
+             * 3
+             */
+            SenhasTableSeeder::class,
         ]);
     }
 }

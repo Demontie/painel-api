@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\Painel;
 
 use App\Models\Painel\Senha;
+use function foo\func;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -23,8 +24,15 @@ class SenhaController extends Controller
     public function index()
     {
 
-        $senhas = $this->senha->with('tipo')
-            ->whereDate('created_at',date('Y-m-d'))->get();
+        $senhas = $this->senha
+            ->where('id_sala',1)
+            ->with([
+                'tipo',
+                'tela_sala.salas',
+                'tela_sala.telas'
+            ])
+            ->whereDate('created_at',date('Y-m-d'))
+            ->get();
 
         return response()->json($senhas);
 

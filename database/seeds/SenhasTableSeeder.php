@@ -13,18 +13,22 @@ class SenhasTableSeeder extends Seeder
     public function run()
     {
         Senha::create([
-            'tipo_id' => 1,
-            'numero' => 10
+            'id_tipo' => 1,
+            'numero' => 10,
+            'sala_id_stg' => 1
+
         ]);
 
         Senha::create([
-            'tipo_id' => 2,
-            'numero' => 3
+            'id_tipo' => 2,
+            'numero' => 3,
+            'sala_id_stg' => 1
         ]);
 
         Senha::create([
-            'tipo_id' => 1,
-            'numero' => 11
+            'id_tipo' => 1,
+            'numero' => 11,
+            'sala_id_stg' => 1
         ]);
     }
 }
