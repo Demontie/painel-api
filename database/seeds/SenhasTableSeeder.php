@@ -15,20 +15,20 @@ class SenhasTableSeeder extends Seeder
         Senha::create([
             'id_tipo' => 1,
             'numero' => 10,
-            'sala_id_stg' => 1
+            'sala_id_stg' => 101
 
         ]);
 
-        Senha::create([
-            'id_tipo' => 2,
-            'numero' => 3,
-            'sala_id_stg' => 1
-        ]);
-
-        Senha::create([
-            'id_tipo' => 1,
-            'numero' => 11,
-            'sala_id_stg' => 1
-        ]);
+//        Senha::create([
+//            'id_tipo' => 2,
+//            'numero' => 3,
+//            'sala_id_stg' => 1
+//        ]);
+//
+//        Senha::create([
+//            'id_tipo' => 1,
+//            'numero' => 11,
+//            'sala_id_stg' => 1
+//        ]);
     }
 }

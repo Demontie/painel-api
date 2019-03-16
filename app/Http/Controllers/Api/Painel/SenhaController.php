@@ -25,14 +25,17 @@ class SenhaController extends Controller
     {
 
         $senhas = $this->senha
-            ->where('id_sala',1)
+            ->where('id',1)
+            ->where('sala_id_stg',101)
             ->with([
                 'tipo',
-                'tela_sala.salas',
+                'tela_sala.sala',
                 'tela_sala.telas'
             ])
             ->whereDate('created_at',date('Y-m-d'))
             ->get();
+
+
 
         return response()->json($senhas);
 

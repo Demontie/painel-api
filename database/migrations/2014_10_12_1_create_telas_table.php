@@ -15,6 +15,7 @@ class CreateTelasTable extends Migration
     {
         Schema::create('telas', function (Blueprint $table) {
             $table->increments('id');
+            $table->unsignedInteger('id_tela_salas');
             $table->string('descricao',100);
             $table->boolean('ativo')->default(true);
             $table->timestamps();

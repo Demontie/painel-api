@@ -13,18 +13,15 @@ class TelaSalasTableSeeder extends Seeder
     public function run()
     {
         Tela_sala::create([
-            'sala_id' => 1,
-            'id_tela' => 1
+            'sala_id_stg' => 101
         ]);
 
         Tela_sala::create([
-            'sala_id' => 1,
-            'id_tela' => 2
+            'sala_id_stg' => 101
         ]);
 
         Tela_sala::create([
-            'sala_id' => 1,
-            'id_tela' => 3
+            'sala_id_stg' => 101
         ]);
 
 //        Tela_sala::create([
