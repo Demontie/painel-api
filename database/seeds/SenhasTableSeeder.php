@@ -12,30 +12,32 @@ class SenhasTableSeeder extends Seeder
      */
     public function run()
     {
-        Senha::create([
-            'id_tipo' => 1,
-            'numero' => 10,
-            'id_tela_grupo' => 1
+        for($x = 0; $x < 15; $x++){
+            if($x < 8){
+                if($x%2 == 0){
 
-        ]);
+                    Senha::create([
+                        'id_tipo' => 2,
+                        'numero' => (10 + $x),
+                        'id_tela_grupo' => 1
 
-        Senha::create([
-            'id_tipo' => 2,
-            'numero' => 11,
-            'id_tela_grupo' => 2
+                    ]);
+                }else if($x <= 7){
+                    Senha::create([
+                        'id_tipo' => 1,
+                        'numero' => (10 + $x),
+                        'id_tela_grupo' => 1
 
-        ]);
+                    ]);
+                }
+            }else{
+                Senha::create([
+                    'id_tipo' => 1,
+                    'numero' => (10 + $x),
+                    'id_tela_grupo' => 1
 
-//        Senha::create([
-//            'id_tipo' => 2,
-//            'numero' => 3,
-//            'sala_id_stg' => 1
-//        ]);
-//
-//        Senha::create([
-//            'id_tipo' => 1,
-//            'numero' => 11,
-//            'sala_id_stg' => 1
-//        ]);
+                ]);
+            }
+        }
     }
 }

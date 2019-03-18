@@ -7,7 +7,9 @@ $this->group([
     'prefix' => 'painel'
 ],
     function () {
+        $this->get('senhas/chamar','SenhaController@chamar');
         $this->apiResource('senhas','SenhaController');
+
         $this->apiResource('fila','FilaController');
         $this->apiResource('tipos','TipoController');
     });

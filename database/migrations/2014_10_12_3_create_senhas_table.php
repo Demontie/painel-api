@@ -20,6 +20,7 @@ class CreateSenhasTable extends Migration
             $table->unsignedInteger('id_tela_grupo');
             $table->foreign('id_tela_grupo')->references('id')->on('tela_grupos');
             $table->integer('numero');
+            $table->boolean('ativo')->default(true);
             $table->timestamps();
         });
     }
