@@ -10,7 +10,8 @@ class Tela extends Model
         'id_tela_salas'
     ];
 
-    public function tela_salas(){
-        return $this->hasOne(Tela_sala::class, 'id_tela_salas');
+    public function tela_grupo(){
+        return $this->hasOne(Tela_grupo::class, 'id');
     }
+
 }

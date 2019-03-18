@@ -16,8 +16,8 @@ class Senha extends Model
         return $this->hasMany(Tipo::class,'id');
     }
 
-    public function tela_sala(){
-        return $this->hasMany(Tela_sala::class,'id');
+    public function grupo_sala(){
+        return $this->hasOne(Grupo_sala::class,'id');
     }
 
 }

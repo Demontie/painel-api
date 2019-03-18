@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTelaSalasTable extends Migration
+class CreateTelaGruposTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,9 @@ class CreateTelaSalasTable extends Migration
      */
     public function up()
     {
-        Schema::create('tela_salas', function (Blueprint $table) {
+        Schema::create('tela_grupos', function (Blueprint $table) {
             $table->increments('id');
-            //$table->unsignedInteger('id_tela');
-            //$table->foreign('id_tela')->references('id')->on('telas');
-            $table->unsignedInteger('sala_id_stg');
-            //$table->foreign('sala_id_stg')->references('sala_id_stg')->on('salas');
+            $table->string('descricao',150);
             $table->boolean('ativo')->default(true);
             $table->timestamps();
         });

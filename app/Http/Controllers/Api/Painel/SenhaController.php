@@ -26,11 +26,11 @@ class SenhaController extends Controller
 
         $senhas = $this->senha
             ->where('id',1)
-            ->where('sala_id_stg',101)
+            //->where('tela_sala.telas',2)
             ->with([
                 'tipo',
-                'tela_sala.sala',
-                'tela_sala.telas'
+                'grupo_sala.tela_grupo.telas',
+                'grupo_sala.sala',
             ])
             ->whereDate('created_at',date('Y-m-d'))
             ->get();

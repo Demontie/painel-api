@@ -6,7 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class Sala extends Model
 {
-    public function tela_salas(){
-        return $this->hasMany(Tela_sala::class);
+    protected $fillable = [
+        'descricao',
+        'sala_id_stg',
+        'ativo'
+    ];
+
+    public function grupo_sala(){
+        return $this->hasOne(Grupo_sala::class, 'id_sala');
     }
 }

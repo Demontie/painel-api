@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateSenhasTable extends Migration
+class CreateTelasTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,12 @@ class CreateSenhasTable extends Migration
      */
     public function up()
     {
-        Schema::create('senhas', function (Blueprint $table) {
+        Schema::create('telas', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('id_tipo');
-            $table->foreign('id_tipo')->references('id')->on('tipos');
             $table->unsignedInteger('id_tela_grupo');
             $table->foreign('id_tela_grupo')->references('id')->on('tela_grupos');
-            $table->integer('numero');
+            $table->string('descricao',100);
+            $table->boolean('ativo')->default(true);
             $table->timestamps();
         });
     }
@@ -31,6 +30,6 @@ class CreateSenhasTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('senhas');
+        Schema::dropIfExists('telas');
     }
 }
