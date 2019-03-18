@@ -13,13 +13,13 @@ class GrupoSalasTableSeeder extends Seeder
     public function run()
     {
         Grupo_sala::create([
-            'id_tela_grupo' => 1,
-            'id_sala' => 1
+            'tela_grupo_id' => 1,
+            'sala_id' => 1
         ]);
 
         Grupo_sala::create([
-            'id_tela_grupo' => 2,
-            'id_sala' => 2
+            'tela_grupo_id' => 2,
+            'sala_id' => 2
         ]);
     }
 }

@@ -17,24 +17,24 @@ class SenhasTableSeeder extends Seeder
                 if($x%2 == 0){
 
                     Senha::create([
-                        'id_tipo' => 2,
+                        'tipo_id' => 2,
                         'numero' => (10 + $x),
-                        'id_tela_grupo' => 1
+                        'grupo_sala_id' => 1
 
                     ]);
                 }else if($x <= 7){
                     Senha::create([
-                        'id_tipo' => 1,
+                        'tipo_id' => 1,
                         'numero' => (10 + $x),
-                        'id_tela_grupo' => 1
+                        'grupo_sala_id' => 1
 
                     ]);
                 }
             }else{
                 Senha::create([
-                    'id_tipo' => 1,
+                    'tipo_id' => 1,
                     'numero' => (10 + $x),
-                    'id_tela_grupo' => 1
+                    'grupo_sala_id' => 1
 
                 ]);
             }

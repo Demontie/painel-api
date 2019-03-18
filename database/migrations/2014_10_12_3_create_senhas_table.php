@@ -15,10 +15,10 @@ class CreateSenhasTable extends Migration
     {
         Schema::create('senhas', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('id_tipo');
-            $table->foreign('id_tipo')->references('id')->on('tipos');
-            $table->unsignedInteger('id_tela_grupo');
-            $table->foreign('id_tela_grupo')->references('id')->on('tela_grupos');
+            $table->unsignedInteger('tipo_id');
+            $table->foreign('tipo_id')->references('id')->on('tipos');
+            $table->unsignedInteger('grupo_sala_id');
+            $table->foreign('grupo_sala_id')->references('id')->on('grupo_salas');
             $table->integer('numero');
             $table->boolean('ativo')->default(true);
             $table->timestamps();

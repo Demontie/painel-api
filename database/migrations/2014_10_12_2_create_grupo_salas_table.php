@@ -15,10 +15,10 @@ class CreateGrupoSalasTable extends Migration
     {
         Schema::create('grupo_salas', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('id_tela_grupo');
-            $table->foreign('id_tela_grupo')->references('id')->on('tela_grupos');
-            $table->unsignedInteger('id_sala');
-            $table->foreign('id_sala')->references('id')->on('salas');
+            $table->unsignedInteger('tela_grupo_id');
+            $table->foreign('tela_grupo_id')->references('id')->on('tela_grupos');
+            $table->unsignedInteger('sala_id');
+            $table->foreign('sala_id')->references('id')->on('salas');
             $table->boolean('ativo')->default(true);
             $table->timestamps();
         });

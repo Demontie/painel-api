@@ -7,19 +7,19 @@ use Illuminate\Database\Eloquent\Model;
 class Grupo_sala extends Model
 {
     protected $fillable = [
-        'id_sala',
-        'id_tela_grupo'
+        'sala_id',
+        'tela_grupo_id'
     ];
 
-    public function senha(){
-        return $this->hasMany(Senha::class,'id_grupo_sala');
+    public function senhas(){
+        return $this->hasOne(Senha::class);
     }
 
     public function sala(){
-        return $this->hasOne(Sala::class,'id');
+        return $this->belongsTo(Sala::class);
     }
 
     public function tela_grupo(){
-        return $this->hasOne(Tela_grupo::class,'id');
+        return $this->belongsTo(Tela_grupo::class);
     }
 }

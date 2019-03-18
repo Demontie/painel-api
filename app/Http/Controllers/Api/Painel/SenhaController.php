@@ -24,14 +24,16 @@ class SenhaController extends Controller
     public function index()
     {
         $senhas = $this->senha
+            ->where('id',1)
             ->with([
                 'tipo',
-                'grupo_sala.tela_grupo.telas',
-                'grupo_sala.sala',
+                'grupo_sala',
+//                'grupo_sala.tela_grupo.telas',
+//                'grupo_sala.sala',
             ])
             ->whereDate('created_at',date('Y-m-d'))
-            ->orderBy('id','desc')
-            ->take(5)
+            //->orderBy('id','desc')
+            //->take(5)
             ->get();
 
         return response()->json($senhas);
@@ -43,6 +45,7 @@ class SenhaController extends Controller
      */
     public function chamar(Request $request){
         $ultimaSenha = $this->senha
+            ->where('ativo',true)
             ->with([
                 'tipo',
                 'grupo_sala.tela_grupo.telas',
