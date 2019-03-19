@@ -4,15 +4,17 @@ namespace App\Models\Painel;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Sala extends Model
+class Tela_grupo extends Model
 {
     protected $fillable = [
-        'descricao',
-        'sala_id_stg',
-        'ativo'
+        'descricao'
     ];
 
     public function grupo_sala(){
         return $this->hasOne(Grupo_sala::class);
+    }
+
+    public function telas(){
+        return $this->hasMany(Tela::class);
     }
 }

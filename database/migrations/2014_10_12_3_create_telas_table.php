@@ -15,7 +15,8 @@ class CreateTelasTable extends Migration
     {
         Schema::create('telas', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('id_tela_salas');
+            $table->unsignedInteger('tela_grupo_id');
+            $table->foreign('tela_grupo_id')->references('id')->on('tela_grupos');
             $table->string('descricao',100);
             $table->boolean('ativo')->default(true);
             $table->timestamps();

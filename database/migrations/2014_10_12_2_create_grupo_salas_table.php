@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTelaSalasTable extends Migration
+class CreateGrupoSalasTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,12 @@ class CreateTelaSalasTable extends Migration
      */
     public function up()
     {
-        Schema::create('tela_salas', function (Blueprint $table) {
+        Schema::create('grupo_salas', function (Blueprint $table) {
             $table->increments('id');
-            //$table->unsignedInteger('id_tela');
-            //$table->foreign('id_tela')->references('id')->on('telas');
-            $table->unsignedInteger('sala_id_stg');
-            //$table->foreign('sala_id_stg')->references('sala_id_stg')->on('salas');
+            $table->unsignedInteger('tela_grupo_id');
+            $table->foreign('tela_grupo_id')->references('id')->on('tela_grupos');
+            $table->unsignedInteger('sala_id');
+            $table->foreign('sala_id')->references('id')->on('salas');
             $table->boolean('ativo')->default(true);
             $table->timestamps();
         });
@@ -31,6 +31,6 @@ class CreateTelaSalasTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tela_salas');
+        Schema::dropIfExists('grupo_salas');
     }
 }

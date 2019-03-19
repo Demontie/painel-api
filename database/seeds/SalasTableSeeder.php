@@ -14,22 +14,22 @@ class SalasTableSeeder extends Seeder
     {
         Sala::create([
             'descricao' => 'Sala 01',
-            'sala_id_stg' => 101
+            'sala_id_stg' => 101,
         ]);
 
         Sala::create([
             'descricao' => 'Sala 02',
-            'sala_id_stg' => 102
+            'sala_id_stg' => 102,
         ]);
 
         Sala::create([
             'descricao' => 'Sala 03',
-            'sala_id_stg' => 103
+            'sala_id_stg' => 103,
         ]);
 
         Sala::create([
             'descricao' => 'Sala 04',
-            'sala_id_stg' => 104
+            'sala_id_stg' => 104,
         ]);
     }
 }

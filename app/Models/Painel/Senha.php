@@ -8,16 +8,16 @@ class Senha extends Model
 {
     protected $fillable = [
         'numero',
-        'id_tipo',
-        'sala_id_stg'
+        'tipo_id',
+        'grupo_salas_id'
     ];
 
     public function tipo(){
-        return $this->hasMany(Tipo::class,'id');
+        return $this->belongsTo(Tipo::class);
     }
 
-    public function tela_sala(){
-        return $this->hasMany(Tela_sala::class,'id');
+    public function grupo_sala(){
+        return $this->belongsTo(Grupo_sala::class);
     }
 
 }

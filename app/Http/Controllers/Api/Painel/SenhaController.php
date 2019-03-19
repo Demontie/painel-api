@@ -23,32 +23,38 @@ class SenhaController extends Controller
      */
     public function index()
     {
-
         $senhas = $this->senha
             ->where('id',1)
-            ->where('sala_id_stg',101)
             ->with([
                 'tipo',
-                'tela_sala.sala',
-                'tela_sala.telas'
+                'grupo_sala',
+//                'grupo_sala.tela_grupo.telas',
+//                'grupo_sala.sala',
             ])
             ->whereDate('created_at',date('Y-m-d'))
+            //->orderBy('id','desc')
+            //->take(5)
             ->get();
 
-
-
         return response()->json($senhas);
-
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return string
      */
-    public function create()
-    {
-        //
+    public function chamar(Request $request){
+        $ultimaSenha = $this->senha
+            ->where('ativo',true)
+            ->with([
+                'tipo',
+                'grupo_sala.tela_grupo.telas',
+                'grupo_sala.sala',
+            ])
+            ->orderBy('id', 'desc')
+            ->first();
+
+        return response()->json($ultimaSenha);
     }
 
     /**
@@ -59,7 +65,15 @@ class SenhaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $senha = $this->senha
+            ->with([
+                'tipo',
+                'grupo_sala.tela_grupo.telas',
+                'grupo_sala.sala',
+            ])
+            ->create($request->all());
+
+        return response()->json($senha,201);
     }
 
     /**
@@ -70,18 +84,15 @@ class SenhaController extends Controller
      */
     public function show($id)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
+        $senha = $this->senha->with([
+            'tipo',
+            'grupo_sala.tela_grupo.telas',
+            'grupo_sala.sala',
+        ])->find($id);
+        if(is_null($senha)){
+            return response()->json(['error' => 'Senha não encontrada'],404);
+        }
+        return response()->json($senha);
     }
 
     /**
@@ -93,7 +104,16 @@ class SenhaController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $senha = $this->senha->with([
+            'tipo',
+            'grupo_sala.tela_grupo.telas',
+            'grupo_sala.sala',
+        ])->find($id);
+        if(is_null($senha)){
+            return response()->json(['error' => 'Senha não encontrada'],404);
+        }
+        $senha->update($request->all());
+        return response()->json($senha);
     }
 
     /**
@@ -104,6 +124,15 @@ class SenhaController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $senha = $this->senha->with([
+            'tipo',
+            'grupo_sala.tela_grupo.telas',
+            'grupo_sala.sala',
+        ])->find($id);
+        if(is_null($senha)){
+            return response()->json(['error' => 'Receita não encontrada'],404);
+        }
+        $senha->delete();
+        return response()->json([],204);
     }
 }
