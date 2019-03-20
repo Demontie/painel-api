@@ -24,7 +24,7 @@ class TelasTableSeeder extends Seeder
 
         Tela::create([
             'descricao' => 'Tela Superior',
-            'tela_grupo_id' => 1
+            'tela_grupo_id' => 2
         ]);
     }
 }

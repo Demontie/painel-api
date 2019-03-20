@@ -2,18 +2,20 @@
 
 namespace App\Http\Controllers\Api\Painel;
 
+use App\Classes\Utils\Status_Senha;
 use App\Models\Painel\Senha;
-use function foo\func;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 class SenhaController extends Controller
 {
     protected $senha;
+    private $statusSenha;
 
-    public function __construct(Senha $senha)
+    public function __construct(Senha $senha, Status_Senha $statusSenha)
     {
         $this->senha = $senha;
+        $this->statusSenha = $statusSenha;
     }
 
     /**
@@ -24,16 +26,17 @@ class SenhaController extends Controller
     public function index()
     {
         $senhas = $this->senha
-            ->where('id',1)
+            //->where('id',1)
+            ->where('status',$this->statusSenha::AGUARDANDO_CHAMADA())
+            ->where('ativo',true)
             ->with([
                 'tipo',
-                'grupo_sala',
-//                'grupo_sala.tela_grupo.telas',
-//                'grupo_sala.sala',
+                'grupo_sala.tela_grupo.telas',
+                'grupo_sala.sala',
             ])
-            ->whereDate('created_at',date('Y-m-d'))
+            //->whereDate('created_at',date('Y-m-d'))
             //->orderBy('id','desc')
-            //->take(5)
+            ->take(5)
             ->get();
 
         return response()->json($senhas);

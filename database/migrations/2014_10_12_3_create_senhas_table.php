@@ -21,6 +21,7 @@ class CreateSenhasTable extends Migration
             $table->foreign('grupo_sala_id')->references('id')->on('grupo_salas');
             $table->integer('numero');
             $table->boolean('ativo')->default(true);
+            $table->integer('status');
             $table->timestamps();
         });
     }
