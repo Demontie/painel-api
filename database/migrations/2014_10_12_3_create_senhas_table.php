@@ -15,13 +15,13 @@ class CreateSenhasTable extends Migration
     {
         Schema::create('senhas', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('tipo_id');
+            $table->unsignedInteger('tipo_id')->nullable();
             $table->foreign('tipo_id')->references('id')->on('tipos');
-            $table->unsignedInteger('grupo_sala_id');
+            $table->unsignedInteger('grupo_sala_id')->nullable();
             $table->foreign('grupo_sala_id')->references('id')->on('grupo_salas');
             $table->integer('numero');
             $table->boolean('ativo')->default(true);
-            $table->integer('status');
+            $table->integer('status')->default(1);
             $table->timestamps();
         });
     }

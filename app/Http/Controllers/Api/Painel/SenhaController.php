@@ -27,7 +27,7 @@ class SenhaController extends Controller
     {
         $senhas = $this->senha
             //->where('id',1)
-            ->where('status',$this->statusSenha::AGUARDANDO_CHAMADA())
+            ->where('status',$this->statusSenha::AGUARDANDO_CHAMADA)
             ->where('ativo',true)
             ->with([
                 'tipo',
@@ -68,13 +68,17 @@ class SenhaController extends Controller
      */
     public function store(Request $request)
     {
-        $senha = $this->senha
-            ->with([
-                'tipo',
-                'grupo_sala.tela_grupo.telas',
-                'grupo_sala.sala',
-            ])
-            ->create($request->all());
+        $ultimaSenha = $this->senha
+            ->where('tipo_id',$request['tipo_id'])
+            ->orderBy('id','desc')->first();
+
+        $numero = !is_null($ultimaSenha) ? $ultimaSenha->numero + 1 : 1;
+
+        $novaSenha = array_merge([
+            'numero' => $numero
+        ],$request->all());
+
+        $senha = $this->senha->create($novaSenha);
 
         return response()->json($senha,201);
     }
@@ -92,6 +96,7 @@ class SenhaController extends Controller
             'grupo_sala.tela_grupo.telas',
             'grupo_sala.sala',
         ])->find($id);
+
         if(is_null($senha)){
             return response()->json(['error' => 'Senha não encontrada'],404);
         }
@@ -107,11 +112,8 @@ class SenhaController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $senha = $this->senha->with([
-            'tipo',
-            'grupo_sala.tela_grupo.telas',
-            'grupo_sala.sala',
-        ])->find($id);
+        $senha = $this->senha->find($id);
+
         if(is_null($senha)){
             return response()->json(['error' => 'Senha não encontrada'],404);
         }
@@ -127,11 +129,8 @@ class SenhaController extends Controller
      */
     public function destroy($id)
     {
-        $senha = $this->senha->with([
-            'tipo',
-            'grupo_sala.tela_grupo.telas',
-            'grupo_sala.sala',
-        ])->find($id);
+        $senha = $this->senha->find($id);
+
         if(is_null($senha)){
             return response()->json(['error' => 'Receita não encontrada'],404);
         }
