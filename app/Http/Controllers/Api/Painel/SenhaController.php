@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Api\Painel;
 
-use App\Classes\Utils\CamposConsultasPainel;
 use App\Classes\Utils\ConstantesPainel;
 use App\Models\Painel\Senha;
 use Illuminate\Http\Request;
@@ -12,15 +11,12 @@ class SenhaController extends Controller
 {
     protected $senha;
     private $constantesPainel;
-    private $camposConsultasPainel;
 
     public function __construct(Senha $senha,
-                                ConstantesPainel $constantesPainel,
-                                CamposConsultasPainel $camposConsultasPainel)
+                                ConstantesPainel $constantesPainel)
     {
         $this->senha = $senha;
         $this->constantesPainel = $constantesPainel;
-        $this->camposConsultasPainel = $camposConsultasPainel;
     }
 
     /**
@@ -35,19 +31,19 @@ class SenhaController extends Controller
             ->where('ativo',true)
             ->with([
                 'tipo'=>  function($query){
-                    $query->select($this->camposConsultasPainel->tipos());
+                    $query->select($this->tipos());
                 },
                 'grupo_sala' => function($query){
-                    $query->select($this->camposConsultasPainel->grupoSalaTelaGrupo());
+                    $query->select($this->grupoSalaTelaGrupo());
                 },
                 'grupo_sala.tela_grupo' => function($query){
-                    $query->select($this->camposConsultasPainel->grupoSala());
+                    $query->select($this->grupoSala());
                 },
                 'grupo_sala.tela_grupo.telas' => function($query){
-                    $query->select($this->camposConsultasPainel->grupoSalasTelaGrupoTelas());
+                    $query->select($this->grupoSalasTelaGrupoTelas());
                 },
                 'grupo_sala.sala' => function($query){
-                    $query->select($this->camposConsultasPainel->grupoSalasSala());
+                    $query->select($this->grupoSalasSala());
                 },
             ])
             //->whereDate('created_at',date('Y-m-d'))
@@ -154,5 +150,48 @@ class SenhaController extends Controller
         return response()->json($ultimaSenha);
     }
 
-    //public function
+    /**
+     * Tebelas com campos para consultas
+     */
+    public function tipos(){
+        return [
+            'id',
+            'descricao',
+            'prefixo'
+        ];
+    }
+
+    public function grupoSala(){
+        return [
+            'id',
+            'descricao',
+            'ativo'
+        ];
+    }
+
+    public function grupoSalaTelaGrupo(){
+        return [
+            'id',
+            'sala_id',
+            'tela_grupo_id',
+            'ativo'
+        ];
+    }
+
+    public function grupoSalasTelaGrupoTelas(){
+        return [
+            'id',
+            'descricao',
+            'tela_grupo_id'
+        ];
+    }
+
+    public function grupoSalasSala(){
+        return [
+            'id',
+            'descricao',
+            'sala_id_stg',
+            'ativo'
+        ];
+    }
 }
