@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateSenhasTable extends Migration
+class CreateEspecialidadeGuichesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,17 +13,13 @@ class CreateSenhasTable extends Migration
      */
     public function up()
     {
-        Schema::create('senhas', function (Blueprint $table) {
+        Schema::create('especialidade_guiches', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('tipo_id')->nullable();
-            $table->foreign('tipo_id')->references('id')->on('tipos');
-            $table->unsignedInteger('grupo_sala_id')->nullable();
-            $table->foreign('grupo_sala_id')->references('id')->on('grupo_salas');
             $table->unsignedInteger('guiche_id')->nullable();
             $table->foreign('guiche_id')->references('id')->on('guiches');
-            $table->integer('numero');
+            $table->unsignedInteger('especialidades_id')->nullable();
+            $table->foreign('especialidades_id')->references('id')->on('guiches');
             $table->boolean('ativo')->default(true);
-            $table->integer('status')->default(1);
             $table->timestamps();
         });
     }
@@ -35,6 +31,6 @@ class CreateSenhasTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('senhas');
+        Schema::dropIfExists('especialidade__guiches');
     }
 }

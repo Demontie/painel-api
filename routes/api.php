@@ -12,4 +12,6 @@ $this->group([
 
         $this->apiResource('fila','FilaController');
         $this->apiResource('tipos','TipoController');
+        $this->apiResource('guiches','GuicheController');
+        $this->apiResource('especialidades','EspecialidadeController');
     });
