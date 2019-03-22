@@ -2,15 +2,15 @@
 
 use Illuminate\Database\Seeder;
 use App\Models\Painel\Senha;
-use App\Classes\Utils\Status_Senha;
+use App\Classes\Utils\ConstantesPainel;
 
 class SenhasTableSeeder extends Seeder
 {
-    private $status;
+    private $constantesPainel;
 
-    public function __construct(Status_Senha $status)
+    public function __construct(ConstantesPainel $constantesPainel)
     {
-        $this->status = $status;
+        $this->constantesPainel = $constantesPainel;
     }
 
     /**
@@ -28,7 +28,7 @@ class SenhasTableSeeder extends Seeder
                         'tipo_id' => 2,
                         'numero' => (10 + $x),
                         'grupo_sala_id' => 1,
-                        'status' => $this->status::AGUARDANDO_CHAMADA
+                        'status' => $this->constantesPainel::AGUARDANDO_CHAMADA
 
                     ]);
                 }else if($x <= 7){
@@ -36,7 +36,7 @@ class SenhasTableSeeder extends Seeder
                         'tipo_id' => 1,
                         'numero' => (10 + $x),
                         'grupo_sala_id' => 1,
-                        'status' => $this->status::CHAMADA_RECEPCAO
+                        'status' => $this->constantesPainel::CHAMADA_RECEPCAO
                     ]);
                 }
             }else{
@@ -44,7 +44,7 @@ class SenhasTableSeeder extends Seeder
                     'tipo_id' => 1,
                     'numero' => (10 + $x),
                     'grupo_sala_id' => 1,
-                    'status' => $this->status::AGUARDANDO_CHAMADA
+                    'status' => $this->constantesPainel::AGUARDANDO_CHAMADA
                 ]);
             }
         }
