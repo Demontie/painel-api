@@ -126,7 +126,7 @@ class SenhaController extends Controller
         $senha = $this->senha->find($id);
 
         if(is_null($senha)){
-            return response()->json(['error' => 'Receita não encontrada'],404);
+            return response()->json(['error' => 'Senha não encontrada'],404);
         }
         $senha->delete();
         return response()->json([],204);
