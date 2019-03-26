@@ -150,8 +150,13 @@ class SenhaController extends Controller
         return response()->json($ultimaSenha);
     }
 
-    /**
+    /*
      * Tebelas com campos para consultas
+     */
+
+    /**
+     * Campos Tipos para consulta
+     * @return array
      */
     public function tipos(){
         return [
@@ -161,6 +166,10 @@ class SenhaController extends Controller
         ];
     }
 
+    /**
+     * Campos grupoSala para consulta
+     * @return array
+     */
     public function grupoSala(){
         return [
             'id',
@@ -169,6 +178,10 @@ class SenhaController extends Controller
         ];
     }
 
+    /**
+     * Campos telaGrupos para consulta
+     * @return array
+     */
     public function grupoSalaTelaGrupo(){
         return [
             'id',
@@ -178,6 +191,10 @@ class SenhaController extends Controller
         ];
     }
 
+    /**
+     * Campos telas para consulta
+     * @return array
+     */
     public function grupoSalasTelaGrupoTelas(){
         return [
             'id',
@@ -186,6 +203,10 @@ class SenhaController extends Controller
         ];
     }
 
+    /**
+     * Campos salas para consulta
+     * @return array
+     */
     public function grupoSalasSala(){
         return [
             'id',

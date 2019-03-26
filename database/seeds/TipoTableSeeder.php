@@ -14,17 +14,22 @@ class TipoTableSeeder extends Seeder
     {
         Tipo::create([
             'prefixo' => 'N',
-            'descricao' => 'Atendimento Normal'
+            'descricao' => 'Atendimento Normal',
+            'ordem' => 1
         ]);
 
         Tipo::create([
             'prefixo' => 'P',
-            'descricao' => 'Atendimento Prioridade'
+            'descricao' => 'Atendimento Prioridade',
+            'cor' => 'error darken-4',
+            'ordem' => 2
         ]);
 
         Tipo::create([
             'prefixo' => 'E',
-            'descricao' => 'Exame'
+            'descricao' => 'Exame',
+            'cor' => 'success darken-4',
+            'ordem' => 3
         ]);
     }
 }
