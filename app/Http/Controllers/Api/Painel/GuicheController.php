@@ -22,7 +22,7 @@ class GuicheController extends Controller
      */
     public function index()
     {
-        //
+
     }
 
     /**

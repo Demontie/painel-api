@@ -15,21 +15,24 @@ class TipoTableSeeder extends Seeder
         Tipo::create([
             'prefixo' => 'N',
             'descricao' => 'Atendimento Normal',
-            'ordem' => 1
+            'ordem' => 1,
+            //'grupo-salas_id' => 1
         ]);
 
         Tipo::create([
             'prefixo' => 'P',
             'descricao' => 'Atendimento Prioridade',
             'cor' => 'error darken-4',
-            'ordem' => 2
+            'ordem' => 2,
+            //'grupo-salas_id' => 1
         ]);
 
         Tipo::create([
             'prefixo' => 'E',
             'descricao' => 'Exame',
             'cor' => 'success darken-4',
-            'ordem' => 3
+            'ordem' => 3,
+            //'grupo-salas_id' => 1
         ]);
     }
 }

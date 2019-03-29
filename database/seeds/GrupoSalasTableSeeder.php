@@ -18,6 +18,16 @@ class GrupoSalasTableSeeder extends Seeder
         ]);
 
         Grupo_sala::create([
+            'tela_grupo_id' => 1,
+            'sala_id' => 3
+        ]);
+
+        Grupo_sala::create([
+            'tela_grupo_id' => 1,
+            'sala_id' => 4
+        ]);
+
+        Grupo_sala::create([
             'tela_grupo_id' => 2,
             'sala_id' => 2
         ]);

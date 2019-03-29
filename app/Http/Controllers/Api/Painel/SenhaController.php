@@ -47,7 +47,7 @@ class SenhaController extends Controller
                 },
             ])
             //->whereDate('created_at',date('Y-m-d'))
-            //->orderBy('id','desc')
+            ->orderBy('id','desc')
             ->take(5)
             ->get();
 
@@ -85,15 +85,29 @@ class SenhaController extends Controller
      */
     public function show($id)
     {
-        $senha = $this->senha->with([
-            'tipo',
-            'grupo_sala.tela_grupo.telas',
-            'grupo_sala.sala',
-        ])->find($id);
+        $senha = $this->senha
+            ->with([
+                'tipo'=>  function($query){
+                    $query->select($this->tipos());
+                },
+                'grupo_sala' => function($query){
+                    $query->select($this->grupoSalaTelaGrupo());
+                },
+                'grupo_sala.tela_grupo' => function($query){
+                    $query->select($this->grupoSala());
+                },
+                'grupo_sala.tela_grupo.telas' => function($query){
+                    $query->select($this->grupoSalasTelaGrupoTelas());
+                },
+                'grupo_sala.sala' => function($query){
+                    $query->select($this->grupoSalasSala());
+                },
+            ])->find($id);
 
         if(is_null($senha)){
             return response()->json(['error' => 'Senha não encontrada'],404);
         }
+
         return response()->json($senha);
     }
 
@@ -128,17 +142,26 @@ class SenhaController extends Controller
         if(is_null($senha)){
             return response()->json(['error' => 'Senha não encontrada'],404);
         }
-        $senha->delete();
+
+        $senha->update([
+            'ativo' => true,
+            'status' => $this->constantesPainel::CANCELADA
+        ]);
+
         return response()->json([],204);
     }
 
     /**
+     * Chama a senha com base no id do guiche que chamou
+     *
      * @param Request $request
      * @return string
      */
-    public function chamar(Request $request){
+    public function chamarNovamente(Request $request){
         $ultimaSenha = $this->senha
             ->where('ativo',true)
+            ->where('guiche_id',$request['guiche_id'])
+            ->where('status',$this->constantesPainel::CHAMADA_RECEPCAO)
             ->with([
                 'tipo',
                 'grupo_sala.tela_grupo.telas',
@@ -147,11 +170,46 @@ class SenhaController extends Controller
             ->orderBy('id', 'desc')
             ->first();
 
+        if(is_null($ultimaSenha)){
+            return response()->json(['error' => 'Senha não encontrada'],404);
+        }
+
         return response()->json($ultimaSenha);
     }
 
+    /**
+     * Chama a próxima senha disponível com base no prefixo e no status
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function chamarProximo(Request $request){
+        $proximaSenha = $this->senha
+            ->where('ativo',true)
+            ->where('prefixo',$request['prefixo'])
+            ->where('status',$this->constantesPainel::AGUARDANDO_CHAMADA)
+            ->orderBy('id','desc')
+            ->first();
+
+        /*
+         * Amarra a senha ao guiche a qual chamou
+         */
+        $proximaSenha->update([
+            'guiche_id' => $request['guiche_id'],
+            'status' => $this->constantesPainel::CHAMADA_RECEPCAO
+        ]);
+
+        return response()->json($proximaSenha);
+    }
+
+    private function verificarSenha($senha){
+        if(is_null($senha)){
+            return response()->json(['error' => 'Senha não encontrada'],404);
+        }
+    }
+
     /*
-     * Tebelas com campos para consultas
+     * Tabelas com campos para consultas
      */
 
     /**
@@ -172,7 +230,6 @@ class SenhaController extends Controller
      */
     public function grupoSala(){
         return [
-            'id',
             'descricao',
             'ativo'
         ];

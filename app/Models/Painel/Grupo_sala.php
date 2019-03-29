@@ -15,6 +15,10 @@ class Grupo_sala extends Model
         return $this->hasOne(Senha::class);
     }
 
+    public function tipos(){
+        return $this->hasOne(Tipo::class);
+    }
+
     public function sala(){
         return $this->belongsTo(Sala::class);
     }

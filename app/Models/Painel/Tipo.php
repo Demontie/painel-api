@@ -14,4 +14,8 @@ class Tipo extends Model
     public function senhas(){
         return $this->hasOne(Senha::class);
     }
+
+    public function grupo_sala(){
+        return $this->belongsTo(Grupo_sala::class);
+    }
 }
