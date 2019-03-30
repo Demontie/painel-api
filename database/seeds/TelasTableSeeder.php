@@ -19,7 +19,7 @@ class TelasTableSeeder extends Seeder
 
         Tela::create([
             'descricao' => 'Tela Odonto',
-            'tela_grupo_id' => 2
+            'tela_grupo_id' => 1
         ]);
 
         Tela::create([

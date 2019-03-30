@@ -18,8 +18,8 @@ class CreateTiposTable extends Migration
             $table->char('prefixo');
             $table->string('cor',50)->default('primary darken-4');
             $table->integer('tamanho_fonte')->default(1);
-//            $table->unsignedInteger('grupo_salas_id')->nullable();
-//            $table->foreign('grupo_salas_id')->referecenes('id')->on('grupo_salas');
+            $table->unsignedInteger('tela_grupo_id');
+            $table->foreign('tela_grupo_id')->references('id')->on('tela_grupos');
             $table->integer('ordem');
             $table->string('descricao', 100);
             $table->boolean('ativo')->default(true);

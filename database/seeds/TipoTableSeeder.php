@@ -16,7 +16,7 @@ class TipoTableSeeder extends Seeder
             'prefixo' => 'N',
             'descricao' => 'Atendimento Normal',
             'ordem' => 1,
-            //'grupo-salas_id' => 1
+            'tela_grupo_id' => 1
         ]);
 
         Tipo::create([
@@ -24,7 +24,7 @@ class TipoTableSeeder extends Seeder
             'descricao' => 'Atendimento Prioridade',
             'cor' => 'error darken-4',
             'ordem' => 2,
-            //'grupo-salas_id' => 1
+            'tela_grupo_id' => 1
         ]);
 
         Tipo::create([
@@ -32,7 +32,7 @@ class TipoTableSeeder extends Seeder
             'descricao' => 'Exame',
             'cor' => 'success darken-4',
             'ordem' => 3,
-            //'grupo-salas_id' => 1
+            'tela_grupo_id' => 1
         ]);
     }
 }

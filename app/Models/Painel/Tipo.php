@@ -11,11 +11,16 @@ class Tipo extends Model
         'descricao'
     ];
 
-    public function senhas(){
+    protected $hidden = [
+        'created_at',
+        'updated_at'
+    ];
+
+    public function senha(){
         return $this->hasOne(Senha::class);
     }
 
-    public function grupo_sala(){
-        return $this->belongsTo(Grupo_sala::class);
+    public function tela_grupo(){
+        return $this->belongsTo(Tela_grupo::class);
     }
 }

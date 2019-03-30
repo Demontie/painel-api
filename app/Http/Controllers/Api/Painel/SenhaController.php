@@ -87,21 +87,11 @@ class SenhaController extends Controller
     {
         $senha = $this->senha
             ->with([
-                'tipo'=>  function($query){
-                    $query->select($this->tipos());
-                },
-                'grupo_sala' => function($query){
-                    $query->select($this->grupoSalaTelaGrupo());
-                },
-                'grupo_sala.tela_grupo' => function($query){
-                    $query->select($this->grupoSala());
-                },
-                'grupo_sala.tela_grupo.telas' => function($query){
-                    $query->select($this->grupoSalasTelaGrupoTelas());
-                },
-                'grupo_sala.sala' => function($query){
-                    $query->select($this->grupoSalasSala());
-                },
+                'tipo',
+                'grupo_sala',
+                'grupo_sala.tela_grupo',
+                'grupo_sala.tela_grupo.telas',
+                'grupo_sala.sala',
             ])->find($id);
 
         if(is_null($senha)){
@@ -188,6 +178,9 @@ class SenhaController extends Controller
             ->where('ativo',true)
             ->where('prefixo',$request['prefixo'])
             ->where('status',$this->constantesPainel::AGUARDANDO_CHAMADA)
+            ->with([
+                'tipo.tela_grupo.telas'
+            ])
             ->orderBy('id','desc')
             ->first();
 
@@ -220,7 +213,8 @@ class SenhaController extends Controller
         return [
             'id',
             'descricao',
-            'prefixo'
+            'prefixo',
+            'tela_grupo_id'
         ];
     }
 
@@ -230,6 +224,7 @@ class SenhaController extends Controller
      */
     public function grupoSala(){
         return [
+            'id',
             'descricao',
             'ativo'
         ];
@@ -271,5 +266,9 @@ class SenhaController extends Controller
             'sala_id_stg',
             'ativo'
         ];
+    }
+
+    public function tipoGrupoTelas(){
+
     }
 }

@@ -11,12 +11,13 @@ class Grupo_sala extends Model
         'tela_grupo_id'
     ];
 
+    protected $hidden = [
+        'created_at',
+        'updated_at'
+    ];
+
     public function senhas(){
         return $this->hasOne(Senha::class);
-    }
-
-    public function tipos(){
-        return $this->hasOne(Tipo::class);
     }
 
     public function sala(){

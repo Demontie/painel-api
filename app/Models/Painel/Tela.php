@@ -10,8 +10,12 @@ class Tela extends Model
         'tela_salas_id'
     ];
 
+    protected $hidden = [
+        'created_at',
+        'updated_at'
+    ];
+
     public function tela_grupo(){
         return $this->belongsTo(Tela_grupo::class);
     }
-
 }
