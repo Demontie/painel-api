@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTiposTable extends Migration
+class CreateTipoSenhasTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,14 @@ class CreateTiposTable extends Migration
      */
     public function up()
     {
-        Schema::create('tipos', function (Blueprint $table) {
+        Schema::create('tipo_senhas', function (Blueprint $table) {
             $table->increments('id');
             $table->char('prefixo');
             $table->string('cor',50)->default('primary darken-4');
-            $table->integer('tamanho_fonte')->default(1);
+            $table->float('tamanho_fonte',2,1)->default(1.5);
             $table->unsignedInteger('tela_grupo_id');
             $table->foreign('tela_grupo_id')->references('id')->on('tela_grupos');
+            $table->integer('tamanho_botao')->default(3);
             $table->integer('ordem');
             $table->string('descricao', 100);
             $table->boolean('ativo')->default(true);

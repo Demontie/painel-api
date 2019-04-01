@@ -8,10 +8,11 @@ $this->group([
 ],
     function () {
         $this->get('senhas/chamarProximo','SenhaController@chamarProximo');
+        $this->get('senhas/chamarNovamente','SenhaController@chamarNovamente');
         $this->apiResource('senhas','SenhaController');
 
         $this->apiResource('fila','FilaController');
-        $this->apiResource('tipos','TipoController');
+        $this->apiResource('tipoSenhas','TipoSenhaController');
         $this->apiResource('guiches','GuicheController');
         $this->apiResource('especialidades','EspecialidadeController');
     });

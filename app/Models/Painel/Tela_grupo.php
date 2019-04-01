@@ -24,6 +24,6 @@ class Tela_grupo extends Model
     }
 
     public function tipo(){
-        return $this->hasOne(Tipo::class);
+        return $this->hasOne(TipoSenha::class);
     }
 }

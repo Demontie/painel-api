@@ -1,9 +1,9 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use App\Models\Painel\Tipo;
+use App\Models\Painel\TipoSenha;
 
-class TipoTableSeeder extends Seeder
+class TipoSenhaTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -12,14 +12,14 @@ class TipoTableSeeder extends Seeder
      */
     public function run()
     {
-        Tipo::create([
+        TipoSenha::create([
             'prefixo' => 'N',
             'descricao' => 'Atendimento Normal',
             'ordem' => 1,
             'tela_grupo_id' => 1
         ]);
 
-        Tipo::create([
+        TipoSenha::create([
             'prefixo' => 'P',
             'descricao' => 'Atendimento Prioridade',
             'cor' => 'error darken-4',
@@ -27,7 +27,7 @@ class TipoTableSeeder extends Seeder
             'tela_grupo_id' => 1
         ]);
 
-        Tipo::create([
+        TipoSenha::create([
             'prefixo' => 'E',
             'descricao' => 'Exame',
             'cor' => 'success darken-4',

@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers\Api\Painel;
 
-use App\Models\Painel\Tipo;
+use App\Models\Painel\TipoSenha;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-class TipoController extends Controller
+class TipoSenhaController extends Controller
 {
     protected $tipo;
 
-    public function __construct(Tipo $tipo)
+    public function __construct(TipoSenha $tipo)
     {
         $this->tipo = $tipo;
     }
@@ -52,7 +52,7 @@ class TipoController extends Controller
         $tipo = $this->tipo->find($id);
 
         if(is_null($tipo)){
-            return response()->json(['error' => 'Tipo de senha não encontrado'],404);
+            return response()->json(['error' => 'TipoSenha de senha não encontrado'],404);
         }
 
         return response()->json($tipo);
@@ -70,7 +70,7 @@ class TipoController extends Controller
         $tipo = $this->tipo->find($id);
 
         if(is_null($tipo)){
-            return response()->json(['error' => 'Tipo de senha não encontrado'],404);
+            return response()->json(['error' => 'TipoSenha de senha não encontrado'],404);
         }
 
         $tipo->update($request->all());
@@ -89,7 +89,7 @@ class TipoController extends Controller
         $tipo = $this->tipo->find($id);
 
         if(is_null($tipo)){
-            return response()->json(['error' => 'Tipo de senha não encontrado'],404);
+            return response()->json(['error' => 'TipoSenha de senha não encontrado'],404);
         }
 
         $tipo->delete();

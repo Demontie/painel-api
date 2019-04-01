@@ -15,8 +15,8 @@ class CreateSenhasTable extends Migration
     {
         Schema::create('senhas', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('tipo_id')->nullable();
-            $table->foreign('tipo_id')->references('id')->on('tipos');
+            $table->unsignedInteger('tipo_senha_id')->nullable();
+            $table->foreign('tipo_senha_id')->references('id')->on('tipo_senhas');
             $table->unsignedInteger('grupo_sala_id')->nullable();
             $table->foreign('grupo_sala_id')->references('id')->on('grupo_salas');
             $table->unsignedInteger('guiche_id')->nullable();

@@ -4,7 +4,7 @@ namespace App\Models\Painel;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Tipo extends Model
+class TipoSenha extends Model
 {
     protected $fillable = [
         'prefixo',

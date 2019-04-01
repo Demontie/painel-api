@@ -25,7 +25,7 @@ class SenhasTableSeeder extends Seeder
                 if($x%2 == 0){
 
                     Senha::create([
-                        'tipo_id' => 2,
+                        'tipo_senha_id' => 2,
                         'numero' => (10 + $x),
                         'grupo_sala_id' => 1,
                         'status' => $this->constantesPainel::AGUARDANDO_CHAMADA
@@ -33,7 +33,7 @@ class SenhasTableSeeder extends Seeder
                     ]);
                 }else if($x <= 7){
                     Senha::create([
-                        'tipo_id' => 1,
+                        'tipo_senha_id' => 1,
                         'numero' => (10 + $x),
                         'grupo_sala_id' => 1,
                         'status' => $this->constantesPainel::CHAMADA_RECEPCAO
@@ -41,7 +41,7 @@ class SenhasTableSeeder extends Seeder
                 }
             }else{
                 Senha::create([
-                    'tipo_id' => 1,
+                    'tipo_senha_id' => 1,
                     'numero' => (10 + $x),
                     'grupo_sala_id' => 1,
                     'status' => $this->constantesPainel::AGUARDANDO_CHAMADA

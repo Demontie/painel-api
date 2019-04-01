@@ -13,7 +13,7 @@ class Senha extends Model
     ];
 
     public function tipo(){
-        return $this->belongsTo(Tipo::class);
+        return $this->belongsTo(TipoSenha::class);
     }
 
     public function grupo_sala(){
