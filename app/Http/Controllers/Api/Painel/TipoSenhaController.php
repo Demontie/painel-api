@@ -8,11 +8,11 @@ use App\Http\Controllers\Controller;
 
 class TipoSenhaController extends Controller
 {
-    protected $tipo;
+    protected $tipoSenha;
 
-    public function __construct(TipoSenha $tipo)
+    public function __construct(TipoSenha $tipoSenha)
     {
-        $this->tipo = $tipo;
+        $this->tipoSenha = $tipoSenha;
     }
 
     /**
@@ -22,7 +22,11 @@ class TipoSenhaController extends Controller
      */
     public function index(Request $request)
     {
-        $tipos = $this->tipo->get();
+        $tipos = $this->tipoSenha
+            ->with([
+                'tela_grupo'
+            ])
+            ->get();
 
         return response()->json($tipos);
     }
@@ -36,7 +40,7 @@ class TipoSenhaController extends Controller
      */
     public function store(Request $request)
     {
-        $novoTipoSenha = $this->tipo->create($request->all());
+        $novoTipoSenha = $this->tipoSenha->create($request->all());
 
         return response()->json($novoTipoSenha,201);
     }
@@ -49,10 +53,14 @@ class TipoSenhaController extends Controller
      */
     public function show($id)
     {
-        $tipo = $this->tipo->find($id);
+        $tipo = $this->tipoSenha
+            ->with([
+                'tela_grupo'
+            ])
+            ->find($id);
 
         if(is_null($tipo)){
-            return response()->json(['error' => 'TipoSenha de senha não encontrado'],404);
+            return response()->json(['error' => 'Tipo de senha de senha não encontrado'],404);
         }
 
         return response()->json($tipo);
@@ -67,10 +75,10 @@ class TipoSenhaController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $tipo = $this->tipo->find($id);
+        $tipo = $this->tipoSenha->find($id);
 
         if(is_null($tipo)){
-            return response()->json(['error' => 'TipoSenha de senha não encontrado'],404);
+            return response()->json(['error' => 'Tipo de senha de senha não encontrado'],404);
         }
 
         $tipo->update($request->all());
@@ -86,13 +94,15 @@ class TipoSenhaController extends Controller
      */
     public function destroy($id)
     {
-        $tipo = $this->tipo->find($id);
+        $tipo = $this->tipoSenha->find($id);
 
         if(is_null($tipo)){
-            return response()->json(['error' => 'TipoSenha de senha não encontrado'],404);
+            return response()->json(['error' => 'Tipo de senha de senha não encontrado'],404);
         }
 
-        $tipo->delete();
+        $tipo->update([
+            'ativo' => false
+        ]);
 
         return response()->json($tipo,204);
     }
