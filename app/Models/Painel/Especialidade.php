@@ -11,4 +11,10 @@ class Especialidade extends Model
         'procedimento_tuss_id',
         'ativo'
     ];
+
+    protected $hidden = [
+        'created_at',
+        'updated_at'
+    ];
+
 }
