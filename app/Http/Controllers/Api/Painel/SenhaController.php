@@ -30,21 +30,11 @@ class SenhaController extends Controller
             ->where('status',$this->constantesPainel::AGUARDANDO_CHAMADA)
             ->where('ativo',true)
             ->with([
-                'tipo'=>  function($query){
-                    $query->select($this->tipos());
-                },
-                'grupo_sala' => function($query){
-                    $query->select($this->grupoSalaTelaGrupo());
-                },
-                'grupo_sala.tela_grupo' => function($query){
-                    $query->select($this->grupoSala());
-                },
-                'grupo_sala.tela_grupo.telas' => function($query){
-                    $query->select($this->grupoSalasTelaGrupoTelas());
-                },
-                'grupo_sala.sala' => function($query){
-                    $query->select($this->grupoSalasSala());
-                },
+                'tipo',
+                'grupo_sala',
+                'grupo_sala.tela_grupo',
+                'grupo_sala.tela_grupo.telas',
+                'grupo_sala.sala',
             ])
             //->whereDate('created_at',date('Y-m-d'))
             ->orderBy('id','desc')
@@ -53,6 +43,31 @@ class SenhaController extends Controller
 
         return response()->json($senhas);
     }
+
+    public function getSenhasPorPeriodo(Request $request){
+        if(!$request->dataFiltro){
+            $dataFiltro = date('Y-m-d 00:00:00');
+        }else{
+            $dataFiltro = $request->dataFiltro;
+        }
+        //dd($dataFiltro);
+        $senhas = $this->senha
+            ->where('ativo',true)
+            ->with([
+                'tipo',
+                'grupo_sala',
+                'grupo_sala.tela_grupo',
+                'grupo_sala.tela_grupo.telas',
+                'grupo_sala.sala',
+            ])
+            //->whereDate('created_a', '>=', "$dataFiltro + INTERVAL 1 DAY")
+            ->orderBy('id','desc')
+            ->get();
+
+        return response()->json($senhas);
+    }
+
+
 
     /**
      * Store a newly created resource in storage.

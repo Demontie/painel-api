@@ -9,6 +9,7 @@ $this->group([
     function () {
         $this->get('senhas/chamarProximo','SenhaController@chamarProximo');
         $this->get('senhas/chamarNovamente','SenhaController@chamarNovamente');
+        $this->get('senhas/porPeriodo','SenhaController@getSenhasPorPeriodo');
         $this->apiResource('senhas','SenhaController');
 
         $this->apiResource('fila','FilaController');

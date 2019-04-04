@@ -22,9 +22,9 @@ class TelaGrupoController extends Controller
      */
     public function index()
     {
-        $tela_grupos = $this->telaGrupo->get();
+        $telaGrupo = $this->telaGrupo->get();
 
-        return response()->json($tela_grupos);
+        return response()->json($telaGrupo);
     }
 
     /**

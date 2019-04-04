@@ -54,9 +54,6 @@ class TipoSenhaController extends Controller
     public function show($id)
     {
         $tipo = $this->tipoSenha
-            ->with([
-                'tela_grupo'
-            ])
             ->find($id);
 
         if(is_null($tipo)){
