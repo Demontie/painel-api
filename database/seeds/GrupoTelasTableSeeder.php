@@ -13,11 +13,13 @@ class GrupoTelasTableSeeder extends Seeder
     public function run()
     {
         GrupoTela::create([
-            'descricao' => 'Recepção'
+            'descricao' => 'Recepção',
+            'ativo' => true
         ]);
 
         GrupoTela::create([
-            'descricao' => 'Odonto'
+            'descricao' => 'Odonto',
+            'ativo' => true
         ]);
     }
 }

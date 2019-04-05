@@ -16,7 +16,7 @@ class CreateGrupoTelasTable extends Migration
         Schema::create('grupo_telas', function (Blueprint $table) {
             $table->increments('id');
             $table->string('descricao',150);
-            $table->boolean('ativo')->default(true);
+            $table->boolean('ativo');
             $table->timestamps();
         });
     }

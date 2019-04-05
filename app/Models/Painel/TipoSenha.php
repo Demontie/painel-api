@@ -12,7 +12,8 @@ class TipoSenha extends Model
         'grupo_tela_id',
         'cor',
         'tamanho_botao',
-        'ordem'
+        'ordem',
+        'ativo'
     ];
 
     protected $hidden = [
