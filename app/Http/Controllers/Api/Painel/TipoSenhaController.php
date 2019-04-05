@@ -23,9 +23,6 @@ class TipoSenhaController extends Controller
     public function index(Request $request)
     {
         $tipos = $this->tipoSenha
-            ->with([
-                'tela_grupo'
-            ])
             ->get();
 
         return response()->json($tipos);

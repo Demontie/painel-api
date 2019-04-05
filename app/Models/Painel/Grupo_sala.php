@@ -8,7 +8,7 @@ class Grupo_sala extends Model
 {
     protected $fillable = [
         'sala_id',
-        'tela_grupo_id'
+        'grupo_tela_id'
     ];
 
     protected $hidden = [
@@ -24,7 +24,7 @@ class Grupo_sala extends Model
         return $this->belongsTo(Sala::class);
     }
 
-    public function tela_grupo(){
-        return $this->belongsTo(Tela_grupo::class);
+    public function grupo_tela(){
+        return $this->belongsTo(GrupoTela_::class);
     }
 }

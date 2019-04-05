@@ -2,17 +2,17 @@
 
 namespace App\Http\Controllers\Api\Painel;
 
-use App\Models\Painel\Tela_grupo;
+use App\Models\Painel\GrupoTela;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-class TelaGrupoController extends Controller
+class GrupoTelaController extends Controller
 {
-    private $telaGrupo;
+    private $grupoTela;
 
-    public function __construct(Tela_grupo $telaGrupo)
+    public function __construct(GrupoTela $grupoTela)
     {
-        $this->telaGrupo = $telaGrupo;
+        $this->grupoTela = $grupoTela;
     }
 
     /**
@@ -22,9 +22,9 @@ class TelaGrupoController extends Controller
      */
     public function index()
     {
-        $telaGrupo = $this->telaGrupo->get();
+        $grupoTela = $this->grupoTela->get();
 
-        return response()->json($telaGrupo);
+        return response()->json($grupoTela);
     }
 
     /**
@@ -35,7 +35,7 @@ class TelaGrupoController extends Controller
      */
     public function store(Request $request)
     {
-        $novoGrupoTela = $this->telaGrupo->create($request->all());
+        $novoGrupoTela = $this->grupoTela->create($request->all());
 
         return response()->json($novoGrupoTela,201);
     }
@@ -48,13 +48,13 @@ class TelaGrupoController extends Controller
      */
     public function show($id)
     {
-        $telaGrupo = $this->telaGrupo->find($id);
+        $grupoTela = $this->grupoTela->find($id);
 
-        if(is_null($telaGrupo)){
+        if(is_null($grupoTela)){
             return response()->json(['error' => 'Grupo de telas não encontrado'],404);
         }
 
-        return response()->json($telaGrupo);
+        return response()->json($grupoTela);
     }
 
 
@@ -67,15 +67,15 @@ class TelaGrupoController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $telaGrupo = $this->telaGrupo->find($id);
+        $grupoTela = $this->grupoTela->find($id);
 
-        if(is_null($telaGrupo)){
+        if(is_null($grupoTela)){
             return response()->json(['error' => 'Grupo de telas não encontrado'],404);
         }
 
-        $telaGrupo->update($request->all());
+        $grupoTela->update($request->all());
 
-        return response()->json($telaGrupo);
+        return response()->json($grupoTela);
     }
 
     /**
@@ -86,16 +86,16 @@ class TelaGrupoController extends Controller
      */
     public function destroy($id)
     {
-        $telaGrupo = $this->telaGrupo->find($id);
+        $grupoTela = $this->grupoTela->find($id);
 
-        if(is_null($telaGrupo)){
+        if(is_null($grupoTela)){
             return response()->json(['error' => 'Grupo de telas não encontrado'],404);
         }
 
-        $telaGrupo->update([
+        $grupoTela->update([
             'ativo' => false
         ]);
 
-        return response()->json($telaGrupo,204);
+        return response()->json($grupoTela,204);
     }
 }

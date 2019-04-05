@@ -16,7 +16,7 @@ class DatabaseSeeder extends Seeder
              * 1
              */
             SalasTableSeeder::class,
-            TelaGuposTableSeeder::class,
+            GrupoTelasTableSeeder::class,
             TipoSenhaTableSeeder::class,
             /*
              * 2

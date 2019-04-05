@@ -4,7 +4,7 @@ namespace App\Models\Painel;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Tela_grupo extends Model
+class GrupoTela extends Model
 {
     protected $fillable = [
         'descricao'

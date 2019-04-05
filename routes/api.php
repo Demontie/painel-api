@@ -16,6 +16,6 @@ $this->group([
         $this->apiResource('tipoSenhas','TipoSenhaController');
         $this->apiResource('guiches','GuicheController');
         $this->apiResource('especialidades','EspecialidadeController');
-        $this->apiResource('telaGrupos','TelaGrupoController');
+        $this->apiResource('grupoTelas','GrupoTelaController');
         $this->apiResource('telas','TelaController');
     });

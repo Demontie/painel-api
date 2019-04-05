@@ -13,6 +13,6 @@ class Sala extends Model
     ];
 
     public function grupo_sala(){
-        return $this->hasOne(Grupo_sala::class,'tela_grupo_id');
+        return $this->hasOne(Grupo_sala::class,'grupo_tela_id');
     }
 }

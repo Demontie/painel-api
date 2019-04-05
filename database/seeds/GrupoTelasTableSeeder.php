@@ -1,9 +1,9 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use App\Models\Painel\Tela_grupo;
+use App\Models\Painel\GrupoTela;
 
-class TelaGuposTableSeeder extends Seeder
+class GrupoTelasTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -12,11 +12,11 @@ class TelaGuposTableSeeder extends Seeder
      */
     public function run()
     {
-        Tela_grupo::create([
+        GrupoTela::create([
             'descricao' => 'Recepção'
         ]);
 
-        Tela_grupo::create([
+        GrupoTela::create([
             'descricao' => 'Odonto'
         ]);
     }

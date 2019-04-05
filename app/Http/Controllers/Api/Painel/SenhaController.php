@@ -32,8 +32,8 @@ class SenhaController extends Controller
             ->with([
                 'tipo',
                 'grupo_sala',
-                'grupo_sala.tela_grupo',
-                'grupo_sala.tela_grupo.telas',
+                'grupo_sala.grupo_tela',
+                'grupo_sala.grupo_tela.telas',
                 'grupo_sala.sala',
             ])
             //->whereDate('created_at',date('Y-m-d'))
@@ -56,8 +56,8 @@ class SenhaController extends Controller
             ->with([
                 'tipo',
                 'grupo_sala',
-                'grupo_sala.tela_grupo',
-                'grupo_sala.tela_grupo.telas',
+                'grupo_sala.grupo_tela',
+                'grupo_sala.grupo_tela.telas',
                 'grupo_sala.sala',
             ])
             //->whereDate('created_a', '>=', "$dataFiltro + INTERVAL 1 DAY")
@@ -104,8 +104,8 @@ class SenhaController extends Controller
             ->with([
                 'tipo',
                 'grupo_sala',
-                'grupo_sala.tela_grupo',
-                'grupo_sala.tela_grupo.telas',
+                'grupo_sala.grupo_tela',
+                'grupo_sala.grupo_tela.telas',
                 'grupo_sala.sala',
             ])->find($id);
 
@@ -169,7 +169,7 @@ class SenhaController extends Controller
             ->where('status',$this->constantesPainel::CHAMADA_RECEPCAO)
             ->with([
                 'tipo',
-                'grupo_sala.tela_grupo.telas',
+                'grupo_sala.grupo_tela.telas',
                 'grupo_sala.sala',
             ])
             ->orderBy('id', 'desc')
@@ -194,7 +194,7 @@ class SenhaController extends Controller
             ->where('prefixo',$request['prefixo'])
             ->where('status',$this->constantesPainel::AGUARDANDO_CHAMADA)
             ->with([
-                'tipo.tela_grupo.telas'
+                'tipo.grupo_tela.telas'
             ])
             ->orderBy('id','desc')
             ->first();
@@ -229,7 +229,7 @@ class SenhaController extends Controller
             'id',
             'descricao',
             'prefixo',
-            'tela_grupo_id'
+            'grupo_tela_id'
         ];
     }
 
@@ -253,7 +253,7 @@ class SenhaController extends Controller
         return [
             'id',
             'sala_id',
-            'tela_grupo_id',
+            'grupo_tela_id',
             'ativo'
         ];
     }
@@ -266,7 +266,7 @@ class SenhaController extends Controller
         return [
             'id',
             'descricao',
-            'tela_grupo_id'
+            'grupo_tela_id'
         ];
     }
 
