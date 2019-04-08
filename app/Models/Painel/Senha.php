@@ -8,11 +8,11 @@ class Senha extends Model
 {
     protected $fillable = [
         'numero',
-        'tipo_id',
+        'tipo_senha_id',
         'grupo_salas_id'
     ];
 
-    public function tipo(){
+    public function tipo_senha(){
         return $this->belongsTo(TipoSenha::class);
     }
 

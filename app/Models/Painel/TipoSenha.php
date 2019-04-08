@@ -8,7 +8,12 @@ class TipoSenha extends Model
 {
     protected $fillable = [
         'prefixo',
-        'descricao'
+        'descricao',
+        'grupo_tela_id',
+        'cor',
+        'tamanho_botao',
+        'ordem',
+        'ativo'
     ];
 
     protected $hidden = [
@@ -20,7 +25,7 @@ class TipoSenha extends Model
         return $this->hasOne(Senha::class);
     }
 
-    public function tela_grupo(){
-        return $this->belongsTo(Tela_grupo::class);
+    public function grupo_tela(){
+        return $this->belongsTo(GrupoTela::class);
     }
 }

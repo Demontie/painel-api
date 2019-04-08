@@ -4,10 +4,11 @@ namespace App\Models\Painel;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Tela_grupo extends Model
+class GrupoTela extends Model
 {
     protected $fillable = [
-        'descricao'
+        'descricao',
+        'ativo'
     ];
 
     protected $hidden = [
@@ -23,7 +24,7 @@ class Tela_grupo extends Model
         return $this->hasMany(Tela::class);
     }
 
-    public function tipo(){
+    public function tipoSenha(){
         return $this->hasOne(TipoSenha::class);
     }
 }

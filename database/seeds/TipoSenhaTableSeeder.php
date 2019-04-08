@@ -16,7 +16,7 @@ class TipoSenhaTableSeeder extends Seeder
             'prefixo' => 'N',
             'descricao' => 'Atendimento Normal',
             'ordem' => 1,
-            'tela_grupo_id' => 1
+            'grupo_tela_id' => 1
         ]);
 
         TipoSenha::create([
@@ -24,7 +24,7 @@ class TipoSenhaTableSeeder extends Seeder
             'descricao' => 'Atendimento Prioridade',
             'cor' => 'error darken-4',
             'ordem' => 2,
-            'tela_grupo_id' => 1
+            'grupo_tela_id' => 1
         ]);
 
         TipoSenha::create([
@@ -32,7 +32,7 @@ class TipoSenhaTableSeeder extends Seeder
             'descricao' => 'Exame',
             'cor' => 'success darken-4',
             'ordem' => 3,
-            'tela_grupo_id' => 1
+            'grupo_tela_id' => 1
         ]);
     }
 }

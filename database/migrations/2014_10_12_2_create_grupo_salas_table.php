@@ -15,8 +15,8 @@ class CreateGrupoSalasTable extends Migration
     {
         Schema::create('grupo_salas', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('tela_grupo_id');
-            $table->foreign('tela_grupo_id')->references('id')->on('tela_grupos');
+            $table->unsignedInteger('grupo_tela_id');
+            $table->foreign('grupo_tela_id')->references('id')->on('grupo_telas');
             $table->unsignedInteger('sala_id');
             $table->foreign('sala_id')->references('id')->on('salas');
             $table->boolean('ativo')->default(true);

@@ -15,7 +15,7 @@ class Tela extends Model
         'updated_at'
     ];
 
-    public function tela_grupo(){
-        return $this->belongsTo(Tela_grupo::class);
+    public function grupo_tela(){
+        return $this->belongsTo(GrupoTela::class);
     }
 }
