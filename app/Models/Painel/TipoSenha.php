@@ -26,6 +26,6 @@ class TipoSenha extends Model
     }
 
     public function grupo_tela(){
-        return $this->belongsTo(GrupoTela_::class);
+        return $this->belongsTo(GrupoTela::class);
     }
 }
