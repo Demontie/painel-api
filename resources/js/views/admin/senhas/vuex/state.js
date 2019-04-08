@@ -1,4 +1,4 @@
 export default {
-    grupoTelas: [],
-    grupoTela: {}
+    senha:{},
+    senhas: []
 }

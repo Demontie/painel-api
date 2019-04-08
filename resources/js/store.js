@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import storeCompartilhado from './components/vuex/store'
 import tipoSenhasStore from './views/admin/tipoSenhas/vuex/store'
+import senhasStore from './views/admin/senhas/vuex/store'
 import salasStore from './views/admin/salas/vuex/store'
 import telasStore from './views/admin/telas/vuex/store'
 import grupoTelasStore from './views/admin/grupoTelas/vuex/store'
@@ -15,5 +16,6 @@ export default new Vuex.Store({
       salasStore,
       telasStore,
       grupoTelasStore,
+      senhasStore
   }
 })

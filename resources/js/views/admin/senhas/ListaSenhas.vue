@@ -8,9 +8,6 @@
                     </v-toolbar-title>
                 </v-flex>
                 <v-flex sm12 md3>
-                    <v-btn @click="novoTipoSenha" color="primary darken-3" class="mb-1">Novo</v-btn>
-                </v-flex>
-                <v-flex sm12 md3>
                     <!--<InputSearch :param="busca"></InputSearch>-->
                     <v-text-field
                             v-model="busca"
@@ -31,26 +28,13 @@
                 class="elevation-1"
         >
             <template slot="items" slot-scope="props">
-                <td>{{ props.item.descricao }}</td>
-                <td>{{ props.item.prefixo }}</td>
-                <td><div :class="props.item.cor" class="cor-tipo"></div></td>
-                <td>{{ props.item.ordem }}</td>
+                <td>{{ props.item.tipo_senha.prefixo }} {{ props.item.numero }}</td>
+                <td>{{ props.item.tipo_senha.descricao }}</td>
+                <!--<td>{{ props.item.tipo_senha.prefixo }}</td>-->
+                <td><div :class="props.item.tipo_senha.cor" class="cor-tipo"></div></td>
                 <td>
-                    <v-icon v-if="props.item.ativo" title="Tipo ativo">done</v-icon>
-                    <v-icon v-else title="Tipo inativo">clear</v-icon>
-                </td>
-                <td>
-                    <v-icon title="Editar tipo de senha"
-                            class="mr-5"
-                            @click="editarTipoSenha(props.item)"
-                    >
-                        edit
-                    </v-icon>
-                    <v-icon title="Excluir tipo de senha"
-                            @click="excluirTipoSenha(props.item.id)"
-                    >
-                        delete
-                    </v-icon>
+                    <v-icon v-if="props.item.ativo" title="Senha ativo">done</v-icon>
+                    <v-icon v-else title="Senha inativo">clear</v-icon>
                 </td>
             </template>
         </v-data-table>
@@ -65,19 +49,46 @@
             return{
                 cabecalho:[
                     {
-                        text: 'Senhas',
+                        text: 'Senha',
                         align: 'left',
-                        value: 'descricao'
+                        value: 'tipo_senha.prefixo' + 'numero'
                     },
-                    {text:'Prefixo',value:'prefixo'},
+                    {text:'Descrição',value:'descricao'},
                     {text:'Cor',value:'cor'},
-                    {text:'Ordem',value:'ordem'},
                     {text:'Ativo',value:'ativo'},
-                    {text:'Ações', align:'justify'}
                 ],
                 load: true,
                 busca: ''
             }
+        },
+        computed:{
+            ...mapGetters({
+                senhas:'getSenhas'
+            }),
+            senha:{
+                get(){
+                    return this.$store.getters.getSenha
+                },
+                set(value){
+                    this.$store.dispatch('setSenha',value)
+                }
+            }
+        },
+        methods:{
+         ...mapActions({
+                loadSenhas: 'loadSenhas',
+            }),
+        },
+        created(){
+            this.loadSenhas()
+        },
+        mounted(){
+            console.log('montou')
+            Echo.channel('senha-gerada')
+                .listen('SenhaGerada', senha => {
+                    console.log('senha gerada')
+                    this.senhas.push(senha)
+                })
         }
     }
 </script>

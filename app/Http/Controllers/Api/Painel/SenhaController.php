@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\Painel;
 
 use App\Classes\Utils\ConstantesPainel;
+use App\Events\SenhaGerada;
 use App\Models\Painel\Senha;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -30,7 +31,7 @@ class SenhaController extends Controller
             ->where('status',$this->constantesPainel::AGUARDANDO_CHAMADA)
             ->where('ativo',true)
             ->with([
-                'tipo',
+                'tipo_senha',
                 'grupo_sala',
                 'grupo_sala.grupo_tela',
                 'grupo_sala.grupo_tela.telas',
@@ -54,7 +55,7 @@ class SenhaController extends Controller
         $senhas = $this->senha
             ->where('ativo',true)
             ->with([
-                'tipo',
+                'tipo_senha',
                 'grupo_sala',
                 'grupo_sala.grupo_tela',
                 'grupo_sala.grupo_tela.telas',
@@ -78,18 +79,31 @@ class SenhaController extends Controller
     public function store(Request $request)
     {
         $ultimaSenha = $this->senha
-            ->where('tipo_id',$request['tipo_id'])
+            ->where('tipo_senha_id',$request['tipo_senha_id'])
             ->orderBy('id','desc')->first();
 
         $numero = is_null($ultimaSenha) || ($ultimaSenha->numero == $this->constantesPainel::LIMITE_SENHAS) ? 1 : $ultimaSenha->numero + 1;
 
-        $novaSenha = array_merge([
-            'numero' => str_pad($numero,3,'0',STR_PAD_LEFT)
-        ],$request->all());
+//        $novaSenha = array_merge([
+//            'numero' => str_pad($numero,3,'0',STR_PAD_LEFT)
+//        ],$request->all());
+        $request['numero'] = $numero;
 
-        $senha = $this->senha->create($novaSenha);
+        $senha = $this->senha->create($request->all());
 
-        return response()->json($senha,201);
+        /*
+         * Consulta para retornar senha com dados auxiliares para a view
+         */
+        $senhaInserida = $this->senha
+            ->with([
+                'tipo_senha',
+            ])->find($senha->id);
+
+        $senhaInserida->numero = str_pad($numero,3,'0',STR_PAD_LEFT);
+
+        broadcast(new SenhaGerada($senhaInserida));
+
+        return response()->json($senhaInserida,201);
     }
 
     /**
@@ -102,7 +116,7 @@ class SenhaController extends Controller
     {
         $senha = $this->senha
             ->with([
-                'tipo',
+                'tipoSenha',
                 'grupo_sala',
                 'grupo_sala.grupo_tela',
                 'grupo_sala.grupo_tela.telas',
@@ -168,7 +182,7 @@ class SenhaController extends Controller
             ->where('guiche_id',$request['guiche_id'])
             ->where('status',$this->constantesPainel::CHAMADA_RECEPCAO)
             ->with([
-                'tipo',
+                'tipo_senha',
                 'grupo_sala.grupo_tela.telas',
                 'grupo_sala.sala',
             ])

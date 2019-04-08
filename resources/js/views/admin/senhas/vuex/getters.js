@@ -1,8 +1,8 @@
 export default {
-    getGrupoTelas(state){
-        return state.grupoTelas
+    getSenhas(state){
+        return state.senhas
     },
-    getGrupoTela(state){
-        return state.grupoTela
+    getSenha(state){
+        return state.senha
     }
 }

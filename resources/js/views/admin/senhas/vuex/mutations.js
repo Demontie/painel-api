@@ -1,9 +1,9 @@
 export default {
-    setGrupoTelas(state, grupoTelas){
-        state.grupoTelas = grupoTelas
+    setSenhas(state, senhas){
+        state.senhas = senhas
     },
-    setGrupoTela(state, grupoTela){
-        state.grupoTela = grupoTela
+    setSenha(state, senha){
+        state.senha = senha
     },
 
 }

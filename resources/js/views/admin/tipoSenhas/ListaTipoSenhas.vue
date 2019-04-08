@@ -122,7 +122,7 @@
     }
 </script>
 
-<style scoped>
+<style>
     .cor-tipo{
         width: 2rem;
         height: 2rem;

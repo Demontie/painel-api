@@ -24,7 +24,7 @@ class GrupoTela extends Model
         return $this->hasMany(Tela::class);
     }
 
-    public function tipo(){
+    public function tipoSenha(){
         return $this->hasOne(TipoSenha::class);
     }
 }

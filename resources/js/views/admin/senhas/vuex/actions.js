@@ -1,6 +1,9 @@
 import axios from 'axios'
 
 export default {
+    setSenha({commit},senha){
+        commit('setSenha')
+    },
     async loadSenhas({commit}){
         try{
             const request = await axios.get('senhas')
