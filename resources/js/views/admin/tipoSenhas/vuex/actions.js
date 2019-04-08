@@ -9,6 +9,7 @@ export default {
             const request = await  axios.get('tipoSenhas')
             commit('setTipoSenhas',request.data)
         }catch (e){
+            console.log(e)
             throw new Error(e.response.data.error)
         }
     },

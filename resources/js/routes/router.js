@@ -5,7 +5,7 @@ import routesAdmin from './../views/admin/routes-admin'
 Vue.use(Router)
 
 export default new Router({
-    //mode: 'history',
+    mode: 'history',
     //base: '/painel-app/#',
     routes: [
         ...routesAdmin,

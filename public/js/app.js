@@ -93319,18 +93319,26 @@ module.exports = yeast;
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _routes_router__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./routes/router */ "./resources/js/routes/router.js");
-/* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./store */ "./resources/js/store.js");
-/* harmony import */ var vuetify__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vuetify */ "./node_modules/vuetify/dist/vuetify.js");
-/* harmony import */ var vuetify__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(vuetify__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _routes_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./routes/router */ "./resources/js/routes/router.js");
+/* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./store */ "./resources/js/store.js");
+/* harmony import */ var vuetify__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vuetify */ "./node_modules/vuetify/dist/vuetify.js");
+/* harmony import */ var vuetify__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(vuetify__WEBPACK_IMPORTED_MODULE_3__);
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+/*
+Configuração axios
+ */
+
+
+axios__WEBPACK_IMPORTED_MODULE_0___default.a.defaults.baseURL = 'http://painel-api/api/painel/';
 
 
  //import VuetifyConfirm from 'vuetify-confirm'
 
-Vue.use(vuetify__WEBPACK_IMPORTED_MODULE_2___default.a); // Vue.use(VuetifyConfirm,{
+Vue.use(vuetify__WEBPACK_IMPORTED_MODULE_3___default.a); // Vue.use(VuetifyConfirm,{
 //     buttonTrueText: 'Ok',
 //     buttonFalseText: 'Cancelar',
 //     width: 350,
@@ -93338,15 +93346,9 @@ Vue.use(vuetify__WEBPACK_IMPORTED_MODULE_2___default.a); // Vue.use(VuetifyConfi
 // })
 
 Vue.component('example-component', __webpack_require__(/*! ./components/ExampleComponent.vue */ "./resources/js/components/ExampleComponent.vue")["default"]);
-/**
- * Next, we will create a fresh Vue application instance and attach it to
- * the page. Then, you may begin adding components to this application
- * or customize the JavaScript scaffolding to fit your unique needs.
- */
-
 var app = new Vue({
-  router: _routes_router__WEBPACK_IMPORTED_MODULE_0__["default"],
-  store: _store__WEBPACK_IMPORTED_MODULE_1__["default"],
+  router: _routes_router__WEBPACK_IMPORTED_MODULE_1__["default"],
+  store: _store__WEBPACK_IMPORTED_MODULE_2__["default"],
   el: '#app'
 });
 
@@ -93407,7 +93409,7 @@ if (token) {
 
 window.io = __webpack_require__(/*! socket.io-client */ "./node_modules/socket.io-client/lib/index.js");
 window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_0__["default"]({
-  broadcaster: 'socket-io',
+  broadcaster: 'socket.io',
   host: window.location.hostname + ':6001' // key: process.env.MIX_PUSHER_APP_KEY,
   // cluster: process.env.MIX_PUSHER_APP_CLUSTER,
   // encrypted: true
@@ -94021,7 +94023,7 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]);
 /* harmony default export */ __webpack_exports__["default"] = (new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
-  //mode: 'history',
+  mode: 'history',
   //base: '/painel-app/#',
   routes: [].concat(_toConsumableArray(_views_admin_routes_admin__WEBPACK_IMPORTED_MODULE_2__["default"]), [{
     path: '*',
@@ -95443,15 +95445,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             case 4:
               request = _context.sent;
               commit('setTipoSenhas', request.data);
-              _context.next = 11;
+              _context.next = 12;
               break;
 
             case 8:
               _context.prev = 8;
               _context.t0 = _context["catch"](1);
+              console.log(_context.t0);
               throw new Error(_context.t0.response.data.error);
 
-            case 11:
+            case 12:
             case "end":
               return _context.stop();
           }
