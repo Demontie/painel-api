@@ -2,14 +2,15 @@
     <div>
         <v-container grid-list-sm class="px-0 py-0">
             <v-layout wrap justify-end>
-                <v-flex sm12 md5>
+                <v-flex sm3>
                     <v-toolbar-title class="headline text-uppercase mr-4">
                         <span>Senhas </span>
                     </v-toolbar-title>
                 </v-flex>
-                <v-flex sm12 md3>
+                <v-flex sm4>
                     <!--<InputSearch :param="busca"></InputSearch>-->
                     <v-text-field
+                            class="mr-2"
                             v-model="busca"
                             append-icon="search"
                             label="Pesquisar"
@@ -17,27 +18,35 @@
                             hide-details
                     ></v-text-field>
                 </v-flex>
+                <v-flex sm2>
+                    <v-btn @click="chamarSenha" color="primary darken-3">Chamar</v-btn>
+                </v-flex>
+                <v-flex sm3>
+                    <v-btn @click="chamarNovamente" color="primary darken-3">Chamar Novamente</v-btn>
+                </v-flex>
             </v-layout>
         </v-container>
-        <v-data-table
-                :headers="cabecalho"
-                :items="senhas"
-                :load="load"
-                :search="busca"
-                :rows-per-page-items="[10,25,50]"
-                class="elevation-1"
-        >
-            <template slot="items" slot-scope="props">
-                <td>{{ props.item.tipo_senha.prefixo }} {{ props.item.numero }}</td>
-                <td>{{ props.item.tipo_senha.descricao }}</td>
-                <!--<td>{{ props.item.tipo_senha.prefixo }}</td>-->
-                <td><div :class="props.item.tipo_senha.cor" class="cor-tipo"></div></td>
-                <td>
-                    <v-icon v-if="props.item.ativo" title="Senha ativo">done</v-icon>
-                    <v-icon v-else title="Senha inativo">clear</v-icon>
-                </td>
-            </template>
-        </v-data-table>
+        <v-flex sm12>
+            <v-data-table
+                    :headers="cabecalho"
+                    :items="senhas"
+                    :load="load"
+                    :search="busca"
+                    :rows-per-page-items="[10,25,50]"
+                    class="elevation-1"
+            >
+                <template slot="items" slot-scope="props">
+                    <tr @dblclick="selecionarLinha($event, props.item)" :class="{'primary lighten-3': senhaSelecionada.id == props.item.id}">
+                        <td>{{ props.item.senhaCompleta }}</td>
+                        <td>{{ props.item.tipo_senha.descricao }}</td>
+                        <td><div :class="props.item.tipo_senha.cor" class="cor-tipo"></div></td>
+                        <td v-show="props.item.selecionado">
+                            <v-btn color="primary darken-3">Chamar senha {{ props.item.tipo_senha.prefixo }} {{ props.item.numero }}</v-btn>
+                        </td>
+                    </tr>
+                </template>
+            </v-data-table>
+        </v-flex>
     </div>
 </template>
 
@@ -51,14 +60,24 @@
                     {
                         text: 'Senha',
                         align: 'left',
-                        value: 'tipo_senha.prefixo' + 'numero'
+                        value: 'senhaCompleta',
+                        sortable: false
                     },
-                    {text:'Descrição',value:'descricao'},
-                    {text:'Cor',value:'cor'},
-                    {text:'Ativo',value:'ativo'},
+                    {
+                        text:'Descrição',
+                        value:'tipo_senha.descricao',
+                        sortable: false
+                    },
+                    {
+                        text:'Cor',
+                        value:'cor'
+                    }
                 ],
                 load: true,
-                busca: ''
+                busca: '',
+                senhaSelecionada:{
+                    selecionado:false
+                }
             }
         },
         computed:{
@@ -75,18 +94,51 @@
             }
         },
         methods:{
-         ...mapActions({
+            ...mapActions({
                 loadSenhas: 'loadSenhas',
+                chamarSenhaRecepcao: 'chamarSenhaRecepcao'
             }),
+            selecionarLinha(e, linhaSelecionada){
+
+                if(linhaSelecionada.selecionado){
+                    linhaSelecionada.selecionado = false
+                    e.target.parentElement.classList.remove('primary','lighten-3')
+                    this.senhaSelecionada = {}
+                }
+                else {
+                    linhaSelecionada.selecionado = true
+                    this.senhaSelecionada = linhaSelecionada
+                }
+                // linhaSelecionada.selecionado = true
+                // this.senhaSelecionada = linhaSelecionada
+            },
+            chamarSenha(){
+                let chamadaObj = {
+                    guiche_id: 1,
+                    status: 2,
+                }
+            },
+            chamarNovamente(){
+
+            }
+        },
+        watch:{
+            senhaSelecionada:{
+                handler: function(novoValor,valorAntigo){
+                    valorAntigo.selecionado = false
+                    novoValor.selecionado = true
+                },
+                deep:true
+            }
         },
         created(){
             this.loadSenhas()
         },
         mounted(){
-            console.log('montou')
             Echo.channel('senha-gerada')
                 .listen('SenhaGerada', senha => {
                     console.log('senha gerada')
+                    senha.senhaCompleta = senha.tipo_senha.prefixo + senha.numero
                     this.senhas.push(senha)
                 })
         }
@@ -94,5 +146,8 @@
 </script>
 
 <style scoped>
-
+    .linha-selecionada{
+        background-color: #616161;
+        color: #fff;
+    }
 </style>

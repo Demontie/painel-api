@@ -22,6 +22,7 @@ class CreateSenhasTable extends Migration
             $table->unsignedInteger('guiche_id')->nullable();
             $table->foreign('guiche_id')->references('id')->on('guiches');
             $table->integer('numero');
+            $table->integer('quantidade_chamada')->default(0);
             $table->boolean('ativo')->default(true);
             $table->integer('status')->default(1);
             $table->timestamps();

@@ -8,7 +8,12 @@ export default {
         try{
             const request = await axios.get('senhas')
 
-            commit('setSenhas',request.data)
+            const senhasPainelApi = request.data.map( senha => {
+                senha.senhaCompleta = senha.tipo_senha.prefixo + senha.numero
+                return senha
+            })
+
+            commit('setSenhas', senhasPainelApi)
         }catch (e){
             throw new Error(e.response.data.error)
         }
@@ -22,5 +27,14 @@ export default {
         }catch (e){
             throw new Error(e.response.data.error)
         }
+    },
+    async chamarSenhaRecepcao({commit}, dadosGuiche){
+      try{
+          const request = await axios.put(`senhas`, dadosGuiche)
+
+
+      }catch (e){
+          throw new Error(e.response.data.error)
+      }
     }
 }

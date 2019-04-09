@@ -14,17 +14,18 @@ class TipoSenhaTableSeeder extends Seeder
     {
         TipoSenha::create([
             'prefixo' => 'N',
-            'descricao' => 'Atendimento Normal',
+            'descricao' => 'Normal',
             'ordem' => 1,
             'grupo_tela_id' => 1
         ]);
 
         TipoSenha::create([
             'prefixo' => 'P',
-            'descricao' => 'Atendimento Prioridade',
+            'descricao' => 'Prioridade',
             'cor' => 'error darken-4',
             'ordem' => 2,
-            'grupo_tela_id' => 1
+            'grupo_tela_id' => 1,
+            'regra_chamada' => 2
         ]);
 
         TipoSenha::create([
