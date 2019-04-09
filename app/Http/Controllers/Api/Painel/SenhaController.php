@@ -37,9 +37,11 @@ class SenhaController extends Controller
                 'grupo_sala.grupo_tela.telas',
                 'grupo_sala.sala',
             ])
+            ->whereDay('created_at',date('d'))
+            ->whereMonth('created_at', date('m'))
             //->whereDate('created_at',date('Y-m-d'))
-            ->orderBy('id','desc')
-            ->take(5)
+            ->orderBy('id')
+            //->take(5)
             ->get();
 
         return response()->json($senhas);
