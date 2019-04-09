@@ -24,7 +24,8 @@ class TipoSenhaTableSeeder extends Seeder
             'descricao' => 'Prioridade',
             'cor' => 'error darken-4',
             'ordem' => 2,
-            'grupo_tela_id' => 1
+            'grupo_tela_id' => 1,
+            'regra_chamada' => 2
         ]);
 
         TipoSenha::create([

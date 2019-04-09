@@ -2,15 +2,15 @@
     <div>
         <v-container grid-list-sm class="px-0 py-0">
             <v-layout wrap justify-end>
-                <v-flex sm12 md5>
+                <v-flex sm3>
                     <v-toolbar-title class="headline text-uppercase mr-4">
                         <span>Senhas </span>
                     </v-toolbar-title>
                 </v-flex>
-                <v-flex sm12 md3>
+                <v-flex sm4>
                     <!--<InputSearch :param="busca"></InputSearch>-->
                     <v-text-field
-                            class="mr-5"
+                            class="mr-2"
                             v-model="busca"
                             append-icon="search"
                             label="Pesquisar"
@@ -18,8 +18,11 @@
                             hide-details
                     ></v-text-field>
                 </v-flex>
-                <v-flex sm12 md3>
-                    <v-btn block color="primary darken-3">Chamar</v-btn>
+                <v-flex sm2>
+                    <v-btn @click="chamarSenha" color="primary darken-3">Chamar</v-btn>
+                </v-flex>
+                <v-flex sm3>
+                    <v-btn @click="chamarNovamente" color="primary darken-3">Chamar Novamente</v-btn>
                 </v-flex>
             </v-layout>
         </v-container>
@@ -34,11 +37,11 @@
             >
                 <template slot="items" slot-scope="props">
                     <tr @dblclick="selecionarLinha($event, props.item)" :class="{'primary lighten-3': senhaSelecionada.id == props.item.id}">
-                        <td>{{ props.item.tipo_senha.prefixo }} {{ props.item.numero }}</td>
+                        <td>{{ props.item.senhaCompleta }}</td>
                         <td>{{ props.item.tipo_senha.descricao }}</td>
                         <td><div :class="props.item.tipo_senha.cor" class="cor-tipo"></div></td>
                         <td v-show="props.item.selecionado">
-                            <v-btn block color="primary darken-3">Chamar senha {{ props.item.tipo_senha.prefixo }} {{ props.item.numero }}</v-btn>
+                            <v-btn color="primary darken-3">Chamar senha {{ props.item.tipo_senha.prefixo }} {{ props.item.numero }}</v-btn>
                         </td>
                     </tr>
                 </template>
@@ -57,10 +60,18 @@
                     {
                         text: 'Senha',
                         align: 'left',
-                        value: 'tipo_senha.prefixo' + 'numero'
+                        value: 'senhaCompleta',
+                        sortable: false
                     },
-                    {text:'Descrição',value:'descricao'},
-                    {text:'Cor',value:'cor'}
+                    {
+                        text:'Descrição',
+                        value:'tipo_senha.descricao',
+                        sortable: false
+                    },
+                    {
+                        text:'Cor',
+                        value:'cor'
+                    }
                 ],
                 load: true,
                 busca: '',
@@ -85,6 +96,7 @@
         methods:{
             ...mapActions({
                 loadSenhas: 'loadSenhas',
+                chamarSenhaRecepcao: 'chamarSenhaRecepcao'
             }),
             selecionarLinha(e, linhaSelecionada){
 
@@ -99,16 +111,25 @@
                 }
                 // linhaSelecionada.selecionado = true
                 // this.senhaSelecionada = linhaSelecionada
+            },
+            chamarSenha(){
+                let chamadaObj = {
+                    guiche_id: 1,
+                    status: 2,
+                }
+            },
+            chamarNovamente(){
+
             }
         },
         watch:{
-          senhaSelecionada:{
-              handler: function(novoValor,valorAntigo){
-                  valorAntigo.selecionado = false
-                  novoValor.selecionado = true
-              },
-              deep:true
-          }
+            senhaSelecionada:{
+                handler: function(novoValor,valorAntigo){
+                    valorAntigo.selecionado = false
+                    novoValor.selecionado = true
+                },
+                deep:true
+            }
         },
         created(){
             this.loadSenhas()
@@ -117,6 +138,7 @@
             Echo.channel('senha-gerada')
                 .listen('SenhaGerada', senha => {
                     console.log('senha gerada')
+                    senha.senhaCompleta = senha.tipo_senha.prefixo + senha.numero
                     this.senhas.push(senha)
                 })
         }

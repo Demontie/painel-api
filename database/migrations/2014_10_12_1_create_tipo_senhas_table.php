@@ -24,6 +24,8 @@ class CreateTipoSenhasTable extends Migration
             $table->integer('ordem');
             $table->string('descricao', 100);
             $table->boolean('ativo')->default(true);
+            $table->integer('regra_chamada')->default(1);
+            $table->boolean('prioridade')->default(false);
             $table->timestamps();
         });
     }

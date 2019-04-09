@@ -2626,6 +2626,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -2633,10 +2636,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       cabecalho: [{
         text: 'Senha',
         align: 'left',
-        value: 'tipo_senha.prefixo' + 'numero'
+        value: 'senhaCompleta',
+        sortable: false
       }, {
         text: 'Descrição',
-        value: 'descricao'
+        value: 'tipo_senha.descricao',
+        sortable: false
       }, {
         text: 'Cor',
         value: 'cor'
@@ -2661,7 +2666,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     }
   }),
   methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])({
-    loadSenhas: 'loadSenhas'
+    loadSenhas: 'loadSenhas',
+    chamarSenhaRecepcao: 'chamarSenhaRecepcao'
   }), {
     selecionarLinha: function selecionarLinha(e, linhaSelecionada) {
       if (linhaSelecionada.selecionado) {
@@ -2674,7 +2680,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       } // linhaSelecionada.selecionado = true
       // this.senhaSelecionada = linhaSelecionada
 
-    }
+    },
+    chamarSenha: function chamarSenha() {
+      var chamadaObj = {
+        guiche_id: 1,
+        status: 2
+      };
+    },
+    chamarNovamente: function chamarNovamente() {}
   }),
   watch: {
     senhaSelecionada: {
@@ -2693,6 +2706,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
     Echo.channel('senha-gerada').listen('SenhaGerada', function (senha) {
       console.log('senha gerada');
+      senha.senhaCompleta = senha.tipo_senha.prefixo + senha.numero;
 
       _this.senhas.push(senha);
     });
@@ -51272,7 +51286,7 @@ var render = function() {
             [
               _c(
                 "v-flex",
-                { attrs: { sm12: "", md5: "" } },
+                { attrs: { sm3: "" } },
                 [
                   _c(
                     "v-toolbar-title",
@@ -51285,10 +51299,10 @@ var render = function() {
               _vm._v(" "),
               _c(
                 "v-flex",
-                { attrs: { sm12: "", md3: "" } },
+                { attrs: { sm4: "" } },
                 [
                   _c("v-text-field", {
-                    staticClass: "mr-5",
+                    staticClass: "mr-2",
                     attrs: {
                       "append-icon": "search",
                       label: "Pesquisar",
@@ -51309,12 +51323,31 @@ var render = function() {
               _vm._v(" "),
               _c(
                 "v-flex",
-                { attrs: { sm12: "", md3: "" } },
+                { attrs: { sm2: "" } },
                 [
                   _c(
                     "v-btn",
-                    { attrs: { block: "", color: "primary darken-3" } },
+                    {
+                      attrs: { color: "primary darken-3" },
+                      on: { click: _vm.chamarSenha }
+                    },
                     [_vm._v("Chamar")]
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "v-flex",
+                { attrs: { sm3: "" } },
+                [
+                  _c(
+                    "v-btn",
+                    {
+                      attrs: { color: "primary darken-3" },
+                      on: { click: _vm.chamarNovamente }
+                    },
+                    [_vm._v("Chamar Novamente")]
                   )
                 ],
                 1
@@ -51358,13 +51391,7 @@ var render = function() {
                         }
                       },
                       [
-                        _c("td", [
-                          _vm._v(
-                            _vm._s(props.item.tipo_senha.prefixo) +
-                              " " +
-                              _vm._s(props.item.numero)
-                          )
-                        ]),
+                        _c("td", [_vm._v(_vm._s(props.item.senhaCompleta))]),
                         _vm._v(" "),
                         _c("td", [
                           _vm._v(_vm._s(props.item.tipo_senha.descricao))
@@ -51392,9 +51419,7 @@ var render = function() {
                           [
                             _c(
                               "v-btn",
-                              {
-                                attrs: { block: "", color: "primary darken-3" }
-                              },
+                              { attrs: { color: "primary darken-3" } },
                               [
                                 _vm._v(
                                   "Chamar senha " +
@@ -95484,7 +95509,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     var _loadSenhas = _asyncToGenerator(
     /*#__PURE__*/
     _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(_ref2) {
-      var commit, request;
+      var commit, request, senhasPainelApi;
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
@@ -95496,21 +95521,25 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
             case 4:
               request = _context.sent;
-              commit('setSenhas', request.data);
-              _context.next = 11;
+              senhasPainelApi = request.data.map(function (senha) {
+                senha.senhaCompleta = senha.tipo_senha.prefixo + senha.numero;
+                return senha;
+              });
+              commit('setSenhas', senhasPainelApi);
+              _context.next = 12;
               break;
 
-            case 8:
-              _context.prev = 8;
+            case 9:
+              _context.prev = 9;
               _context.t0 = _context["catch"](1);
               throw new Error(_context.t0.response.data.error);
 
-            case 11:
+            case 12:
             case "end":
               return _context.stop();
           }
         }
-      }, _callee, null, [[1, 8]]);
+      }, _callee, null, [[1, 9]]);
     }));
 
     function loadSenhas(_x) {
@@ -95557,6 +95586,44 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     }
 
     return loadSenha;
+  }(),
+  chamarSenhaRecepcao: function () {
+    var _chamarSenhaRecepcao = _asyncToGenerator(
+    /*#__PURE__*/
+    _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3(_ref4, dadosGuiche) {
+      var commit, request;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
+        while (1) {
+          switch (_context3.prev = _context3.next) {
+            case 0:
+              commit = _ref4.commit;
+              _context3.prev = 1;
+              _context3.next = 4;
+              return axios__WEBPACK_IMPORTED_MODULE_1___default.a.put("senhas", dadosGuiche);
+
+            case 4:
+              request = _context3.sent;
+              _context3.next = 10;
+              break;
+
+            case 7:
+              _context3.prev = 7;
+              _context3.t0 = _context3["catch"](1);
+              throw new Error(_context3.t0.response.data.error);
+
+            case 10:
+            case "end":
+              return _context3.stop();
+          }
+        }
+      }, _callee3, null, [[1, 7]]);
+    }));
+
+    function chamarSenhaRecepcao(_x4, _x5) {
+      return _chamarSenhaRecepcao.apply(this, arguments);
+    }
+
+    return chamarSenhaRecepcao;
   }()
 });
 

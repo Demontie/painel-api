@@ -12,12 +12,14 @@ class SenhaController extends Controller
 {
     protected $senha;
     private $constantesPainel;
+    private $tableName;
 
     public function __construct(Senha $senha,
                                 ConstantesPainel $constantesPainel)
     {
         $this->senha = $senha;
         $this->constantesPainel = $constantesPainel;
+        $this->tableName = $this->senha->getTable();
     }
 
     /**
@@ -27,21 +29,30 @@ class SenhaController extends Controller
      */
     public function index()
     {
+//        $senhas = $this->senha
+//            ->where('status',$this->constantesPainel::AGUARDANDO_CHAMADA)
+//            ->where('ativo',true)
+//            ->with([
+//                'tipo_senha',
+//                'grupo_sala',
+//                'grupo_sala.grupo_tela',
+//                'grupo_sala.grupo_tela.telas',
+//                'grupo_sala.sala',
+//            ])
+//            ->whereDay('created_at',date('d'))
+//            ->whereMonth('created_at', date('m'))
+//            //->whereDate('created_at',date('Y-m-d'))
+//            ->orderBy('id')
+//            //->take(5)
+//            ->get();
+
         $senhas = $this->senha
-            ->where('status',$this->constantesPainel::AGUARDANDO_CHAMADA)
-            ->where('ativo',true)
-            ->with([
-                'tipo_senha',
-                'grupo_sala',
-                'grupo_sala.grupo_tela',
-                'grupo_sala.grupo_tela.telas',
-                'grupo_sala.sala',
-            ])
-            ->whereDay('created_at',date('d'))
-            ->whereMonth('created_at', date('m'))
-            //->whereDate('created_at',date('Y-m-d'))
-            ->orderBy('id')
-            //->take(5)
+            ->join('tipo_senhas',"$this->tableName.tipo_senha_id",'=','tipo_senhas.id')
+            ->where('tipo_senhas.prioridade',false)
+            ->where("$this->tableName.ativo",true)
+            //->where('prefixo',$request['prefixo'])
+            ->where("$this->tableName.status",$this->constantesPainel::AGUARDANDO_CHAMADA)
+            ->orderBy("$this->tableName.id")
             ->get();
 
         return response()->json($senhas);
@@ -86,9 +97,6 @@ class SenhaController extends Controller
 
         $numero = is_null($ultimaSenha) || ($ultimaSenha->numero == $this->constantesPainel::LIMITE_SENHAS) ? 1 : $ultimaSenha->numero + 1;
 
-//        $novaSenha = array_merge([
-//            'numero' => str_pad($numero,3,'0',STR_PAD_LEFT)
-//        ],$request->all());
         $request['numero'] = $numero;
 
         $senha = $this->senha->create($request->all());
@@ -205,15 +213,41 @@ class SenhaController extends Controller
      * @return \Illuminate\Http\JsonResponse
      */
     public function chamarProximo(Request $request){
-        $proximaSenha = $this->senha
+
+        $ultimaChamada = $this->senha
             ->where('ativo',true)
-            ->where('prefixo',$request['prefixo'])
-            ->where('status',$this->constantesPainel::AGUARDANDO_CHAMADA)
+            //->where('prefixo',$request['prefixo'])
+            ->where('status',$this->constantesPainel::CHAMADA_RECEPCAO)
             ->with([
-                'tipo.grupo_tela.telas'
+                'tipo_senha',
+                'grupo_sala.grupo_tela.telas'
             ])
-            ->orderBy('id','desc')
+            ->orderBy('id')
             ->first();
+
+        if($ultimaChamada->tipo_senha->prioridade){
+            $proximaSenha = $this->senha
+                ->join('tipo_senhas','senhas.tipo_senha_id','=','tipo_senhas.id')
+                ->where('tipo_senhas.prioridade',false)
+                ->where('ativo',true)
+                //->where('prefixo',$request['prefixo'])
+                ->where('status',$this->constantesPainel::AGUARDANDO_CHAMADA)
+                ->orderBy('id')
+                ->get();
+        }else{
+            $proximaSenha = $this->senha
+                ->where('ativo',true)
+                //->where('prefixo',$request['prefixo'])
+                ->where('status',$this->constantesPainel::AGUARDANDO_CHAMADA)
+                ->with([
+                    'tipo_senha',
+                    'grupo_sala.grupo_tela.telas'
+                ])
+                ->orderBy('id')
+                ->take(2)
+                ->get();
+        }
+
 
         /*
          * Amarra a senha ao guiche a qual chamou
