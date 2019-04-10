@@ -2640,7 +2640,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         sortable: false
       }, {
         text: 'Descrição',
-        value: 'tipo_senha.descricao',
+        value: 'descricao',
         sortable: false
       }, {
         text: 'Cor',
@@ -2667,7 +2667,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   }),
   methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])({
     loadSenhas: 'loadSenhas',
-    chamarSenhaRecepcao: 'chamarSenhaRecepcao'
+    chamarProximo: 'chamarProximo'
   }), {
     selecionarLinha: function selecionarLinha(e, linhaSelecionada) {
       if (linhaSelecionada.selecionado) {
@@ -2683,9 +2683,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     },
     chamarSenha: function chamarSenha() {
       var chamadaObj = {
-        guiche_id: 1,
-        status: 2
+        guiche_id: 1
       };
+      this.chamarProximo(chamadaObj);
     },
     chamarNovamente: function chamarNovamente() {}
   }),
@@ -2706,7 +2706,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
     Echo.channel('senha-gerada').listen('SenhaGerada', function (senha) {
       console.log('senha gerada');
-      senha.senhaCompleta = senha.tipo_senha.prefixo + senha.numero;
+      senha.senhaCompleta = senha.prefixo + senha.numero;
 
       _this.senhas.push(senha);
     });
@@ -12654,7 +12654,7 @@ function load() {
 
   // If debug isn't set in LS, and we're in Electron, try to load $DEBUG
   if (!r && typeof process !== 'undefined' && 'env' in process) {
-    r = Object({"MIX_PUSHER_APP_KEY":"59598c01950a65e3f1a7b0375460b349","MIX_PUSHER_APP_CLUSTER":"mt1","NODE_ENV":"development"}).DEBUG;
+    r = Object({"MIX_PUSHER_APP_CLUSTER":"mt1","MIX_PUSHER_APP_KEY":"59598c01950a65e3f1a7b0375460b349","NODE_ENV":"development"}).DEBUG;
   }
 
   return r;
@@ -48262,7 +48262,7 @@ function load() {
 
   // If debug isn't set in LS, and we're in Electron, try to load $DEBUG
   if (!r && typeof process !== 'undefined' && 'env' in process) {
-    r = Object({"MIX_PUSHER_APP_KEY":"59598c01950a65e3f1a7b0375460b349","MIX_PUSHER_APP_CLUSTER":"mt1","NODE_ENV":"development"}).DEBUG;
+    r = Object({"MIX_PUSHER_APP_CLUSTER":"mt1","MIX_PUSHER_APP_KEY":"59598c01950a65e3f1a7b0375460b349","NODE_ENV":"development"}).DEBUG;
   }
 
   return r;
@@ -49478,7 +49478,7 @@ function load() {
 
   // If debug isn't set in LS, and we're in Electron, try to load $DEBUG
   if (!r && typeof process !== 'undefined' && 'env' in process) {
-    r = Object({"MIX_PUSHER_APP_KEY":"59598c01950a65e3f1a7b0375460b349","MIX_PUSHER_APP_CLUSTER":"mt1","NODE_ENV":"development"}).DEBUG;
+    r = Object({"MIX_PUSHER_APP_CLUSTER":"mt1","MIX_PUSHER_APP_KEY":"59598c01950a65e3f1a7b0375460b349","NODE_ENV":"development"}).DEBUG;
   }
 
   return r;
@@ -51278,7 +51278,7 @@ var render = function() {
     [
       _c(
         "v-container",
-        { staticClass: "px-0 py-0", attrs: { "grid-list-sm": "" } },
+        { staticClass: "px-0 py-0 mb-3", attrs: { "grid-list-sm": "" } },
         [
           _c(
             "v-layout",
@@ -51393,14 +51393,12 @@ var render = function() {
                       [
                         _c("td", [_vm._v(_vm._s(props.item.senhaCompleta))]),
                         _vm._v(" "),
-                        _c("td", [
-                          _vm._v(_vm._s(props.item.tipo_senha.descricao))
-                        ]),
+                        _c("td", [_vm._v(_vm._s(props.item.descricao))]),
                         _vm._v(" "),
                         _c("td", [
                           _c("div", {
                             staticClass: "cor-tipo",
-                            class: props.item.tipo_senha.cor
+                            class: props.item.cor
                           })
                         ]),
                         _vm._v(" "),
@@ -51423,7 +51421,7 @@ var render = function() {
                               [
                                 _vm._v(
                                   "Chamar senha " +
-                                    _vm._s(props.item.tipo_senha.prefixo) +
+                                    _vm._s(props.item.prefixo) +
                                     " " +
                                     _vm._s(props.item.numero)
                                 )
@@ -95522,7 +95520,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             case 4:
               request = _context.sent;
               senhasPainelApi = request.data.map(function (senha) {
-                senha.senhaCompleta = senha.tipo_senha.prefixo + senha.numero;
+                senha.senhaCompleta = senha.prefixo + senha.numero;
                 return senha;
               });
               commit('setSenhas', senhasPainelApi);
@@ -95587,8 +95585,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
     return loadSenha;
   }(),
-  chamarSenhaRecepcao: function () {
-    var _chamarSenhaRecepcao = _asyncToGenerator(
+  chamarProximo: function () {
+    var _chamarProximo = _asyncToGenerator(
     /*#__PURE__*/
     _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3(_ref4, dadosGuiche) {
       var commit, request;
@@ -95599,31 +95597,32 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               commit = _ref4.commit;
               _context3.prev = 1;
               _context3.next = 4;
-              return axios__WEBPACK_IMPORTED_MODULE_1___default.a.put("senhas", dadosGuiche);
+              return axios__WEBPACK_IMPORTED_MODULE_1___default.a.put("senhas/chamarProximo", dadosGuiche);
 
             case 4:
               request = _context3.sent;
-              _context3.next = 10;
+              console.log(request);
+              _context3.next = 11;
               break;
 
-            case 7:
-              _context3.prev = 7;
+            case 8:
+              _context3.prev = 8;
               _context3.t0 = _context3["catch"](1);
               throw new Error(_context3.t0.response.data.error);
 
-            case 10:
+            case 11:
             case "end":
               return _context3.stop();
           }
         }
-      }, _callee3, null, [[1, 7]]);
+      }, _callee3, null, [[1, 8]]);
     }));
 
-    function chamarSenhaRecepcao(_x4, _x5) {
-      return _chamarSenhaRecepcao.apply(this, arguments);
+    function chamarProximo(_x4, _x5) {
+      return _chamarProximo.apply(this, arguments);
     }
 
-    return chamarSenhaRecepcao;
+    return chamarProximo;
   }()
 });
 
@@ -96434,8 +96433,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /home/programador/projetos/painel-api/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /home/programador/projetos/painel-api/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\vagrant\www\html\painel-api\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\vagrant\www\html\painel-api\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ }),

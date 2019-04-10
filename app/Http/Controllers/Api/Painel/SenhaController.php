@@ -141,6 +141,41 @@ class SenhaController extends Controller
     }
 
     /**
+     * Chama a próxima senha disponível com base no prefixo e no status
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function chamarProximo(Request $request){
+        $ultimaChamada = $this->senha
+            ->join('tipo_senhas',"$this->tableName.tipo_senha_id",'=','tipo_senhas.id')
+            ->where("$this->tableName.ativo",true)
+            ->where("$this->tableName.status",$this->constantesPainel::CHAMADA_RECEPCAO)
+            ->orderBy("$this->tableName.id")
+            ->first();
+
+        if($ultimaChamada->prioridade){
+            $proximaSenha = $this->senha
+                ->join('tipo_senhas',"$this->tableName.tipo_senha_id",'=','tipo_senhas.id')
+                ->where('tipo_senhas.prioridade',false)
+                ->where("$this->tableName.ativo",true)
+                ->where("$this->tableName.status",$this->constantesPainel::CHAMADA_RECEPCAO)
+                ->orderBy("$this->tableName.id")
+                ->first();
+        }else{
+            $proximaSenha = $ultimaChamada;
+        }
+        /*
+         * Amarra a senha ao guiche a qual chamou
+         */
+        $proximaSenha->update([
+            'guiche_id' => $request['guiche_id'],
+            'status' => $this->constantesPainel::CHAMADA_RECEPCAO
+        ]);
+
+        return response()->json($proximaSenha);
+    }
+
+    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -205,135 +240,9 @@ class SenhaController extends Controller
 
         return response()->json($ultimaSenha);
     }
-
-    /**
-     * Chama a próxima senha disponível com base no prefixo e no status
-     *
-     * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function chamarProximo(Request $request){
-
-        $ultimaChamada = $this->senha
-            ->where('ativo',true)
-            //->where('prefixo',$request['prefixo'])
-            ->where('status',$this->constantesPainel::CHAMADA_RECEPCAO)
-            ->with([
-                'tipo_senha',
-                'grupo_sala.grupo_tela.telas'
-            ])
-            ->orderBy('id')
-            ->first();
-
-        if($ultimaChamada->tipo_senha->prioridade){
-            $proximaSenha = $this->senha
-                ->join('tipo_senhas','senhas.tipo_senha_id','=','tipo_senhas.id')
-                ->where('tipo_senhas.prioridade',false)
-                ->where('ativo',true)
-                //->where('prefixo',$request['prefixo'])
-                ->where('status',$this->constantesPainel::AGUARDANDO_CHAMADA)
-                ->orderBy('id')
-                ->get();
-        }else{
-            $proximaSenha = $this->senha
-                ->where('ativo',true)
-                //->where('prefixo',$request['prefixo'])
-                ->where('status',$this->constantesPainel::AGUARDANDO_CHAMADA)
-                ->with([
-                    'tipo_senha',
-                    'grupo_sala.grupo_tela.telas'
-                ])
-                ->orderBy('id')
-                ->take(2)
-                ->get();
-        }
-
-
-        /*
-         * Amarra a senha ao guiche a qual chamou
-         */
-        $proximaSenha->update([
-            'guiche_id' => $request['guiche_id'],
-            'status' => $this->constantesPainel::CHAMADA_RECEPCAO
-        ]);
-
-        return response()->json($proximaSenha);
-    }
-
-    private function verificarSenha($senha){
-        if(is_null($senha)){
-            return response()->json(['error' => 'Senha não encontrada'],404);
-        }
-    }
-
-    /*
-     * Tabelas com campos para consultas
-     */
-
-    /**
-     * Campos Tipos para consulta
-     * @return array
-     */
-    public function tipos(){
-        return [
-            'id',
-            'descricao',
-            'prefixo',
-            'grupo_tela_id'
-        ];
-    }
-
-    /**
-     * Campos grupoSala para consulta
-     * @return array
-     */
-    public function grupoSala(){
-        return [
-            'id',
-            'descricao',
-            'ativo'
-        ];
-    }
-
-    /**
-     * Campos telaGrupos para consulta
-     * @return array
-     */
-    public function grupoSalaTelaGrupo(){
-        return [
-            'id',
-            'sala_id',
-            'grupo_tela_id',
-            'ativo'
-        ];
-    }
-
-    /**
-     * Campos telas para consulta
-     * @return array
-     */
-    public function grupoSalasTelaGrupoTelas(){
-        return [
-            'id',
-            'descricao',
-            'grupo_tela_id'
-        ];
-    }
-
-    /**
-     * Campos salas para consulta
-     * @return array
-     */
-    public function grupoSalasSala(){
-        return [
-            'id',
-            'descricao',
-            'sala_id_stg',
-            'ativo'
-        ];
-    }
-
-    public function tipoGrupoTelas(){
-
-    }
+//    private function verificarSenha($senha){
+//        if(is_null($senha)){
+//            return response()->json(['error' => 'Senha não encontrada'],404);
+//        }
+//    }
 }

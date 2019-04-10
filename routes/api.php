@@ -7,9 +7,13 @@ $this->group([
     'prefix' => 'painel'
 ],
     function () {
-        $this->get('senhas/chamarProximo','SenhaController@chamarProximo');
-        $this->get('senhas/chamarNovamente','SenhaController@chamarNovamente');
-        $this->get('senhas/porPeriodo','SenhaController@getSenhasPorPeriodo');
+        $this->group([
+            'prefix' => 'senhas'
+        ],function (){
+            $this->put('chamarProximo','SenhaController@chamarProximo');
+            $this->get('chamarNovamente','SenhaController@chamarNovamente');
+            $this->get('porPeriodo','SenhaController@getSenhasPorPeriodo');
+        });
         $this->apiResource('senhas','SenhaController');
 
         $this->apiResource('fila','FilaController');

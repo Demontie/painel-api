@@ -1,6 +1,6 @@
 <template>
     <div>
-        <v-container grid-list-sm class="px-0 py-0">
+        <v-container grid-list-sm class="px-0 py-0 mb-3">
             <v-layout wrap justify-end>
                 <v-flex sm3>
                     <v-toolbar-title class="headline text-uppercase mr-4">
@@ -38,10 +38,10 @@
                 <template slot="items" slot-scope="props">
                     <tr @dblclick="selecionarLinha($event, props.item)" :class="{'primary lighten-3': senhaSelecionada.id == props.item.id}">
                         <td>{{ props.item.senhaCompleta }}</td>
-                        <td>{{ props.item.tipo_senha.descricao }}</td>
-                        <td><div :class="props.item.tipo_senha.cor" class="cor-tipo"></div></td>
+                        <td>{{ props.item.descricao }}</td>
+                        <td><div :class="props.item.cor" class="cor-tipo"></div></td>
                         <td v-show="props.item.selecionado">
-                            <v-btn color="primary darken-3">Chamar senha {{ props.item.tipo_senha.prefixo }} {{ props.item.numero }}</v-btn>
+                            <v-btn color="primary darken-3">Chamar senha {{ props.item.prefixo }} {{ props.item.numero }}</v-btn>
                         </td>
                     </tr>
                 </template>
@@ -65,7 +65,7 @@
                     },
                     {
                         text:'Descrição',
-                        value:'tipo_senha.descricao',
+                        value:'descricao',
                         sortable: false
                     },
                     {
@@ -96,7 +96,7 @@
         methods:{
             ...mapActions({
                 loadSenhas: 'loadSenhas',
-                chamarSenhaRecepcao: 'chamarSenhaRecepcao'
+                chamarProximo: 'chamarProximo'
             }),
             selecionarLinha(e, linhaSelecionada){
 
@@ -114,9 +114,10 @@
             },
             chamarSenha(){
                 let chamadaObj = {
-                    guiche_id: 1,
-                    status: 2,
+                    guiche_id: 1
                 }
+
+                this.chamarProximo(chamadaObj)
             },
             chamarNovamente(){
 
@@ -138,7 +139,7 @@
             Echo.channel('senha-gerada')
                 .listen('SenhaGerada', senha => {
                     console.log('senha gerada')
-                    senha.senhaCompleta = senha.tipo_senha.prefixo + senha.numero
+                    senha.senhaCompleta = senha.prefixo + senha.numero
                     this.senhas.push(senha)
                 })
         }
