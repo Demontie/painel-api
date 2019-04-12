@@ -2629,6 +2629,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -2644,7 +2645,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         sortable: false
       }, {
         text: 'Cor',
-        value: 'cor'
+        value: 'cor',
+        sortable: false
       }],
       load: true,
       busca: '',
@@ -2705,8 +2707,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     var _this = this;
 
     Echo.channel('senha-gerada').listen('SenhaGerada', function (senha) {
-      console.log('senha gerada');
-      senha.senhaCompleta = senha.prefixo + senha.numero;
+      senha.senhaCompleta = senha.prefixo + senha.numero.toString();
 
       _this.senhas.push(senha);
     });
@@ -3008,6 +3009,7 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+//
 //
 //
 //
@@ -12654,7 +12656,7 @@ function load() {
 
   // If debug isn't set in LS, and we're in Electron, try to load $DEBUG
   if (!r && typeof process !== 'undefined' && 'env' in process) {
-    r = Object({"MIX_PUSHER_APP_CLUSTER":"mt1","MIX_PUSHER_APP_KEY":"59598c01950a65e3f1a7b0375460b349","NODE_ENV":"development"}).DEBUG;
+    r = Object({"MIX_PUSHER_APP_KEY":"59598c01950a65e3f1a7b0375460b349","MIX_PUSHER_APP_CLUSTER":"mt1","NODE_ENV":"development"}).DEBUG;
   }
 
   return r;
@@ -48262,7 +48264,7 @@ function load() {
 
   // If debug isn't set in LS, and we're in Electron, try to load $DEBUG
   if (!r && typeof process !== 'undefined' && 'env' in process) {
-    r = Object({"MIX_PUSHER_APP_CLUSTER":"mt1","MIX_PUSHER_APP_KEY":"59598c01950a65e3f1a7b0375460b349","NODE_ENV":"development"}).DEBUG;
+    r = Object({"MIX_PUSHER_APP_KEY":"59598c01950a65e3f1a7b0375460b349","MIX_PUSHER_APP_CLUSTER":"mt1","NODE_ENV":"development"}).DEBUG;
   }
 
   return r;
@@ -49478,7 +49480,7 @@ function load() {
 
   // If debug isn't set in LS, and we're in Electron, try to load $DEBUG
   if (!r && typeof process !== 'undefined' && 'env' in process) {
-    r = Object({"MIX_PUSHER_APP_CLUSTER":"mt1","MIX_PUSHER_APP_KEY":"59598c01950a65e3f1a7b0375460b349","NODE_ENV":"development"}).DEBUG;
+    r = Object({"MIX_PUSHER_APP_KEY":"59598c01950a65e3f1a7b0375460b349","MIX_PUSHER_APP_CLUSTER":"mt1","NODE_ENV":"development"}).DEBUG;
   }
 
   return r;
@@ -51329,7 +51331,12 @@ var render = function() {
                     "v-btn",
                     {
                       attrs: { color: "primary darken-3" },
-                      on: { click: _vm.chamarSenha }
+                      on: {
+                        click: function($event) {
+                          $event.preventDefault()
+                          return _vm.chamarSenha($event)
+                        }
+                      }
                     },
                     [_vm._v("Chamar")]
                   )
@@ -51345,7 +51352,12 @@ var render = function() {
                     "v-btn",
                     {
                       attrs: { color: "primary darken-3" },
-                      on: { click: _vm.chamarNovamente }
+                      on: {
+                        click: function($event) {
+                          $event.preventDefault()
+                          return _vm.chamarNovamente($event)
+                        }
+                      }
                     },
                     [_vm._v("Chamar Novamente")]
                   )
@@ -51370,7 +51382,8 @@ var render = function() {
               items: _vm.senhas,
               load: _vm.load,
               search: _vm.busca,
-              "rows-per-page-items": [10, 25, 50]
+              "rows-per-page-items": [10, 25, 50],
+              "disable-initial-sort": true
             },
             scopedSlots: _vm._u([
               {
@@ -51790,7 +51803,8 @@ var render = function() {
           items: _vm.tipoSenhas,
           load: _vm.load,
           search: _vm.busca,
-          "rows-per-page-items": [10, 25, 50]
+          "rows-per-page-items": [10, 25, 50],
+          "disable-initial-sort": true
         },
         scopedSlots: _vm._u([
           {
@@ -95601,7 +95615,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
             case 4:
               request = _context3.sent;
-              console.log(request);
+              commit('');
               _context3.next = 11;
               break;
 
@@ -96433,8 +96447,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\vagrant\www\html\painel-api\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\vagrant\www\html\painel-api\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /home/programador/projetos/painel-api/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /home/programador/projetos/painel-api/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ }),

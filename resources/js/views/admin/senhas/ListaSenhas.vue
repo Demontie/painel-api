@@ -19,10 +19,10 @@
                     ></v-text-field>
                 </v-flex>
                 <v-flex sm2>
-                    <v-btn @click="chamarSenha" color="primary darken-3">Chamar</v-btn>
+                    <v-btn @click.prevent="chamarSenha" color="primary darken-3">Chamar</v-btn>
                 </v-flex>
                 <v-flex sm3>
-                    <v-btn @click="chamarNovamente" color="primary darken-3">Chamar Novamente</v-btn>
+                    <v-btn @click.prevent="chamarNovamente" color="primary darken-3">Chamar Novamente</v-btn>
                 </v-flex>
             </v-layout>
         </v-container>
@@ -33,6 +33,7 @@
                     :load="load"
                     :search="busca"
                     :rows-per-page-items="[10,25,50]"
+                    :disable-initial-sort="true"
                     class="elevation-1"
             >
                 <template slot="items" slot-scope="props">
@@ -61,16 +62,17 @@
                         text: 'Senha',
                         align: 'left',
                         value: 'senhaCompleta',
-                        sortable: false
+                        sortable:false
                     },
                     {
                         text:'Descrição',
                         value:'descricao',
-                        sortable: false
+                        sortable:false
                     },
                     {
                         text:'Cor',
-                        value:'cor'
+                        value:'cor',
+                        sortable:false
                     }
                 ],
                 load: true,
@@ -138,8 +140,7 @@
         mounted(){
             Echo.channel('senha-gerada')
                 .listen('SenhaGerada', senha => {
-                    console.log('senha gerada')
-                    senha.senhaCompleta = senha.prefixo + senha.numero
+                    senha.senhaCompleta = senha.prefixo + senha.numero.toString()
                     this.senhas.push(senha)
                 })
         }

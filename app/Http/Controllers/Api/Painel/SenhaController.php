@@ -101,15 +101,10 @@ class SenhaController extends Controller
 
         $senha = $this->senha->create($request->all());
 
-        /*
-         * Consulta para retornar senha com dados auxiliares para a view
-         */
         $senhaInserida = $this->senha
             ->with([
                 'tipo_senha',
             ])->find($senha->id);
-
-        $senhaInserida->numero = str_pad($numero,3,'0',STR_PAD_LEFT);
 
         broadcast(new SenhaGerada($senhaInserida));
 
@@ -153,7 +148,7 @@ class SenhaController extends Controller
             ->orderBy("$this->tableName.id")
             ->first();
 
-        if($ultimaChamada->prioridade){
+        if(isset($ultimaChamada->prioridade) && $ultimaChamada->prioridade){
             $proximaSenha = $this->senha
                 ->join('tipo_senhas',"$this->tableName.tipo_senha_id",'=','tipo_senhas.id')
                 ->where('tipo_senhas.prioridade',false)
@@ -164,11 +159,16 @@ class SenhaController extends Controller
         }else{
             $proximaSenha = $ultimaChamada;
         }
+
+        if(is_null($proximaSenha)){
+            return response()->json('Todas as senhas forma chamadas');
+        }
+
         /*
          * Amarra a senha ao guiche a qual chamou
          */
         $proximaSenha->update([
-            'guiche_id' => $request['guiche_id'],
+            'guiche_id' => $request->guiche_id,
             'status' => $this->constantesPainel::CHAMADA_RECEPCAO
         ]);
 

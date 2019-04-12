@@ -23,6 +23,7 @@ class TipoSenhaController extends Controller
     public function index(Request $request)
     {
         $tipos = $this->tipoSenha
+            ->orderBy('ordem')
             ->get();
 
         return response()->json($tipos);

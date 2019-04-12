@@ -29,6 +29,7 @@
                 :search="busca"
                 :rows-per-page-items="[10,25,50]"
                 class="elevation-1"
+                :disable-initial-sort="true"
         >
             <template slot="items" slot-scope="props">
                 <td>{{ props.item.descricao }}</td>

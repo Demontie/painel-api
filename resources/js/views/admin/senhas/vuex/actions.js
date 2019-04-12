@@ -32,7 +32,7 @@ export default {
       try{
           const request = await axios.put(`senhas/chamarProximo`, dadosGuiche)
 
-          console.log(request)
+          commit('')
       }catch (e){
           throw new Error(e.response.data.error)
       }

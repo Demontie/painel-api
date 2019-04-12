@@ -20,7 +20,7 @@ class CreateTipoSenhasTable extends Migration
             $table->float('tamanho_fonte',2,1)->default(1.5);
             $table->unsignedInteger('grupo_tela_id');
             $table->foreign('grupo_tela_id')->references('id')->on('grupo_telas');
-            $table->integer('tamanho_botao')->default(3);
+            $table->integer('tamanho_botao')->default(6);
             $table->integer('ordem');
             $table->string('descricao', 100);
             $table->boolean('ativo')->default(true);
