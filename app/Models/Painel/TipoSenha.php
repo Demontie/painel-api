@@ -13,7 +13,9 @@ class TipoSenha extends Model
         'cor',
         'tamanho_botao',
         'ordem',
-        'ativo'
+        'ativo',
+        'regra',
+        'prioridade'
     ];
 
     protected $hidden = [

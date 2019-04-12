@@ -1,6 +1,6 @@
 <template>
     <div>
-        <v-container grid-list-sm class="px-0 py-0">
+        <v-container grid-list-sm class="px-0 py-0 mb-3">
             <v-layout wrap justify-end>
                 <v-flex sm3>
                     <v-toolbar-title class="headline text-uppercase mr-4">
@@ -19,10 +19,10 @@
                     ></v-text-field>
                 </v-flex>
                 <v-flex sm2>
-                    <v-btn @click="chamarSenha" color="primary darken-3">Chamar</v-btn>
+                    <v-btn @click.prevent="chamarSenha" color="primary darken-3">Chamar</v-btn>
                 </v-flex>
                 <v-flex sm3>
-                    <v-btn @click="chamarNovamente" color="primary darken-3">Chamar Novamente</v-btn>
+                    <v-btn @click.prevent="chamarNovamente" color="primary darken-3">Chamar Novamente</v-btn>
                 </v-flex>
             </v-layout>
         </v-container>
@@ -33,15 +33,16 @@
                     :load="load"
                     :search="busca"
                     :rows-per-page-items="[10,25,50]"
+                    :disable-initial-sort="true"
                     class="elevation-1"
             >
                 <template slot="items" slot-scope="props">
                     <tr @dblclick="selecionarLinha($event, props.item)" :class="{'primary lighten-3': senhaSelecionada.id == props.item.id}">
                         <td>{{ props.item.senhaCompleta }}</td>
-                        <td>{{ props.item.tipo_senha.descricao }}</td>
-                        <td><div :class="props.item.tipo_senha.cor" class="cor-tipo"></div></td>
+                        <td>{{ props.item.descricao }}</td>
+                        <td><div :class="props.item.cor" class="cor-tipo"></div></td>
                         <td v-show="props.item.selecionado">
-                            <v-btn color="primary darken-3">Chamar senha {{ props.item.tipo_senha.prefixo }} {{ props.item.numero }}</v-btn>
+                            <v-btn color="primary darken-3">Chamar senha {{ props.item.prefixo }} {{ props.item.numero }}</v-btn>
                         </td>
                     </tr>
                 </template>
@@ -61,16 +62,17 @@
                         text: 'Senha',
                         align: 'left',
                         value: 'senhaCompleta',
-                        sortable: false
+                        sortable:false
                     },
                     {
                         text:'Descrição',
-                        value:'tipo_senha.descricao',
-                        sortable: false
+                        value:'descricao',
+                        sortable:false
                     },
                     {
                         text:'Cor',
-                        value:'cor'
+                        value:'cor',
+                        sortable:false
                     }
                 ],
                 load: true,
@@ -96,7 +98,7 @@
         methods:{
             ...mapActions({
                 loadSenhas: 'loadSenhas',
-                chamarSenhaRecepcao: 'chamarSenhaRecepcao'
+                chamarProximo: 'chamarProximo'
             }),
             selecionarLinha(e, linhaSelecionada){
 
@@ -114,9 +116,10 @@
             },
             chamarSenha(){
                 let chamadaObj = {
-                    guiche_id: 1,
-                    status: 2,
+                    guiche_id: 1
                 }
+
+                this.chamarProximo(chamadaObj)
             },
             chamarNovamente(){
 
@@ -137,8 +140,7 @@
         mounted(){
             Echo.channel('senha-gerada')
                 .listen('SenhaGerada', senha => {
-                    console.log('senha gerada')
-                    senha.senhaCompleta = senha.tipo_senha.prefixo + senha.numero
+                    senha.senhaCompleta = senha.prefixo + senha.numero.toString()
                     this.senhas.push(senha)
                 })
         }

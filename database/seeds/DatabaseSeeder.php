@@ -26,7 +26,7 @@ class DatabaseSeeder extends Seeder
              * 3
              */
             GrupoSalasTableSeeder::class,
-            SenhasTableSeeder::class,
+            //SenhasTableSeeder::class,
         ]);
     }
 }
