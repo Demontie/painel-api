@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Painel\Guiche;
 use Illuminate\Database\Seeder;
 
 class GuichesTableSeeder extends Seeder
@@ -11,6 +12,8 @@ class GuichesTableSeeder extends Seeder
      */
     public function run()
     {
-        //
+        Guiche::create([
+            'descricao' => 'Guichê 1'
+        ]);
     }
 }

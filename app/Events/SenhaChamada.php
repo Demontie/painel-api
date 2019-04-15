@@ -2,6 +2,7 @@
 
 namespace App\Events;
 
+use App\Models\Painel\Senha;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Broadcasting\PrivateChannel;
@@ -10,18 +11,19 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
-class SenhaChamada
+class SenhaChamada implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
+    private $senha;
+
     /**
-     * Create a new event instance.
-     *
-     * @return void
+     * SenhaChamada constructor.
+     * @param Senha $senha
      */
-    public function __construct()
+    public function __construct(Senha $senha)
     {
-        //
+        $this->senha = $senha;
     }
 
     /**
@@ -31,6 +33,16 @@ class SenhaChamada
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('channel-name');
+        return new Channel('senha-chamada');
+    }
+
+    public function broadcastWith(){
+        $senhaChamada = array_merge(
+            $this->senha->toArray(),
+            $this->senha->tipo_senha->toArray()
+        );
+        unset($senhaChamada['tipo_senha']);
+
+        return $senhaChamada;
     }
 }

@@ -16,7 +16,6 @@ class SenhaGerada implements ShouldBroadcast
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     private $senha;
-    private $id;
 
     /**
      * SenhaGerada constructor.
@@ -25,7 +24,6 @@ class SenhaGerada implements ShouldBroadcast
     public function __construct(Senha $senha)
     {
         $this->senha = $senha;
-        $this->id = $senha->id;
     }
 
     /**

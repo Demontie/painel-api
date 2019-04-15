@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\Painel;
 
 use App\Classes\Utils\ConstantesPainel;
+use App\Events\SenhaChamada;
 use App\Events\SenhaGerada;
 use App\Models\Painel\Senha;
 use Illuminate\Http\Request;
@@ -29,23 +30,6 @@ class SenhaController extends Controller
      */
     public function index()
     {
-//        $senhas = $this->senha
-//            ->where('status',$this->constantesPainel::AGUARDANDO_CHAMADA)
-//            ->where('ativo',true)
-//            ->with([
-//                'tipo_senha',
-//                'grupo_sala',
-//                'grupo_sala.grupo_tela',
-//                'grupo_sala.grupo_tela.telas',
-//                'grupo_sala.sala',
-//            ])
-//            ->whereDay('created_at',date('d'))
-//            ->whereMonth('created_at', date('m'))
-//            //->whereDate('created_at',date('Y-m-d'))
-//            ->orderBy('id')
-//            //->take(5)
-//            ->get();
-
         $senhas = $this->senha
             ->join('tipo_senhas',"$this->tableName.tipo_senha_id",'=','tipo_senhas.id')
             ->where('tipo_senhas.prioridade',false)
@@ -64,7 +48,6 @@ class SenhaController extends Controller
         }else{
             $dataFiltro = $request->dataFiltro;
         }
-        //dd($dataFiltro);
         $senhas = $this->senha
             ->where('ativo',true)
             ->with([
@@ -136,24 +119,34 @@ class SenhaController extends Controller
     }
 
     /**
-     * Chama a próxima senha disponível com base no prefixo e no status
+     * Chama a próxima senha disponível com base na prioridade e no status
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
     public function chamarProximo(Request $request){
         $ultimaChamada = $this->senha
+            ->select([
+                "$this->tableName.*",
+                'tipo_senhas.prefixo',
+                'tipo_senhas.descricao'
+            ])
             ->join('tipo_senhas',"$this->tableName.tipo_senha_id",'=','tipo_senhas.id')
             ->where("$this->tableName.ativo",true)
-            ->where("$this->tableName.status",$this->constantesPainel::CHAMADA_RECEPCAO)
+            ->where("$this->tableName.status",$this->constantesPainel::AGUARDANDO_CHAMADA)
             ->orderBy("$this->tableName.id")
             ->first();
 
         if(isset($ultimaChamada->prioridade) && $ultimaChamada->prioridade){
             $proximaSenha = $this->senha
-                ->join('tipo_senhas',"$this->tableName.tipo_senha_id",'=','tipo_senhas.id')
+                ->select([
+                    "$this->tableName.*",
+                    'tipo_senhas.prefixo',
+                    'tipo_senhas.descricao'
+                ])
+                ->join('tipo_senhas ts',"$this->tableName.tipo_senha_id",'=','ts.id')
                 ->where('tipo_senhas.prioridade',false)
                 ->where("$this->tableName.ativo",true)
-                ->where("$this->tableName.status",$this->constantesPainel::CHAMADA_RECEPCAO)
+                ->where("$this->tableName.status",$this->constantesPainel::AGUARDANDO_CHAMADA)
                 ->orderBy("$this->tableName.id")
                 ->first();
         }else{
@@ -171,6 +164,8 @@ class SenhaController extends Controller
             'guiche_id' => $request->guiche_id,
             'status' => $this->constantesPainel::CHAMADA_RECEPCAO
         ]);
+
+        broadcast(new SenhaChamada($proximaSenha));
 
         return response()->json($proximaSenha);
     }
