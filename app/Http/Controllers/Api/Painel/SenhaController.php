@@ -210,7 +210,8 @@ class SenhaController extends Controller
          */
         $proximaSenha->update([
             'guiche_id' => $request->guiche_id,
-            'status' => $this->constantesPainel::CHAMADA_RECEPCAO
+            'status' => $this->constantesPainel::CHAMADA_RECEPCAO,
+            'quantidade_chamada' => 1
         ]);
 
         broadcast(new SenhaChamada($proximaSenha));
@@ -265,21 +266,29 @@ class SenhaController extends Controller
      * @return string
      */
     public function chamarNovamente(Request $request){
+        //dd($request->guiche_id);
+
         $ultimaSenha = $this->senha
             ->where('ativo',true)
-            ->where('guiche_id',$request['guiche_id'])
+            ->where('guiche_id',$request->guiche_id)
             ->where('status',$this->constantesPainel::CHAMADA_RECEPCAO)
             ->with([
                 'tipo_senha',
                 'grupo_sala.grupo_tela.telas',
                 'grupo_sala.sala',
             ])
-            ->orderBy('id', 'desc')
+            ->orderBy('updated_at','desc')
             ->first();
+
+        $ultimaSenha->update([
+            'quantidade_chamada' => ($ultimaSenha->quantidade_chamada + 1)
+        ]);
 
         if(is_null($ultimaSenha)){
             return response()->json(['error' => 'Senha não encontrada'],404);
         }
+
+        broadcast(new SenhaChamada($ultimaSenha));
 
         return response()->json($ultimaSenha);
     }

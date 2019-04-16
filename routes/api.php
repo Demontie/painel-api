@@ -11,7 +11,7 @@ $this->group([
             'prefix' => 'senhas'
         ],function (){
             $this->put('chamarProximo','SenhaController@chamarProximo');
-            $this->get('chamarNovamente','SenhaController@chamarNovamente');
+            $this->put('chamarNovamente','SenhaController@chamarNovamente');
             $this->get('porPeriodo','SenhaController@getSenhasPorPeriodo');
         });
         $this->apiResource('senhas','SenhaController');

@@ -41,5 +41,16 @@ export default {
       }catch (e){
           throw new Error(e.response.data.error)
       }
+    },
+    async chamarSenhaNovamente({commit}, dadosGuiche){
+        try{
+            const request = await axios.put(`senhas/chamarNovamente`, dadosGuiche)
+
+            commit('setSenhaChamada',request.data)
+
+            return request.data
+        }catch (e){
+            throw new Error(e.response.data.error)
+        }
     }
 }

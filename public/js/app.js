@@ -2677,7 +2677,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   }),
   methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapActions"])({
     loadSenhas: 'loadSenhas',
-    chamarProximo: 'chamarProximo'
+    chamarProximo: 'chamarProximo',
+    chamarSenhaNovamente: 'chamarSenhaNovamente'
   }), {
     selecionarLinha: function selecionarLinha(e, linhaSelecionada) {
       if (linhaSelecionada.selecionado) {
@@ -2701,18 +2702,25 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 chamadaObj = {
                   guiche_id: 1
                 };
+                _context.prev = 1;
+                _context.next = 4;
+                return this.chamarProximo(chamadaObj);
 
-                try {
-                  this.chamarProximo(chamadaObj);
-                  this.loadSenhas();
-                } catch (e) {}
+              case 4:
+                this.loadSenhas();
+                _context.next = 9;
+                break;
 
-              case 2:
+              case 7:
+                _context.prev = 7;
+                _context.t0 = _context["catch"](1);
+
+              case 9:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, this);
+        }, _callee, this, [[1, 7]]);
       }));
 
       function chamarSenha() {
@@ -2721,7 +2729,47 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
       return chamarSenha;
     }(),
-    chamarNovamente: function chamarNovamente() {}
+    chamarNovamente: function () {
+      var _chamarNovamente = _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+        var chamadaObj, senha;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                chamadaObj = {
+                  guiche_id: 1
+                };
+                _context2.prev = 1;
+                _context2.next = 4;
+                return this.chamarSenhaNovamente(chamadaObj);
+
+              case 4:
+                senha = _context2.sent;
+                console.log(senha);
+                this.loadSenhas();
+                _context2.next = 11;
+                break;
+
+              case 9:
+                _context2.prev = 9;
+                _context2.t0 = _context2["catch"](1);
+
+              case 11:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2, this, [[1, 9]]);
+      }));
+
+      function chamarNovamente() {
+        return _chamarNovamente.apply(this, arguments);
+      }
+
+      return chamarNovamente;
+    }()
   }),
   watch: {
     senhaSelecionada: {
@@ -95884,6 +95932,44 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     }
 
     return chamarProximo;
+  }(),
+  chamarSenhaNovamente: function () {
+    var _chamarSenhaNovamente = _asyncToGenerator(
+    /*#__PURE__*/
+    _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4(_ref6, dadosGuiche) {
+      var commit, request;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
+        while (1) {
+          switch (_context4.prev = _context4.next) {
+            case 0:
+              commit = _ref6.commit;
+              _context4.prev = 1;
+              _context4.next = 4;
+              return axios__WEBPACK_IMPORTED_MODULE_1___default.a.put("senhas/chamarNovamente", dadosGuiche);
+
+            case 4:
+              request = _context4.sent;
+              commit('setSenhaChamada', request.data);
+              return _context4.abrupt("return", request.data);
+
+            case 9:
+              _context4.prev = 9;
+              _context4.t0 = _context4["catch"](1);
+              throw new Error(_context4.t0.response.data.error);
+
+            case 12:
+            case "end":
+              return _context4.stop();
+          }
+        }
+      }, _callee4, null, [[1, 9]]);
+    }));
+
+    function chamarSenhaNovamente(_x6, _x7) {
+      return _chamarSenhaNovamente.apply(this, arguments);
+    }
+
+    return chamarSenhaNovamente;
   }()
 });
 

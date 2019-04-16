@@ -98,7 +98,8 @@
         methods:{
             ...mapActions({
                 loadSenhas: 'loadSenhas',
-                chamarProximo: 'chamarProximo'
+                chamarProximo: 'chamarProximo',
+                chamarSenhaNovamente: 'chamarSenhaNovamente'
             }),
             selecionarLinha(e, linhaSelecionada){
                 if(linhaSelecionada.selecionado){
@@ -117,14 +118,26 @@
                 }
 
                 try{
-                    this.chamarProximo(chamadaObj)
+                    await this.chamarProximo(chamadaObj)
+
                     this.loadSenhas()
                 }catch(e){
 
                 }
             },
-            chamarNovamente(){
+            async chamarNovamente(){
+                let chamadaObj = {
+                    guiche_id: 1
+                }
 
+                try{
+                    const senha = await this.chamarSenhaNovamente(chamadaObj)
+                    console.log(senha)
+
+                    this.loadSenhas()
+                }catch(e){
+
+                }
             }
         },
         watch:{
