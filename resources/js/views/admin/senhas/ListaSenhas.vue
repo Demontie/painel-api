@@ -101,7 +101,6 @@
                 chamarProximo: 'chamarProximo'
             }),
             selecionarLinha(e, linhaSelecionada){
-
                 if(linhaSelecionada.selecionado){
                     linhaSelecionada.selecionado = false
                     e.target.parentElement.classList.remove('primary','lighten-3')
@@ -111,15 +110,18 @@
                     linhaSelecionada.selecionado = true
                     this.senhaSelecionada = linhaSelecionada
                 }
-                // linhaSelecionada.selecionado = true
-                // this.senhaSelecionada = linhaSelecionada
             },
-            chamarSenha(){
+            async chamarSenha(){
                 let chamadaObj = {
                     guiche_id: 1
                 }
 
-                this.chamarProximo(chamadaObj)
+                try{
+                    this.chamarProximo(chamadaObj)
+                    this.loadSenhas()
+                }catch(e){
+
+                }
             },
             chamarNovamente(){
 

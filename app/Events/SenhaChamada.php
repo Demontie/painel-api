@@ -37,11 +37,25 @@ class SenhaChamada implements ShouldBroadcast
     }
 
     public function broadcastWith(){
-        $senhaChamada = array_merge(
-            $this->senha->toArray(),
-            $this->senha->tipo_senha->toArray()
-        );
-        unset($senhaChamada['tipo_senha']);
+//        $senha = $this->senha->toArray();
+//        $tipo_senha = $this->senha->tipo_senha->toArray();
+//
+//        //dd($senha);
+
+        $senhaChamada = $this->senha
+            ->select([
+                "senhas.*",
+                'tipo_senhas.prefixo',
+                'tipo_senhas.descricao'
+            ])
+            ->join('tipo_senhas',"senhas.tipo_senha_id",'=','tipo_senhas.id')
+            ->find($this->senha->id)->toArray();
+
+//        $senhaChamada = array_merge(
+//            $senha,
+//            $tipo_senha
+//        );
+//        unset($senhaChamada['tipo_senha']);
 
         return $senhaChamada;
     }

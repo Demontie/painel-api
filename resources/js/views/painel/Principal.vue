@@ -11,10 +11,17 @@
                 </v-flex>
             </v-layout>
         </v-flex>
-        <v-flex d-flex class="senhas px-4 py-4">
-            <ul v-for="senha in senhasChamadas" :key="senha.id">
-                <li>{{ senha.prefixo }} - {{ senha.numero }}</li>
-            </ul>
+        <v-flex d-flex class="senhas">
+            <v-layout row>
+                <v-flex sm12>
+                    <v-list v-for="senha in senhasChamadas"
+                            :key="senha.id">
+                            <v-list-tile-content>
+                                <v-list-tile-title sm12 v-text="senha.itemLista"></v-list-tile-title>
+                            </v-list-tile-content>
+                    </v-list>
+                </v-flex>
+            </v-layout>
         </v-flex>
     </v-layout>
 </template>
@@ -24,7 +31,7 @@
         data(){
           return{
               chamadaAtual:'',
-              senhasChamadas: []
+              senhasChamadas: [],
           }
         },
         mounted(){
@@ -34,8 +41,9 @@
                     var utterance = new SpeechSynthesisUtterance(`Senha: ${senha.prefixo} ${senha.numero} , Guichê 2`)
                     utterance.rate = 0.75
                     window.speechSynthesis.speak(utterance);
+                    senha.itemLista = `${senha.prefixo} - ${senha.numero}`
 
-                    this.chamadaAtual = `${senha.prefixo} - ${senha.numero} `
+                    this.chamadaAtual = senha.itemLista
                     this.senhasChamadas.push(senha)
                 })
         }
@@ -61,7 +69,7 @@
         position: absolute;
         top:0;
         left:70%;
-        width: 100%;
+        width: 30%;
         height: 100%;
     }
 

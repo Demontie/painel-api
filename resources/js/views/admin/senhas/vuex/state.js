@@ -1,4 +1,5 @@
 export default {
-    senha:{},
-    senhas: []
+    senha: {},
+    senhas: [],
+    senhaChamada: {}
 }

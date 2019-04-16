@@ -2,7 +2,10 @@ import axios from 'axios'
 
 export default {
     setSenha({commit},senha){
-        commit('setSenha')
+        commit('setSenha',senha)
+    },
+    setSenhaChamada({commit},senha){
+        commit('setSenhaChamada', senha)
     },
     async loadSenhas({commit}){
         try{
@@ -31,8 +34,10 @@ export default {
     async chamarProximo({commit}, dadosGuiche){
       try{
           const request = await axios.put(`senhas/chamarProximo`, dadosGuiche)
-          console.log(request)
-          //commit('')
+
+          commit('setSenhaChamada',request.data)
+
+          return request.data
       }catch (e){
           throw new Error(e.response.data.error)
       }

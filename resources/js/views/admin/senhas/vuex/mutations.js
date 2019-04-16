@@ -5,5 +5,7 @@ export default {
     setSenha(state, senha){
         state.senha = senha
     },
-
+    setSenhaChamada(state, senha){
+        state.senhaChamada = senha
+    }
 }

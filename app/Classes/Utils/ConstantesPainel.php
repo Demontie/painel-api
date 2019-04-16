@@ -18,5 +18,5 @@ class ConstantesPainel
     /**
      * Valor limite de senhas
      */
-    const LIMITE_SENHAS = 5;
+    const LIMITE_SENHAS = 50;
 }

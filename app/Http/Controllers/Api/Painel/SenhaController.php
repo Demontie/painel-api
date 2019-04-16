@@ -6,6 +6,7 @@ use App\Classes\Utils\ConstantesPainel;
 use App\Events\SenhaChamada;
 use App\Events\SenhaGerada;
 use App\Models\Painel\Senha;
+use function foo\func;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -31,11 +32,18 @@ class SenhaController extends Controller
     public function index()
     {
         $senhas = $this->senha
+            ->select([
+                "$this->tableName.*",
+                'tipo_senhas.prefixo',
+                'tipo_senhas.descricao',
+                'tipo_senhas.prioridade',
+                'tipo_senhas.cor'
+            ])
             ->join('tipo_senhas',"$this->tableName.tipo_senha_id",'=','tipo_senhas.id')
-            ->where('tipo_senhas.prioridade',false)
             ->where("$this->tableName.ativo",true)
-            //->where('prefixo',$request['prefixo'])
             ->where("$this->tableName.status",$this->constantesPainel::AGUARDANDO_CHAMADA)
+            ->whereDay("$this->tableName.created_at",date('d'))
+            ->whereMonth("$this->tableName.created_at", date('m'))
             ->orderBy("$this->tableName.id")
             ->get();
 
@@ -124,33 +132,73 @@ class SenhaController extends Controller
      * @return \Illuminate\Http\JsonResponse
      */
     public function chamarProximo(Request $request){
-        $ultimaChamada = $this->senha
+
+        /*
+         * Verifica ultima senha chamada
+         */
+        $ultimaSenhaChamada = $this->senha
             ->select([
                 "$this->tableName.*",
                 'tipo_senhas.prefixo',
-                'tipo_senhas.descricao'
+                'tipo_senhas.descricao',
+                'tipo_senhas.prioridade'
             ])
             ->join('tipo_senhas',"$this->tableName.tipo_senha_id",'=','tipo_senhas.id')
             ->where("$this->tableName.ativo",true)
-            ->where("$this->tableName.status",$this->constantesPainel::AGUARDANDO_CHAMADA)
-            ->orderBy("$this->tableName.id")
+            ->where("$this->tableName.status",$this->constantesPainel::CHAMADA_RECEPCAO)
+            ->orderBy('updated_at','desc')
+            ->take(5)
             ->first();
 
-        if(isset($ultimaChamada->prioridade) && $ultimaChamada->prioridade){
+        /*
+         * Analisa de a ultima senha é ou não prioridade, caso seja a próxima senha não será prioridade e virse e versa
+         */
+        if(isset($ultimaSenhaChamada->prioridade) && !$ultimaSenhaChamada->prioridade){
             $proximaSenha = $this->senha
                 ->select([
                     "$this->tableName.*",
                     'tipo_senhas.prefixo',
                     'tipo_senhas.descricao'
                 ])
-                ->join('tipo_senhas ts',"$this->tableName.tipo_senha_id",'=','ts.id')
+                ->join('tipo_senhas',"$this->tableName.tipo_senha_id",'=','tipo_senhas.id')
+                ->where('tipo_senhas.prioridade',true)
+                ->where("$this->tableName.ativo",true)
+                ->where("$this->tableName.status",$this->constantesPainel::AGUARDANDO_CHAMADA)
+                ->orderBy("$this->tableName.id")
+                ->first();;
+            /*
+             * Caso não existam mais senhas prioridades a proxima senha sera sem prioridade
+             */
+            if(is_null($proximaSenha)){
+                $proximaSenha = $this->senha
+                    ->select([
+                        "$this->tableName.*",
+                        'tipo_senhas.prefixo',
+                        'tipo_senhas.descricao',
+                        'tipo_senhas.prioridade'
+                    ])
+                    ->join('tipo_senhas',"$this->tableName.tipo_senha_id",'=','tipo_senhas.id')
+                    ->where('tipo_senhas.prioridade',false)
+                    ->where("$this->tableName.ativo",true)
+                    ->where("$this->tableName.status",$this->constantesPainel::AGUARDANDO_CHAMADA)
+                    ->orderBy("$this->tableName.id")
+                    ->first();
+            }
+        }
+        else{
+            $proximaSenha = $this->senha
+                ->select([
+                    "$this->tableName.*",
+                    'tipo_senhas.prefixo',
+                    'tipo_senhas.descricao',
+                    'tipo_senhas.prioridade'
+                ])
+                ->join('tipo_senhas',"$this->tableName.tipo_senha_id",'=','tipo_senhas.id')
                 ->where('tipo_senhas.prioridade',false)
                 ->where("$this->tableName.ativo",true)
                 ->where("$this->tableName.status",$this->constantesPainel::AGUARDANDO_CHAMADA)
                 ->orderBy("$this->tableName.id")
                 ->first();
-        }else{
-            $proximaSenha = $ultimaChamada;
         }
 
         if(is_null($proximaSenha)){
@@ -235,9 +283,4 @@ class SenhaController extends Controller
 
         return response()->json($ultimaSenha);
     }
-//    private function verificarSenha($senha){
-//        if(is_null($senha)){
-//            return response()->json(['error' => 'Senha não encontrada'],404);
-//        }
-//    }
 }

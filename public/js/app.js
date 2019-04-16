@@ -2572,7 +2572,15 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -2655,7 +2663,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }
     };
   },
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])({
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapGetters"])({
     senhas: 'getSenhas'
   }), {
     senha: {
@@ -2667,7 +2675,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }
     }
   }),
-  methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])({
+  methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapActions"])({
     loadSenhas: 'loadSenhas',
     chamarProximo: 'chamarProximo'
   }), {
@@ -2679,16 +2687,40 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       } else {
         linhaSelecionada.selecionado = true;
         this.senhaSelecionada = linhaSelecionada;
-      } // linhaSelecionada.selecionado = true
-      // this.senhaSelecionada = linhaSelecionada
+      }
+    },
+    chamarSenha: function () {
+      var _chamarSenha = _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+        var chamadaObj;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                chamadaObj = {
+                  guiche_id: 1
+                };
 
-    },
-    chamarSenha: function chamarSenha() {
-      var chamadaObj = {
-        guiche_id: 1
-      };
-      this.chamarProximo(chamadaObj);
-    },
+                try {
+                  this.chamarProximo(chamadaObj);
+                  this.loadSenhas();
+                } catch (e) {}
+
+              case 2:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, this);
+      }));
+
+      function chamarSenha() {
+        return _chamarSenha.apply(this, arguments);
+      }
+
+      return chamarSenha;
+    }(),
     chamarNovamente: function chamarNovamente() {}
   }),
   watch: {
@@ -3168,6 +3200,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -3183,7 +3222,8 @@ __webpack_require__.r(__webpack_exports__);
       var utterance = new SpeechSynthesisUtterance("Senha: ".concat(senha.prefixo, " ").concat(senha.numero, " , Guich\xEA 2"));
       utterance.rate = 0.75;
       window.speechSynthesis.speak(utterance);
-      _this.chamadaAtual = "".concat(senha.prefixo, " - ").concat(senha.numero, " ");
+      senha.itemLista = "".concat(senha.prefixo, " - ").concat(senha.numero);
+      _this.chamadaAtual = senha.itemLista;
 
       _this.senhasChamadas.push(senha);
     });
@@ -10162,7 +10202,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n*[data-v-e9b8ed0a]{\n    margin:0;\n    padding:0;\n}\n.chamados-noticias[data-v-e9b8ed0a]{\n    position: absolute;\n    top:0;\n    left:0;\n    width: 100%;\n    height: 100%;\n}\n.senhas[data-v-e9b8ed0a]{\n    border: 1px solid #000;\n    position: absolute;\n    top:0;\n    left:70%;\n    width: 100%;\n    height: 100%;\n}\n.chamadas[data-v-e9b8ed0a]{\n    border: 1px solid #000;\n    position: relative;\n    top:0;\n    width: 70%;\n    height: 20%;\n}\n.noticias[data-v-e9b8ed0a]{\n    border: 1px solid #000;\n    position: relative;\n    top:0;\n    width: 70%;\n    height: 80%;\n}\n", ""]);
+exports.push([module.i, "\n*[data-v-e9b8ed0a]{\n    margin:0;\n    padding:0;\n}\n.chamados-noticias[data-v-e9b8ed0a]{\n    position: absolute;\n    top:0;\n    left:0;\n    width: 100%;\n    height: 100%;\n}\n.senhas[data-v-e9b8ed0a]{\n    border: 1px solid #000;\n    position: absolute;\n    top:0;\n    left:70%;\n    width: 30%;\n    height: 100%;\n}\n.chamadas[data-v-e9b8ed0a]{\n    border: 1px solid #000;\n    position: relative;\n    top:0;\n    width: 70%;\n    height: 20%;\n}\n.noticias[data-v-e9b8ed0a]{\n    border: 1px solid #000;\n    position: relative;\n    top:0;\n    width: 70%;\n    height: 80%;\n}\n", ""]);
 
 // exports
 
@@ -52035,15 +52075,41 @@ var render = function() {
       _vm._v(" "),
       _c(
         "v-flex",
-        { staticClass: "senhas px-4 py-4", attrs: { "d-flex": "" } },
-        _vm._l(_vm.senhasChamadas, function(senha) {
-          return _c("ul", { key: senha.id }, [
-            _c("li", [
-              _vm._v(_vm._s(senha.prefixo) + " - " + _vm._s(senha.numero))
-            ])
-          ])
-        }),
-        0
+        { staticClass: "senhas", attrs: { "d-flex": "" } },
+        [
+          _c(
+            "v-layout",
+            { attrs: { row: "" } },
+            [
+              _c(
+                "v-flex",
+                { attrs: { sm12: "" } },
+                _vm._l(_vm.senhasChamadas, function(senha) {
+                  return _c(
+                    "v-list",
+                    { key: senha.id },
+                    [
+                      _c(
+                        "v-list-tile-content",
+                        [
+                          _c("v-list-tile-title", {
+                            attrs: { sm12: "" },
+                            domProps: { textContent: _vm._s(senha.itemLista) }
+                          })
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                }),
+                1
+              )
+            ],
+            1
+          )
+        ],
+        1
       )
     ],
     1
@@ -95693,18 +95759,22 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 /* harmony default export */ __webpack_exports__["default"] = ({
   setSenha: function setSenha(_ref, senha) {
     var commit = _ref.commit;
-    commit('setSenha');
+    commit('setSenha', senha);
+  },
+  setSenhaChamada: function setSenhaChamada(_ref2, senha) {
+    var commit = _ref2.commit;
+    commit('setSenhaChamada', senha);
   },
   loadSenhas: function () {
     var _loadSenhas = _asyncToGenerator(
     /*#__PURE__*/
-    _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(_ref2) {
+    _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(_ref3) {
       var commit, request, senhasPainelApi;
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
-              commit = _ref2.commit;
+              commit = _ref3.commit;
               _context.prev = 1;
               _context.next = 4;
               return axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('senhas');
@@ -95741,13 +95811,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   loadSenha: function () {
     var _loadSenha = _asyncToGenerator(
     /*#__PURE__*/
-    _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2(_ref3, idSenha) {
+    _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2(_ref4, idSenha) {
       var commit, request;
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
         while (1) {
           switch (_context2.prev = _context2.next) {
             case 0:
-              commit = _ref3.commit;
+              commit = _ref4.commit;
               _context2.prev = 1;
               _context2.next = 4;
               return axios__WEBPACK_IMPORTED_MODULE_1___default.a.get("senhas/".concat(idSenha));
@@ -95780,35 +95850,33 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   chamarProximo: function () {
     var _chamarProximo = _asyncToGenerator(
     /*#__PURE__*/
-    _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3(_ref4, dadosGuiche) {
+    _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3(_ref5, dadosGuiche) {
       var commit, request;
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
         while (1) {
           switch (_context3.prev = _context3.next) {
             case 0:
-              commit = _ref4.commit;
+              commit = _ref5.commit;
               _context3.prev = 1;
               _context3.next = 4;
               return axios__WEBPACK_IMPORTED_MODULE_1___default.a.put("senhas/chamarProximo", dadosGuiche);
 
             case 4:
               request = _context3.sent;
-              console.log(request); //commit('')
+              commit('setSenhaChamada', request.data);
+              return _context3.abrupt("return", request.data);
 
-              _context3.next = 11;
-              break;
-
-            case 8:
-              _context3.prev = 8;
+            case 9:
+              _context3.prev = 9;
               _context3.t0 = _context3["catch"](1);
               throw new Error(_context3.t0.response.data.error);
 
-            case 11:
+            case 12:
             case "end":
               return _context3.stop();
           }
         }
-      }, _callee3, null, [[1, 8]]);
+      }, _callee3, null, [[1, 9]]);
     }));
 
     function chamarProximo(_x4, _x5) {
@@ -95856,6 +95924,9 @@ __webpack_require__.r(__webpack_exports__);
   },
   setSenha: function setSenha(state, senha) {
     state.senha = senha;
+  },
+  setSenhaChamada: function setSenhaChamada(state, senha) {
+    state.senhaChamada = senha;
   }
 });
 
@@ -95872,7 +95943,8 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   senha: {},
-  senhas: []
+  senhas: [],
+  senhaChamada: {}
 });
 
 /***/ }),
