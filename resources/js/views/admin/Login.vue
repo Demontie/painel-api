@@ -9,7 +9,7 @@
                 >
                     <v-layout row wrap>
                         <v-flex sm12>
-                            <v-card>
+                            <v-card  class="px-4 py-4">
                                 <v-layout>
                                     <v-flex sm12>
                                         <v-card-title primary-title>

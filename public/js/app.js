@@ -3313,6 +3313,20 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var _factories_senhaPainelFactory__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./factories/senhaPainelFactory */ "./resources/js/views/painel/factories/senhaPainelFactory.js");
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 //
 //
 //
@@ -3340,23 +3354,71 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      chamadaAtual: '',
-      senhasChamadas: []
+      alturaCard: {}
     };
   },
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapGetters"])({
+    chamadaAtual: 'getChamadaAtual',
+    senhasChamadas: 'getSenhasChamadas'
+  })),
+  methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapActions"])({
+    loadSenhasChamadas: 'loadSenhasChamadas',
+    setSenhasChamadas: 'setSenhasChamadas',
+    setChamadaAtual: 'setChamadaAtual'
+  })),
+  created: function () {
+    var _created = _asyncToGenerator(
+    /*#__PURE__*/
+    _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+      var senhasApi, senhasFabricadas;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              _context.next = 2;
+              return this.loadSenhasChamadas();
+
+            case 2:
+              senhasApi = _context.sent;
+              senhasFabricadas = _factories_senhaPainelFactory__WEBPACK_IMPORTED_MODULE_2__["default"].fabricarSenhasPainel(senhasApi);
+              this.alturaCard = {
+                height: screen.height / (senhasFabricadas.length + 1) + 'px' //this.setChamadaAtual(fabricaSenhasPainel.fabricarChamadaAtual(senha))
+
+              };
+              this.setSenhasChamadas(senhasFabricadas);
+
+            case 6:
+            case "end":
+              return _context.stop();
+          }
+        }
+      }, _callee, this);
+    }));
+
+    function created() {
+      return _created.apply(this, arguments);
+    }
+
+    return created;
+  }(),
   mounted: function mounted() {
     var _this = this;
 
     Echo.channel('senha-chamada').listen('SenhaChamada', function (senha) {
-      console.log(senha);
-      var utterance = new SpeechSynthesisUtterance("Senha: ".concat(senha.prefixo, " ").concat(senha.numero, " , Guich\xEA 2"));
+      _this.setChamadaAtual(_factories_senhaPainelFactory__WEBPACK_IMPORTED_MODULE_2__["default"].fabricarChamadaAtual(senha));
+
+      var utterance = new SpeechSynthesisUtterance(_this.chamadaAtual);
       utterance.rate = 0.75;
       window.speechSynthesis.speak(utterance);
-      senha.itemLista = "".concat(senha.prefixo, " - ").concat(senha.numero);
-      _this.chamadaAtual = senha.itemLista;
 
       _this.senhasChamadas.push(senha);
     });
@@ -10354,7 +10416,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n*[data-v-e9b8ed0a]{\n    margin:0;\n    padding:0;\n}\n.chamados-noticias[data-v-e9b8ed0a]{\n    position: absolute;\n    top:0;\n    left:0;\n    width: 100%;\n    height: 100%;\n}\n.senhas[data-v-e9b8ed0a]{\n    border: 1px solid #000;\n    position: absolute;\n    top:0;\n    left:70%;\n    width: 30%;\n    height: 100%;\n}\n.chamadas[data-v-e9b8ed0a]{\n    border: 1px solid #000;\n    position: relative;\n    top:0;\n    width: 70%;\n    height: 20%;\n}\n.noticias[data-v-e9b8ed0a]{\n    border: 1px solid #000;\n    position: relative;\n    top:0;\n    width: 70%;\n    height: 80%;\n}\n", ""]);
+exports.push([module.i, "\n*[data-v-e9b8ed0a]{\n    margin:0;\n    padding:0;\n}\n.chamados-noticias[data-v-e9b8ed0a]{\n    position: absolute;\n    top:0;\n    left:0;\n    width: 100%;\n    height: 100%;\n}\n.senhas[data-v-e9b8ed0a]{\n    border: 1px solid #000;\n    position: absolute;\n    top:0;\n    left:70%;\n    width: 30%;\n    height: 100%;\n}\n.chamadas[data-v-e9b8ed0a]{\n    border: 1px solid #000;\n    position: relative;\n    top:0;\n    width: 70%;\n    height: 20%;\n}\n.noticias[data-v-e9b8ed0a]{\n    border: 1px solid #000;\n    position: relative;\n    top:0;\n    width: 70%;\n    height: 80%;\n}\n.lista-senhas[data-v-e9b8ed0a]{\n    overflow-y: auto;\n}\n", ""]);
 
 // exports
 
@@ -51312,6 +51374,7 @@ var render = function() {
                         [
                           _c(
                             "v-card",
+                            { staticClass: "px-4 py-4" },
                             [
                               _c(
                                 "v-layout",
@@ -52456,23 +52519,43 @@ var render = function() {
         [
           _c(
             "v-layout",
-            { attrs: { row: "" } },
+            {
+              attrs: {
+                "align-center": "",
+                "justify-center": "",
+                row: "",
+                "fill-height": ""
+              }
+            },
             [
               _c(
                 "v-flex",
-                { attrs: { sm12: "" } },
+                { staticClass: "px-0 py-0", attrs: { sm12: "" } },
                 _vm._l(_vm.senhasChamadas, function(senha) {
                   return _c(
                     "v-list",
-                    { key: senha.id },
+                    { key: senha.id, staticClass: "lista-senhas" },
                     [
                       _c(
-                        "v-list-tile-content",
+                        "v-flex",
+                        { attrs: { sm12: "" } },
                         [
-                          _c("v-list-tile-title", {
-                            attrs: { sm12: "" },
-                            domProps: { textContent: _vm._s(senha.itemLista) }
-                          })
+                          _c(
+                            "v-card",
+                            { style: _vm.alturaCard },
+                            [
+                              _c("v-card-title", [
+                                _vm._v(
+                                  "\n                                " +
+                                    _vm._s(senha.senhaCompleta) +
+                                    " - " +
+                                    _vm._s(senha.guiche.descricao) +
+                                    "\n                            "
+                                )
+                              ])
+                            ],
+                            1
+                          )
                         ],
                         1
                       )
@@ -95086,6 +95169,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _views_admin_salas_vuex_store__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./views/admin/salas/vuex/store */ "./resources/js/views/admin/salas/vuex/store.js");
 /* harmony import */ var _views_admin_telas_vuex_store__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./views/admin/telas/vuex/store */ "./resources/js/views/admin/telas/vuex/store.js");
 /* harmony import */ var _views_admin_grupoTelas_vuex_store__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./views/admin/grupoTelas/vuex/store */ "./resources/js/views/admin/grupoTelas/vuex/store.js");
+/* harmony import */ var _views_painel_vuex_store__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./views/painel/vuex/store */ "./resources/js/views/painel/vuex/store.js");
+
 
 
 
@@ -95104,7 +95189,8 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
     salasStore: _views_admin_salas_vuex_store__WEBPACK_IMPORTED_MODULE_6__["default"],
     telasStore: _views_admin_telas_vuex_store__WEBPACK_IMPORTED_MODULE_7__["default"],
     grupoTelasStore: _views_admin_grupoTelas_vuex_store__WEBPACK_IMPORTED_MODULE_8__["default"],
-    senhasStore: _views_admin_senhas_vuex_store__WEBPACK_IMPORTED_MODULE_5__["default"]
+    senhasStore: _views_admin_senhas_vuex_store__WEBPACK_IMPORTED_MODULE_5__["default"],
+    painelWebStore: _views_painel_vuex_store__WEBPACK_IMPORTED_MODULE_9__["default"]
   }
 }));
 
@@ -97389,6 +97475,214 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Principal_vue_vue_type_template_id_e9b8ed0a_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
+
+/***/ }),
+
+/***/ "./resources/js/views/painel/factories/senhaPainelFactory.js":
+/*!*******************************************************************!*\
+  !*** ./resources/js/views/painel/factories/senhaPainelFactory.js ***!
+  \*******************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = ({
+  fabricarChamadaAtual: function fabricarChamadaAtual(senhaChamada) {
+    return "Senha: ".concat(senhaChamada.tipo_senha.prefixo, " - ").concat(senhaChamada.numero, ", ").concat(senhaChamada.guiche.descricao);
+  },
+  // fabricarTextoParaChamarSenha(senhaChamada){
+  //     return `Senha: ${senhaChamada.prefix} - ${senhaChamada.numero}, Guichê: ${senhaChamada.guiche.descricao}`
+  //},
+  fabricarSenhasPainel: function fabricarSenhasPainel(senhasApi) {
+    return senhasApi.map(function (senhaApi) {
+      senhaApi.senhaCompleta = "".concat(senhaApi.tipo_senha.prefixo).concat(senhaApi.numero);
+      return senhaApi;
+    });
+  }
+});
+
+/***/ }),
+
+/***/ "./resources/js/views/painel/vuex/actions.js":
+/*!***************************************************!*\
+  !*** ./resources/js/views/painel/vuex/actions.js ***!
+  \***************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  setChamadaAtual: function setChamadaAtual(_ref, chamadaAtual) {
+    var commit = _ref.commit;
+    commit('setChamadaAtual', chamadaAtual);
+  },
+  setSenhasChamadas: function setSenhasChamadas(_ref2, senhasChamadas) {
+    var commit = _ref2.commit;
+    commit('setSenhasChamadas', senhasChamadas);
+  },
+  loadSenhasChamadas: function () {
+    var _loadSenhasChamadas = _asyncToGenerator(
+    /*#__PURE__*/
+    _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+      var request;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              _context.prev = 0;
+              _context.next = 3;
+              return axios.get('senhas/senhasChamadas');
+
+            case 3:
+              request = _context.sent;
+              return _context.abrupt("return", request.data);
+
+            case 7:
+              _context.prev = 7;
+              _context.t0 = _context["catch"](0);
+
+            case 9:
+            case "end":
+              return _context.stop();
+          }
+        }
+      }, _callee, null, [[0, 7]]);
+    }));
+
+    function loadSenhasChamadas() {
+      return _loadSenhasChamadas.apply(this, arguments);
+    }
+
+    return loadSenhasChamadas;
+  }(),
+  loadUltimaSenha: function () {
+    var _loadUltimaSenha = _asyncToGenerator(
+    /*#__PURE__*/
+    _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+      var request;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+        while (1) {
+          switch (_context2.prev = _context2.next) {
+            case 0:
+              _context2.prev = 0;
+              _context2.next = 3;
+              return axios.get('senhas/senhasChamadas');
+
+            case 3:
+              request = _context2.sent;
+              return _context2.abrupt("return", request.data);
+
+            case 7:
+              _context2.prev = 7;
+              _context2.t0 = _context2["catch"](0);
+
+            case 9:
+            case "end":
+              return _context2.stop();
+          }
+        }
+      }, _callee2, null, [[0, 7]]);
+    }));
+
+    function loadUltimaSenha() {
+      return _loadUltimaSenha.apply(this, arguments);
+    }
+
+    return loadUltimaSenha;
+  }()
+});
+
+/***/ }),
+
+/***/ "./resources/js/views/painel/vuex/getters.js":
+/*!***************************************************!*\
+  !*** ./resources/js/views/painel/vuex/getters.js ***!
+  \***************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = ({
+  getChamadaAtual: function getChamadaAtual(state) {
+    return state.chamadaAtual;
+  },
+  getSenhasChamadas: function getSenhasChamadas(state) {
+    return state.senhasChamadas;
+  }
+});
+
+/***/ }),
+
+/***/ "./resources/js/views/painel/vuex/mutations.js":
+/*!*****************************************************!*\
+  !*** ./resources/js/views/painel/vuex/mutations.js ***!
+  \*****************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = ({
+  setChamadaAtual: function setChamadaAtual(state, chamadaAtual) {
+    state.chamadaAtual = chamadaAtual;
+  },
+  setSenhasChamadas: function setSenhasChamadas(state, senhasChamadas) {
+    state.senhasChamadas = senhasChamadas;
+  }
+});
+
+/***/ }),
+
+/***/ "./resources/js/views/painel/vuex/state.js":
+/*!*************************************************!*\
+  !*** ./resources/js/views/painel/vuex/state.js ***!
+  \*************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = ({
+  chamadaAtual: '',
+  senhasChamadas: []
+});
+
+/***/ }),
+
+/***/ "./resources/js/views/painel/vuex/store.js":
+/*!*************************************************!*\
+  !*** ./resources/js/views/painel/vuex/store.js ***!
+  \*************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _state__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./state */ "./resources/js/views/painel/vuex/state.js");
+/* harmony import */ var _mutations__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./mutations */ "./resources/js/views/painel/vuex/mutations.js");
+/* harmony import */ var _actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./actions */ "./resources/js/views/painel/vuex/actions.js");
+/* harmony import */ var _getters__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./getters */ "./resources/js/views/painel/vuex/getters.js");
+
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  state: _state__WEBPACK_IMPORTED_MODULE_0__["default"],
+  mutations: _mutations__WEBPACK_IMPORTED_MODULE_1__["default"],
+  actions: _actions__WEBPACK_IMPORTED_MODULE_2__["default"],
+  getters: _getters__WEBPACK_IMPORTED_MODULE_3__["default"]
+});
 
 /***/ }),
 

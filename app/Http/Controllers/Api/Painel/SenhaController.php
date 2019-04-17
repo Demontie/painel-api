@@ -50,6 +50,30 @@ class SenhaController extends Controller
         return response()->json($senhas);
     }
 
+    public function getSenhasChamadas(){
+        $senhasChamadas = $this->senha
+            ->with([
+                'tipo_senha',
+                'grupo_sala',
+                'grupo_sala.grupo_tela',
+                'grupo_sala.grupo_tela.telas',
+                'grupo_sala.sala',
+                'guiche'
+            ])
+            ->whereDay("$this->tableName.created_at",date('d'))
+            ->whereMonth("$this->tableName.created_at",date('m'))
+            ->where("$this->tableName.status",$this->constantesPainel::CHAMADA_RECEPCAO)
+            ->orderBy('updated_at','desc')
+            ->take(5)
+            ->get();
+
+        return response()->json($senhasChamadas);
+    }
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function getSenhasPorPeriodo(Request $request){
         if(!$request->dataFiltro){
             $dataFiltro = date('Y-m-d 00:00:00');
@@ -137,75 +161,91 @@ class SenhaController extends Controller
          * Verifica ultima senha chamada
          */
         $ultimaSenhaChamada = $this->senha
-            ->select([
-                "$this->tableName.*",
-                'tipo_senhas.prefixo',
-                'tipo_senhas.descricao',
-                'tipo_senhas.prioridade'
+            ->with([
+                'tipo_senha',
             ])
-            ->join('tipo_senhas',"$this->tableName.tipo_senha_id",'=','tipo_senhas.id')
-            ->where("$this->tableName.ativo",true)
-            ->where("$this->tableName.status",$this->constantesPainel::CHAMADA_RECEPCAO)
-            ->whereDay("$this->tableName.created_at",date('d'))
-            ->whereMonth("$this->tableName.created_at", date('m'))
+            ->where("ativo",true)
+            ->where("status",$this->constantesPainel::CHAMADA_RECEPCAO)
+            ->whereDay("created_at",date('d'))
+            ->whereMonth("created_at", date('m'))
             ->orderBy('updated_at','desc')
             ->take(5)
             ->first();
 
+
         /*
          * Analisa de a ultima senha é ou não prioridade, caso seja a próxima senha não será prioridade e virse e versa
          */
-        if(isset($ultimaSenhaChamada->prioridade) && !$ultimaSenhaChamada->prioridade){
+        if(isset($ultimaSenhaChamada->tipo_senha()->prioridade) && !$ultimaSenhaChamada->tipo_senha()->prioridade){
             $proximaSenha = $this->senha
-                ->select([
-                    "$this->tableName.*",
-                    'tipo_senhas.prefixo',
-                    'tipo_senhas.descricao'
+                ->with([
+                    'tipo_senha',
+                    'guiche',
+                    'grupo_sala.grupo_tela.telas',
+                    'grupo_sala.sala',
                 ])
-                ->join('tipo_senhas',"$this->tableName.tipo_senha_id",'=','tipo_senhas.id')
-                ->where('tipo_senhas.prioridade',true)
-                ->where("$this->tableName.ativo",true)
-                ->where("$this->tableName.status",$this->constantesPainel::AGUARDANDO_CHAMADA)
-                ->whereDay("$this->tableName.created_at",date('d'))
-                ->whereMonth("$this->tableName.created_at", date('m'))
-                ->orderBy("$this->tableName.id")
-                ->first();;
+                    ->whereHas('tipo_senha', function ($query){
+                        $query->select([
+                            'prefixo',
+                            'descricao',
+                            'prioridade'
+                        ])
+                            ->where('prioridade',true);
+                })
+                ->where("ativo",true)
+                ->where("status",$this->constantesPainel::AGUARDANDO_CHAMADA)
+                ->whereDay("created_at",date('d'))
+                ->whereMonth("created_at", date('m'))
+                ->orderBy("id")
+                ->first();
             /*
              * Caso não existam mais senhas prioridades a proxima senha sera sem prioridade
              */
             if(is_null($proximaSenha)){
                 $proximaSenha = $this->senha
-                    ->select([
-                        "$this->tableName.*",
-                        'tipo_senhas.prefixo',
-                        'tipo_senhas.descricao',
-                        'tipo_senhas.prioridade'
+                    ->with([
+                        'tipo_senha',
+                        'guiche',
+                        'grupo_sala.grupo_tela.telas',
+                        'grupo_sala.sala',
                     ])
-                    ->join('tipo_senhas',"$this->tableName.tipo_senha_id",'=','tipo_senhas.id')
-                    ->where('tipo_senhas.prioridade',false)
-                    ->where("$this->tableName.ativo",true)
-                    ->where("$this->tableName.status",$this->constantesPainel::AGUARDANDO_CHAMADA)
-                    ->whereDay("$this->tableName.created_at",date('d'))
-                    ->whereMonth("$this->tableName.created_at", date('m'))
-                    ->orderBy("$this->tableName.id")
+                    ->whereHas('tipo_senha', function ($query){
+                        $query->select([
+                            'prefixo',
+                            'descricao',
+                            'prioridade'
+                        ])
+                            ->where('prioridade',false);
+                    })
+                    ->where("ativo",true)
+                    ->where("status",$this->constantesPainel::AGUARDANDO_CHAMADA)
+                    ->whereDay("created_at",date('d'))
+                    ->whereMonth("created_at", date('m'))
+                    ->orderBy("id")
                     ->first();
             }
         }
         else{
             $proximaSenha = $this->senha
-                ->select([
-                    "$this->tableName.*",
-                    'tipo_senhas.prefixo',
-                    'tipo_senhas.descricao',
-                    'tipo_senhas.prioridade'
+                ->with([
+                    'tipo_senha',
+                    'guiche',
+                    'grupo_sala.grupo_tela.telas',
+                    'grupo_sala.sala',
                 ])
-                ->join('tipo_senhas',"$this->tableName.tipo_senha_id",'=','tipo_senhas.id')
-                ->where('tipo_senhas.prioridade',false)
-                ->where("$this->tableName.ativo",true)
-                ->where("$this->tableName.status",$this->constantesPainel::AGUARDANDO_CHAMADA)
-                ->whereDay("$this->tableName.created_at",date('d'))
-                ->whereMonth("$this->tableName.created_at", date('m'))
-                ->orderBy("$this->tableName.id")
+                ->whereHas('tipo_senha', function ($query){
+                    $query->select([
+                        'prefixo',
+                        'descricao',
+                        'prioridade'
+                    ])
+                        ->where('prioridade',false);
+                })
+                ->where("ativo",true)
+                ->where("status",$this->constantesPainel::AGUARDANDO_CHAMADA)
+                ->whereDay("created_at",date('d'))
+                ->whereMonth("created_at", date('m'))
+                ->orderBy("id")
                 ->first();
         }
 

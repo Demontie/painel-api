@@ -11,13 +11,17 @@
             </v-layout>
         </v-flex>
         <v-flex d-flex class="senhas">
-            <v-layout row>
-                <v-flex sm12>
-                    <v-list v-for="senha in senhasChamadas"
+            <v-layout align-center justify-center row fill-height>
+                <v-flex sm12 class="px-0 py-0">
+                    <v-list class="lista-senhas" v-for="senha in senhasChamadas"
                             :key="senha.id">
-                            <v-list-tile-content>
-                                <v-list-tile-title sm12 v-text="senha.itemLista"></v-list-tile-title>
-                            </v-list-tile-content>
+                        <v-flex sm12>
+                            <v-card :style="alturaCard">
+                                <v-card-title>
+                                    {{ senha.senhaCompleta }} - {{senha.guiche.descricao}}
+                                </v-card-title>
+                            </v-card>
+                        </v-flex>
                     </v-list>
                 </v-flex>
             </v-layout>
@@ -26,23 +30,49 @@
 </template>
 
 <script>
+    import { mapGetters,mapActions } from 'vuex'
+    import fabricaSenhasPainel from './factories/senhaPainelFactory'
+
     export default {
         data(){
           return{
-              chamadaAtual:'',
-              senhasChamadas: [],
+              alturaCard: {}
           }
+        },
+        computed:{
+            ...mapGetters({
+                chamadaAtual: 'getChamadaAtual',
+                senhasChamadas: 'getSenhasChamadas'
+            })
+        },
+        methods:{
+            ...mapActions({
+                loadSenhasChamadas: 'loadSenhasChamadas',
+                setSenhasChamadas: 'setSenhasChamadas',
+                setChamadaAtual: 'setChamadaAtual'
+            })
+        },
+        async created(){
+            const senhasApi = await this.loadSenhasChamadas()
+            const senhasFabricadas = fabricaSenhasPainel.fabricarSenhasPainel(senhasApi)
+
+            this.alturaCard = {
+                height: screen.height/(senhasFabricadas.length + 1) + 'px'
+            }
+
+            //this.setChamadaAtual(fabricaSenhasPainel.fabricarChamadaAtual(senha))
+
+            this.setSenhasChamadas(senhasFabricadas)
         },
         mounted(){
             Echo.channel('senha-chamada')
                 .listen('SenhaChamada', senha => {
-                    console.log(senha);
-                    var utterance = new SpeechSynthesisUtterance(`Senha: ${senha.prefixo} ${senha.numero} , Guichê 2`)
+                    this.setChamadaAtual(fabricaSenhasPainel.fabricarChamadaAtual(senha))
+
+                    var utterance = new SpeechSynthesisUtterance(this.chamadaAtual)
                     utterance.rate = 0.75
                     window.speechSynthesis.speak(utterance);
-                    senha.itemLista = `${senha.prefixo} - ${senha.numero}`
 
-                    this.chamadaAtual = senha.itemLista
                     this.senhasChamadas.push(senha)
                 })
         }
@@ -86,5 +116,9 @@
         top:0;
         width: 70%;
         height: 80%;
+    }
+
+    .lista-senhas{
+        overflow-y: auto;
     }
 </style>

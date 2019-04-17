@@ -12,7 +12,7 @@ $this->group([
         ],function (){
             $this->put('chamarProximo','SenhaController@chamarProximo');
             $this->put('chamarNovamente','SenhaController@chamarNovamente');
-            $this->get('porPeriodo','SenhaController@getSenhasPorPeriodo');
+            $this->get('senhasChamadas','SenhaController@getSenhasChamadas');
         });
         $this->apiResource('senhas','SenhaController');
 
@@ -23,3 +23,10 @@ $this->group([
         $this->apiResource('grupoTelas','GrupoTelaController');
         $this->apiResource('telas','TelaController');
     });
+
+$this->group([
+    'namespace' => 'Auth'
+], function (){
+    $this->post('autenticar','AutenticacaoController@autenticar');
+    $this->get('getUsuarioAutenticado','AutenticacaoController@getUsuarioAutenticado');
+});

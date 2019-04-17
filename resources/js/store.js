@@ -7,6 +7,7 @@ import senhasStore from './views/admin/senhas/vuex/store'
 import salasStore from './views/admin/salas/vuex/store'
 import telasStore from './views/admin/telas/vuex/store'
 import grupoTelasStore from './views/admin/grupoTelas/vuex/store'
+import painelWebStore from './views/painel/vuex/store'
 
 Vue.use(Vuex)
 
@@ -18,6 +19,7 @@ export default new Vuex.Store({
       salasStore,
       telasStore,
       grupoTelasStore,
-      senhasStore
+      senhasStore,
+      painelWebStore
   }
 })
