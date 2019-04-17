@@ -146,6 +146,8 @@ class SenhaController extends Controller
             ->join('tipo_senhas',"$this->tableName.tipo_senha_id",'=','tipo_senhas.id')
             ->where("$this->tableName.ativo",true)
             ->where("$this->tableName.status",$this->constantesPainel::CHAMADA_RECEPCAO)
+            ->whereDay("$this->tableName.created_at",date('d'))
+            ->whereMonth("$this->tableName.created_at", date('m'))
             ->orderBy('updated_at','desc')
             ->take(5)
             ->first();
@@ -164,6 +166,8 @@ class SenhaController extends Controller
                 ->where('tipo_senhas.prioridade',true)
                 ->where("$this->tableName.ativo",true)
                 ->where("$this->tableName.status",$this->constantesPainel::AGUARDANDO_CHAMADA)
+                ->whereDay("$this->tableName.created_at",date('d'))
+                ->whereMonth("$this->tableName.created_at", date('m'))
                 ->orderBy("$this->tableName.id")
                 ->first();;
             /*
@@ -181,6 +185,8 @@ class SenhaController extends Controller
                     ->where('tipo_senhas.prioridade',false)
                     ->where("$this->tableName.ativo",true)
                     ->where("$this->tableName.status",$this->constantesPainel::AGUARDANDO_CHAMADA)
+                    ->whereDay("$this->tableName.created_at",date('d'))
+                    ->whereMonth("$this->tableName.created_at", date('m'))
                     ->orderBy("$this->tableName.id")
                     ->first();
             }
@@ -197,6 +203,8 @@ class SenhaController extends Controller
                 ->where('tipo_senhas.prioridade',false)
                 ->where("$this->tableName.ativo",true)
                 ->where("$this->tableName.status",$this->constantesPainel::AGUARDANDO_CHAMADA)
+                ->whereDay("$this->tableName.created_at",date('d'))
+                ->whereMonth("$this->tableName.created_at", date('m'))
                 ->orderBy("$this->tableName.id")
                 ->first();
         }
@@ -277,6 +285,8 @@ class SenhaController extends Controller
                 'grupo_sala.grupo_tela.telas',
                 'grupo_sala.sala',
             ])
+            ->whereDay("$this->tableName.created_at",date('d'))
+            ->whereMonth("$this->tableName.created_at", date('m'))
             ->orderBy('updated_at','desc')
             ->first();
 
