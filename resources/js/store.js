@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import adminStore from './views/admin/vuex/store'
 import storeCompartilhado from './components/vuex/store'
 import tipoSenhasStore from './views/admin/tipoSenhas/vuex/store'
 import senhasStore from './views/admin/senhas/vuex/store'
@@ -11,6 +12,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   modules:{
+      adminStore,
       storeCompartilhado,
       tipoSenhasStore,
       salasStore,

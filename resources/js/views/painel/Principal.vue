@@ -1,5 +1,4 @@
 <template>
-
     <v-layout row wrap>
         <v-flex d-flex  class="chamados-noticias">
             <v-layout column>

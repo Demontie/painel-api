@@ -175,6 +175,10 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
+        /*
+         * JWTAuth: https://jwt-auth.readthedocs.io
+         */
+        Tymon\JWTAuth\Providers\LaravelServiceProvider::class
     ],
 
     /*
