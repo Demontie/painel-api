@@ -64,7 +64,7 @@ class SenhaController extends Controller
             ->whereMonth("$this->tableName.created_at",date('m'))
             ->where("$this->tableName.status",$this->constantesPainel::CHAMADA_RECEPCAO)
             ->orderBy('updated_at','desc')
-            ->take(5)
+            ->take(4)
             ->get();
 
         return response()->json($senhasChamadas);
@@ -172,11 +172,10 @@ class SenhaController extends Controller
             ->take(5)
             ->first();
 
-
         /*
          * Analisa de a ultima senha é ou não prioridade, caso seja a próxima senha não será prioridade e virse e versa
          */
-        if(isset($ultimaSenhaChamada->tipo_senha()->prioridade) && !$ultimaSenhaChamada->tipo_senha()->prioridade){
+        if(!is_null($ultimaSenhaChamada) && !$ultimaSenhaChamada->tipo_senha->prioridade){
             $proximaSenha = $this->senha
                 ->with([
                     'tipo_senha',

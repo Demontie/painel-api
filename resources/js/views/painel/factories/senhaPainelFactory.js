@@ -7,7 +7,7 @@ export default {
     //},
     fabricarSenhasPainel(senhasApi){
         return senhasApi.map(senhaApi => {
-            senhaApi.senhaCompleta = `${senhaApi.tipo_senha.prefixo}${senhaApi.numero}`
+            senhaApi.senhaCompleta = `${senhaApi.tipo_senha.prefixo} - ${senhaApi.numero}`
             return senhaApi
         })
     }
