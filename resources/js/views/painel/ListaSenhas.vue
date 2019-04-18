@@ -6,7 +6,7 @@
                         v-for="senha in senhasChamadas"
                         :key="senha.id">
                     <v-flex sm12>
-                        <v-card class="card-senha text-uppercase primary py-0 px-0">
+                        <v-card class="card-senha text-uppercase py-0 px-0" :class="senha.tipo_senha.cor">
                             <v-card-title>
                                 <v-flex sm12 class="titulo-card text-sm-center">
                                     {{ senha.senhaCompleta }}
@@ -67,7 +67,7 @@
 
                     this.senhasChamadas.splice(ultimoElementoArray,1)
 
-                    if(this.ultimaSenhaChamada){
+                    if(this.ultimaSenhaChamada && this.ultimaSenhaChamada.quantidade_chamada == 0){
                         this.senhasChamadas.unshift(this.ultimaSenhaChamada)
                     }
 
@@ -79,7 +79,6 @@
 
 <style scoped>
     .senhas{
-        border: 1px solid #000;
         position: absolute;
         top:0;
         left:70%;

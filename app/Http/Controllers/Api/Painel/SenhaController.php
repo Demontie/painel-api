@@ -323,9 +323,10 @@ class SenhaController extends Controller
                 'tipo_senha',
                 'grupo_sala.grupo_tela.telas',
                 'grupo_sala.sala',
+                'guiche'
             ])
-            ->whereDay("$this->tableName.created_at",date('d'))
-            ->whereMonth("$this->tableName.created_at", date('m'))
+            ->whereDay("created_at",date('d'))
+            ->whereMonth("created_at", date('m'))
             ->orderBy('updated_at','desc')
             ->first();
 

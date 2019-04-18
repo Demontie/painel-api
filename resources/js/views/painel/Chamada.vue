@@ -1,6 +1,6 @@
 <template>
     <v-flex sm12 align-center style="height: 100%">
-        <v-card class="card-senha text-uppercase primary py-0 px-0">
+        <v-card class="card-senha text-uppercase py-0 px-0" :class="senha ? senha.tipo_senha.cor : 'primary'">
             <v-card-title>
                 <template v-if="senha">
                     <v-flex sm12 class="titulo-card text-sm-center">
@@ -21,16 +21,6 @@
     import fabricaSenhasPainel from './factories/senhaPainelFactory'
 
     export default {
-        // data(){
-        //   return{
-        //       senha:{
-        //           senhaCompleta:'' ,
-        //           guiche: {
-        //               descricao: ''
-        //           }
-        //       }
-        //   }
-        // },
         computed:{
             ...mapGetters({
                 senha: 'getUltimaSenhaChamada',

@@ -34,7 +34,6 @@
     }
 
     .chamadas{
-        border: 1px solid #000;
         position: relative;
         top:0;
         width: 70%;
@@ -50,7 +49,6 @@
     }
 
     .noticias{
-        border: 1px solid #000;
         position: relative;
         top:0;
         width: 70%;

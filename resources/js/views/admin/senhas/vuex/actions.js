@@ -46,7 +46,7 @@ export default {
         try{
             const request = await axios.put(`senhas/chamarNovamente`, dadosGuiche)
 
-            commit('setSenhaChamada',request.data)
+            //commit('setSenhaChamada',request.data)
 
             return request.data
         }catch (e){

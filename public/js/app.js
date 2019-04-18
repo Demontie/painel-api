@@ -3340,16 +3340,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  // data(){
-  //   return{
-  //       senha:{
-  //           senhaCompleta:'' ,
-  //           guiche: {
-  //               descricao: ''
-  //           }
-  //       }
-  //   }
-  // },
   computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])({
     senha: 'getUltimaSenhaChamada'
   })),
@@ -3481,7 +3471,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
       _this.senhasChamadas.splice(ultimoElementoArray, 1);
 
-      if (_this.ultimaSenhaChamada) {
+      if (_this.ultimaSenhaChamada && _this.ultimaSenhaChamada.quantidade_chamada == 0) {
         _this.senhasChamadas.unshift(_this.ultimaSenhaChamada);
       }
 
@@ -10539,7 +10529,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n.senhas[data-v-8c024ea4]{\n    border: 1px solid #000;\n    position: absolute;\n    top:0;\n    left:70%;\n    width: 30%;\n    height: 100%;\n}\n.card-senha[data-v-8c024ea4]{\n    border-radius: 25px;\n    color: #fff;\n}\n.titulo-card[data-v-8c024ea4]{\n    font-size: 3rem;\n}\n.subtitulo-card[data-v-8c024ea4]{\n    font-size: 2rem;\n}\n.lista-senhas[data-v-8c024ea4]{\n    overflow-y: auto;\n}\n.separador[data-v-8c024ea4]{\n    width:100%\n}\n", ""]);
+exports.push([module.i, "\n.senhas[data-v-8c024ea4]{\n    position: absolute;\n    top:0;\n    left:70%;\n    width: 30%;\n    height: 100%;\n}\n.card-senha[data-v-8c024ea4]{\n    border-radius: 25px;\n    color: #fff;\n}\n.titulo-card[data-v-8c024ea4]{\n    font-size: 3rem;\n}\n.subtitulo-card[data-v-8c024ea4]{\n    font-size: 2rem;\n}\n.lista-senhas[data-v-8c024ea4]{\n    overflow-y: auto;\n}\n.separador[data-v-8c024ea4]{\n    width:100%\n}\n", ""]);
 
 // exports
 
@@ -10558,7 +10548,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n*[data-v-e9b8ed0a]{\n    margin:0;\n    padding:0;\n}\n.chamadas[data-v-e9b8ed0a]{\n    border: 1px solid #000;\n    position: relative;\n    top:0;\n    width: 70%;\n    height: 20%;\n}\n.chamados-noticias[data-v-e9b8ed0a]{\n    position: absolute;\n    top:0;\n    left:0;\n    width: 100%;\n    height: 100%;\n}\n.noticias[data-v-e9b8ed0a]{\n    border: 1px solid #000;\n    position: relative;\n    top:0;\n    width: 70%;\n    height: 80%;\n}\n", ""]);
+exports.push([module.i, "\n*[data-v-e9b8ed0a]{\n    margin:0;\n    padding:0;\n}\n.chamadas[data-v-e9b8ed0a]{\n    position: relative;\n    top:0;\n    width: 70%;\n    height: 20%;\n}\n.chamados-noticias[data-v-e9b8ed0a]{\n    position: absolute;\n    top:0;\n    left:0;\n    width: 100%;\n    height: 100%;\n}\n.noticias[data-v-e9b8ed0a]{\n    position: relative;\n    top:0;\n    width: 70%;\n    height: 80%;\n}\n", ""]);
 
 // exports
 
@@ -52692,7 +52682,10 @@ var render = function() {
     [
       _c(
         "v-card",
-        { staticClass: "card-senha text-uppercase primary py-0 px-0" },
+        {
+          staticClass: "card-senha text-uppercase py-0 px-0",
+          class: _vm.senha ? _vm.senha.tipo_senha.cor : "primary"
+        },
         [
           _c(
             "v-card-title",
@@ -52787,8 +52780,8 @@ var render = function() {
                       _c(
                         "v-card",
                         {
-                          staticClass:
-                            "card-senha text-uppercase primary py-0 px-0"
+                          staticClass: "card-senha text-uppercase py-0 px-0",
+                          class: senha.tipo_senha.cor
                         },
                         [
                           _c(
@@ -96780,20 +96773,19 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
             case 4:
               request = _context4.sent;
-              commit('setSenhaChamada', request.data);
               return _context4.abrupt("return", request.data);
 
-            case 9:
-              _context4.prev = 9;
+            case 8:
+              _context4.prev = 8;
               _context4.t0 = _context4["catch"](1);
               throw new Error(_context4.t0.response.data.error);
 
-            case 12:
+            case 11:
             case "end":
               return _context4.stop();
           }
         }
-      }, _callee4, null, [[1, 9]]);
+      }, _callee4, null, [[1, 8]]);
     }));
 
     function chamarSenhaNovamente(_x6, _x7) {
@@ -98029,13 +98021,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     var commit = _ref3.commit;
     commit('setSenhasChamadas', senhasChamadas);
   },
-  // atualizarListaSenhasChamadas({state}) {
-  //     let ultimoElementoArray = state.senhasChamadas.length - 1
-  //
-  //     state.senhasChamadas.splice(ultimoElementoArray,1)
-  //     state.senhasChamadas.unshift(senha)
-  // }
-  // ,
   loadSenhasChamadas: function () {
     var _loadSenhasChamadas = _asyncToGenerator(
     /*#__PURE__*/
