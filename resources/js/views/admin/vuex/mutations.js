@@ -1,5 +1,6 @@
 export default {
-    async loginPainel({ commit }, dadosLogin){
-
+    setUsuarioLogado(state, dadosUsuario) {
+        state.usuarioLogado = dadosUsuario
+        state.isLogado = true
     }
 }

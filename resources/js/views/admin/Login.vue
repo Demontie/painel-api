@@ -24,6 +24,7 @@
                                 <v-layout>
                                     <v-flex sm12>
                                         <v-text-field
+                                                :error="dadosLogin.error"
                                                 autofocus
                                                 prepend-icon="person"
                                                 name="email"
@@ -36,17 +37,18 @@
                                 <v-layout>
                                     <v-flex sm12>
                                         <v-text-field
+                                                :error="dadosLogin.error"
                                                 prepend-icon="lock"
                                                 name="password"
                                                 type="password"
                                                 label="Senha"
-                                                v-model="dadosLogin.senha"
+                                                v-model="dadosLogin.password"
                                         ></v-text-field>
                                     </v-flex>
                                 </v-layout>
 
                                 <v-card-actions class="pa-3">
-                                    <v-btn block color="primary darken-2" @click.prevent="fazerLogin">Login</v-btn>
+                                    <v-btn block color="primary darken-2" @click="logar(dadosLogin)">Login</v-btn>
                                 </v-card-actions>
                             </v-card>
                         </v-flex>
@@ -54,24 +56,50 @@
                 </v-container>
             </v-card>
         </v-layout>
+        <Mensagens></Mensagens>
     </v-content>
 </template>
 
 <script>
     import { mapGetters, mapActions } from 'vuex'
+    import Mensagens from './../../components/admin/views/Mensagens'
 
     export default {
+        components:{
+            Mensagens
+        },
         data(){
             return{
                 dadosLogin:{
-                    email:'',
-                    senha:''
-                }
+                    email:'admin@teste.com',
+                    password:'admin',
+                    error: false
+                },
             }
         },
         methods:{
-            fazerLogin(){
+            ...mapActions({
+                fazerLogin: 'fazerLogin',
+                setMensagem: 'setMensagem'
+            }),
+            async logar(dadosUsuario){
+                try{
+                    const usuarioLogado = await this.fazerLogin(dadosUsuario)
 
+                    this.dadosLogin.error = false
+
+                    this.$router.push({name:'admin.dashboard'})
+                }catch (e) {
+                    this.dadosLogin.error = true
+
+                    this.setMensagem({
+                        ativo: true,
+                        texto: e.message,
+                        tipo: 'red darken-1'
+                    })
+
+                    console.log(e.message)
+                }
             }
         }
     }

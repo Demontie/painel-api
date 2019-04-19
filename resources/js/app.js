@@ -6,7 +6,7 @@ window.Vue = require('vue');
 Configuração axios
  */
 import axios from 'axios'
-axios.defaults.baseURL = 'http://192.168.15.4/painel-api/api/painel/'
+axios.defaults.baseURL = 'http://painel-api/api/painel/'
 
 import router from './routes/router'
 import store from './store'

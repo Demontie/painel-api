@@ -4,18 +4,25 @@ import Login from './../views/admin/Login'
 import routesAdmin from './../views/admin/routes-admin'
 import Principal from './../views/painel/Principal'
 
+import storeAdmin from './../views/admin/vuex/store'
+
 Vue.use(Router)
 
-export default new Router({
+const router =  new Router({
     mode: 'history',
-    base: '/painel-api',
+    //base: '/painel-api',
     routes: [
         {
             path:'/login',
+            name:'login',
             component: Login
         },
         ...routesAdmin,
         {
+            meta:{
+              autenticado: true
+            },
+            name:'painel-chamadas',
             path:'/painel-chamadas',
             component: Principal
         },
@@ -25,3 +32,18 @@ export default new Router({
         }
     ]
 })
+
+router.beforeEach((to,from, next) => {
+    if(to.meta.autenticado && !storeAdmin.state.isLogado){
+        return router.push({name:'login'})
+    }
+
+    let metaParent = to.matched.some(m => m.meta.autenticado)
+    if( metaParent && !storeAdmin.state.isLogado){
+        return router.push({name:'login'})
+    }
+    next()
+})
+
+
+export default router
