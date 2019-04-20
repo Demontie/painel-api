@@ -4,24 +4,25 @@ import Login from './../views/admin/Login'
 import routesAdmin from './../views/admin/routes-admin'
 import Principal from './../views/painel/Principal'
 
-import storeAdmin from './../views/admin/vuex/store'
+import storeCore from './../store'
 
 Vue.use(Router)
 
 const router =  new Router({
     mode: 'history',
     //base: '/painel-api',
+    meta:{
+        autenticado: true
+    },
     routes: [
         {
             path:'/login',
             name:'login',
+
             component: Login
         },
         ...routesAdmin,
         {
-            meta:{
-              autenticado: true
-            },
             name:'painel-chamadas',
             path:'/painel-chamadas',
             component: Principal
@@ -33,15 +34,28 @@ const router =  new Router({
     ]
 })
 
+/**
+ * Verificações para troca de rota
+ */
 router.beforeEach((to,from, next) => {
-    if(to.meta.autenticado && !storeAdmin.state.isLogado){
+    /*
+    Atributos de autenticação
+     */
+    const isLogado = storeCore.state.adminStore.isLogado
+    const autenticado = to.matched.some(m => m.meta.autenticado)
+
+    /*
+    Armazenamento da url antes do refresh ou navegação
+     */
+    storeCore.commit('changeUrlBack',to.name)
+
+    /*
+    Caso não esteja autenticado redireciona para login
+     */
+    if(autenticado && !isLogado){
         return router.push({name:'login'})
     }
 
-    let metaParent = to.matched.some(m => m.meta.autenticado)
-    if( metaParent && !storeAdmin.state.isLogado){
-        return router.push({name:'login'})
-    }
     next()
 })
 

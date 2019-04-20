@@ -10,9 +10,6 @@ export default [
     {
         path:'/admin',
         component: Layout,
-        meta: {
-            autenticado: true
-        },
         children:[
             {
                 path:'',

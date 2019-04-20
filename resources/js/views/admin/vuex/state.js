@@ -1,4 +1,5 @@
 export default {
     usuarioLogado:{},
-    isLogado: false
+    isLogado: false,
+    urlBack: 'login'
 }
