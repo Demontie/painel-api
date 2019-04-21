@@ -43,6 +43,7 @@
                                                 type="password"
                                                 label="Senha"
                                                 v-model="dadosLogin.password"
+                                                @keyup.enter="logar(dadosLogin)"
                                         ></v-text-field>
                                     </v-flex>
                                 </v-layout>

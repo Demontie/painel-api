@@ -54,6 +54,8 @@ router.beforeEach((to,from, next) => {
      */
     if(autenticado && !isLogado){
         return router.push({name:'login'})
+    }else if(to.name === 'login'){
+        //return router.push({name: from.name})
     }
 
     next()

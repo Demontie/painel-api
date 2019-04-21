@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\User;
 use JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Illuminate\Http\Request;
@@ -9,10 +10,16 @@ use App\Http\Controllers\Controller;
 
 class AutenticacaoController extends Controller
 {
-    public function autenticar(Request $request)
+    public function __construct()
+    {
+        //$this->middleware('auth:api')
+    }
+
+
+    public function autenticar()
     {
         // grab credentials from the request
-        $credentials = $request->only('email', 'password');
+        $credentials = request()->only('email', 'password');
 
         try {
             // attempt to verify the credentials and create a token for the user
@@ -54,5 +61,19 @@ class AutenticacaoController extends Controller
 
         // the token is valid and we have found the user via the sub claim
         return response()->json(compact('user'));
+    }
+
+    public function cadastrarUsuario(Request $request, User $user){
+
+        $newUser = $request->only([
+            'name',
+            'email',
+            'password'
+        ]);
+        $newUser['password'] = bcrypt($newUser['password']);
+
+        $user->create($newUser);
+
+        return $this->autenticar();
     }
 }

@@ -2226,6 +2226,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -51715,6 +51716,23 @@ var render = function() {
                                           type: "password",
                                           label: "Senha"
                                         },
+                                        on: {
+                                          keyup: function($event) {
+                                            if (
+                                              !$event.type.indexOf("key") &&
+                                              _vm._k(
+                                                $event.keyCode,
+                                                "enter",
+                                                13,
+                                                $event.key,
+                                                "Enter"
+                                              )
+                                            ) {
+                                              return null
+                                            }
+                                            return _vm.logar(_vm.dadosLogin)
+                                          }
+                                        },
                                         model: {
                                           value: _vm.dadosLogin.password,
                                           callback: function($$v) {
@@ -95588,6 +95606,7 @@ router.beforeEach(function (to, from, next) {
     return router.push({
       name: 'login'
     });
+  } else if (to.name === 'login') {//return router.push({name: from.name})
   }
 
   next();

@@ -29,4 +29,5 @@ $this->group([
 ], function (){
     $this->post('autenticar','AutenticacaoController@autenticar');
     $this->get('getUsuarioAutenticado','AutenticacaoController@getUsuarioAutenticado');
+    $this->post('cadastrarUsuario','AutenticacaoController@cadastrarUsuario');
 });
