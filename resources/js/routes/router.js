@@ -19,8 +19,11 @@ const router =  new Router({
         {
             path:'/login',
             name:'login',
-
             component: Login
+        },
+        {
+            path:'/sair',
+            name: 'sair'
         },
         ...routesAdmin,
         {
@@ -68,7 +71,9 @@ router.beforeEach(async (to,from, next) => {
     /**
     * Caso não esteja autenticado redireciona para login
      */
-    if(autenticado && !isLogado){
+    if(autenticado && !isLogado || to.name === 'sair'){
+        localStorage.removeItem('token')
+        localStorage.removeItem('usuarioLogado')
         //storeCore.commit('changeUrlBack', to.name)
         /*
     Armazenamento da url antes do refresh ou navegação

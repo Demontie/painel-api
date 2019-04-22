@@ -90,7 +90,7 @@
                     },
                     {
                         texto:'Sair',
-                        rota: {name:'admin.tipo-senhas'},
+                        rota: {name:'sair'},
                         icone:'exit_to_app'
                     }
                 ]

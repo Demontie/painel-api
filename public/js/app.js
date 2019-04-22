@@ -1984,7 +1984,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }, {
         texto: 'Sair',
         rota: {
-          name: 'admin.tipo-senhas'
+          name: 'sair'
         },
         icone: 'exit_to_app'
       }]
@@ -95623,6 +95623,9 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_2__["default"]({
     path: '/login',
     name: 'login',
     component: _views_admin_Login__WEBPACK_IMPORTED_MODULE_3__["default"]
+  }, {
+    path: '/sair',
+    name: 'sair'
   }].concat(_toConsumableArray(_views_admin_routes_admin__WEBPACK_IMPORTED_MODULE_4__["default"]), [{
     name: 'painel-chamadas',
     path: '/painel-chamadas',
@@ -95706,19 +95709,26 @@ function () {
             }));
 
           case 16:
-            if (!(autenticado && !isLogado)) {
-              _context.next = 18;
+            if (!(autenticado && !isLogado || to.name === 'sair')) {
+              _context.next = 20;
               break;
             }
+
+            localStorage.removeItem('token');
+            localStorage.removeItem('usuarioLogado'); //storeCore.commit('changeUrlBack', to.name)
+
+            /*
+            Armazenamento da url antes do refresh ou navegação
+            */
 
             return _context.abrupt("return", router.push({
               name: 'login'
             }));
 
-          case 18:
+          case 20:
             next();
 
-          case 19:
+          case 21:
           case "end":
             return _context.stop();
         }
