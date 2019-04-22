@@ -17,7 +17,7 @@ class CreateGrupoSalasTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('grupo_tela_id');
             $table->foreign('grupo_tela_id')->references('id')->on('grupo_telas');
-            $table->unsignedInteger('sala_id');
+            $table->unsignedInteger('sala_id')->unique();
             $table->foreign('sala_id')->references('id')->on('salas');
             $table->boolean('ativo')->default(true);
             $table->timestamps();

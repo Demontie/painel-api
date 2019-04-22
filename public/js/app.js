@@ -2746,11 +2746,125 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 //
 //
 //
 //
-/* harmony default export */ __webpack_exports__["default"] = ({});
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      cabecalho: [{
+        text: 'Salas',
+        align: 'left',
+        value: 'descricao'
+      }, {
+        text: 'Grupo',
+        value: 'grupo_sala.grupo_tela.descricao'
+      }, {
+        text: 'Ativo',
+        value: 'ativo'
+      }, {
+        text: 'Ações',
+        align: 'justify'
+      }],
+      load: true,
+      busca: ''
+    };
+  },
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])({
+    salas: 'getSalas'
+  })),
+  methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])({
+    setSala: 'setSala'
+  }), {
+    novaSala: function novaSala() {
+      this.setSala({});
+      this.$router.push({
+        name: 'admin.salas.nova-sala'
+      });
+    },
+    editarSala: function editarSala(sala) {
+      this.setSala(sala);
+      this.$router.push({
+        name: 'admin.salas.editar-sala',
+        params: {
+          idSala: sala.id
+        }
+      });
+    },
+    excluirSala: function excluirSala(sala) {}
+  }),
+  watch: {
+    senhas: function senhas(novoValor) {
+      if (Array.isArray(novoValor)) {
+        this.load = false;
+      }
+    }
+  },
+  created: function created() {
+    this.$store.dispatch('loadSalas');
+  }
+});
 
 /***/ }),
 
@@ -51636,8 +51750,6 @@ var render = function() {
     "v-toolbar",
     { attrs: { app: "", dark: "", color: "primary" } },
     [
-      _c("v-toolbar-side-icon"),
-      _vm._v(" "),
       _c("v-toolbar-title", { staticClass: "headline text-uppercase mr-4" }, [
         _c("span", [_vm._v("Painel ")]),
         _vm._v(" "),
@@ -52458,7 +52570,151 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div")
+  return _c(
+    "div",
+    [
+      _c(
+        "v-container",
+        { staticClass: "px-0 py-0", attrs: { "grid-list-sm": "" } },
+        [
+          _c(
+            "v-layout",
+            { attrs: { wrap: "", "justify-end": "" } },
+            [
+              _c(
+                "v-flex",
+                { attrs: { sm12: "", md5: "" } },
+                [
+                  _c(
+                    "v-toolbar-title",
+                    { staticClass: "headline text-uppercase mr-4" },
+                    [_c("span", [_vm._v("Salas ")])]
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "v-flex",
+                { attrs: { sm12: "", md3: "" } },
+                [
+                  _c(
+                    "v-btn",
+                    {
+                      staticClass: "mb-1",
+                      attrs: { color: "primary darken-3" },
+                      on: { click: _vm.novaSala }
+                    },
+                    [_vm._v("Novo")]
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "v-flex",
+                { attrs: { sm12: "", md3: "" } },
+                [
+                  _c("v-text-field", {
+                    attrs: {
+                      "append-icon": "search",
+                      label: "Pesquisar",
+                      "single-line": "",
+                      "hide-details": ""
+                    },
+                    model: {
+                      value: _vm.busca,
+                      callback: function($$v) {
+                        _vm.busca = $$v
+                      },
+                      expression: "busca"
+                    }
+                  })
+                ],
+                1
+              )
+            ],
+            1
+          )
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c("v-data-table", {
+        staticClass: "elevation-1",
+        attrs: {
+          headers: _vm.cabecalho,
+          items: _vm.salas,
+          load: _vm.load,
+          search: _vm.busca,
+          "rows-per-page-items": [10, 25, 50],
+          "disable-initial-sort": true
+        },
+        scopedSlots: _vm._u([
+          {
+            key: "items",
+            fn: function(props) {
+              return [
+                _c("td", [_vm._v(_vm._s(props.item.descricao))]),
+                _vm._v(" "),
+                _c("td", [
+                  _vm._v(_vm._s(props.item.grupo_sala.grupo_tela.descricao))
+                ]),
+                _vm._v(" "),
+                _c(
+                  "td",
+                  [
+                    props.item.ativo
+                      ? _c("v-icon", { attrs: { title: "Sala ativa" } }, [
+                          _vm._v("done")
+                        ])
+                      : _c("v-icon", { attrs: { title: "Sala inativa" } }, [
+                          _vm._v("clear")
+                        ])
+                  ],
+                  1
+                ),
+                _vm._v(" "),
+                _c(
+                  "td",
+                  [
+                    _c(
+                      "v-icon",
+                      {
+                        staticClass: "mr-5",
+                        attrs: { title: "Editar sala" },
+                        on: {
+                          click: function($event) {
+                            return _vm.editarSala(props.item)
+                          }
+                        }
+                      },
+                      [_vm._v("\n                    edit\n                ")]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "v-icon",
+                      {
+                        attrs: { title: "Excluir sala" },
+                        on: {
+                          click: function($event) {
+                            return _vm.excluirSala(props.item.id)
+                          }
+                        }
+                      },
+                      [_vm._v("\n                    delete\n                ")]
+                    )
+                  ],
+                  1
+                )
+              ]
+            }
+          }
+        ])
+      })
+    ],
+    1
+  )
 }
 var staticRenderFns = []
 render._withStripped = true

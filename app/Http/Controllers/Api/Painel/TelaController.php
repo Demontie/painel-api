@@ -39,9 +39,9 @@ class TelaController extends Controller
      */
     public function store(Request $request)
     {
-        $novoTela = $this->tela->create($request->all());
+        $novaTela = $this->tela->create($request->all());
 
-        return response()->json($novoTela,201);
+        return response()->json($novaTela,201);
     }
 
     /**

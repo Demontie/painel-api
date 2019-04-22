@@ -2,17 +2,17 @@
 
 namespace App\Http\Controllers\Api\Painel;
 
-use App\Models\Painel\Sala;
+use App\Models\Painel\Grupo_sala;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-class SalaController extends Controller
+class GrupoSalaController extends Controller
 {
-    private $sala;
+    private $grupoSala;
 
-    public function __construct(Sala $sala)
+    public function __construct(Grupo_sala $grupoSala)
     {
-        $this->sala = $sala;
+        $this->grupoSala = $grupoSala;
     }
 
     /**
@@ -22,13 +22,14 @@ class SalaController extends Controller
      */
     public function index()
     {
-        $sala = $this->sala
+        $grupoSala = $this->grupoSala
             ->with([
-                'grupo_sala.grupo_tela'
+                'grupo_tela',
+                'sala'
             ])
             ->get();
 
-        return response()->json($sala);
+        return response()->json($grupoSala);
     }
 
     /**
@@ -39,9 +40,9 @@ class SalaController extends Controller
      */
     public function store(Request $request)
     {
-        $novaSala = $this->sala->create($request->all());
+        $novoGrupoSala = $this->grupoSala->create($request->all());
 
-        return response()->json($novaSala,201);
+        return response()->json($novoGrupoSala,201);
     }
 
     /**
@@ -52,14 +53,18 @@ class SalaController extends Controller
      */
     public function show($id)
     {
-        $sala = $this->sala
+        $grupoSala = $this->grupoSala
+            ->with([
+                'grupo_tela',
+                'sala'
+            ])
             ->find($id);
 
-        if(is_null($sala)){
-            return response()->json(['error' => ' de salas não encontrado'],404);
+        if(is_null($grupoSala)){
+            return response()->json(['error' => 'Grupo de salas não encontrado'],404);
         }
 
-        return response()->json($sala);
+        return response()->json($grupoSala);
     }
 
 
@@ -72,15 +77,15 @@ class SalaController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $sala = $this->sala->find($id);
+        $grupoSala = $this->grupoSala->find($id);
 
-        if(is_null($sala)){
-            return response()->json(['error' => ' de salas não encontrado'],404);
+        if(is_null($grupoSala)){
+            return response()->json(['error' => 'Grupo de salas não encontrado'],404);
         }
 
-        $sala->update($request->all());
+        $grupoSala->update($request->all());
 
-        return response()->json($sala);
+        return response()->json($grupoSala);
     }
 
     /**
@@ -91,16 +96,16 @@ class SalaController extends Controller
      */
     public function destroy($id)
     {
-        $sala = $this->sala->find($id);
+        $grupoSala = $this->grupoSala->find($id);
 
-        if(is_null($sala)){
-            return response()->json(['error' => ' de salas não encontrado'],404);
+        if(is_null($grupoSala)){
+            return response()->json(['error' => 'Grupo de salas não encontrado'],404);
         }
 
-        $sala->update([
+        $grupoSala->update([
             'ativo' => false
         ]);
 
-        return response()->json($sala,204);
+        return response()->json($grupoSala,204);
     }
 }
