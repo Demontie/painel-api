@@ -13,7 +13,10 @@
                     :key="index"
                     :to="item.rota"
             >
-                <v-list-tile-title v-text="item.texto"></v-list-tile-title>
+                <v-list-tile-title>
+                    <span>{{item.texto}}</span>
+                    <v-icon flat v-if="item.icone">{{ item.icone }}</v-icon>
+                </v-list-tile-title>
             </v-list-tile>
         </v-list>
     </v-menu>

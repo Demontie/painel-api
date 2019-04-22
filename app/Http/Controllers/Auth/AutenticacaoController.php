@@ -2,19 +2,24 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\User;
 use JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
-use Tymon\JWTAuth\Exceptions\TokenExpiredException;
-use Tymon\JWTAuth\Exceptions\TokenInvalidException;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 class AutenticacaoController extends Controller
 {
-    public function autenticar(Request $request)
+    public function __construct()
+    {
+        //$this->middleware('auth:api')
+    }
+
+
+    public function autenticar()
     {
         // grab credentials from the request
-        $credentials = $request->only('email', 'password');
+        $credentials = request()->only('email', 'password');
 
         try {
             // attempt to verify the credentials and create a token for the user
@@ -32,23 +37,31 @@ class AutenticacaoController extends Controller
         return response()->json(compact('token','user'));
     }
 
-    public function getUsuarioAutenticado()
+    public function getUsuarioAutenticado(Request $request)
     {
+        /*
+         * Caso a requisição não tenha token
+         */
+        $token = $request->header('authorization');
+        if(is_null($token) || empty($token)){
+            exit;
+        }
+
         try {
 
-            if (! $user = JWTAuth::parseToken()->authenticate()) {
+            if (!$user = JWTAuth::parseToken()->authenticate()) {
                 return response()->json(['user_not_found'], 404);
             }
 
-        } catch (TokenExpiredException $e) {
+        } catch (Tymon\JWTAuth\Exceptions\TokenExpiredException $e) {
 
             return response()->json(['token_expired'], $e->getStatusCode());
 
-        } catch (TokenInvalidException $e) {
+        } catch (Tymon\JWTAuth\Exceptions\TokenInvalidException $e) {
 
             return response()->json(['token_invalid'], $e->getStatusCode());
 
-        } catch (JWTException $e) {
+        } catch (Tymon\JWTAuth\Exceptions\JWTException $e) {
 
             return response()->json(['token_absent'], $e->getStatusCode());
 
@@ -56,5 +69,19 @@ class AutenticacaoController extends Controller
 
         // the token is valid and we have found the user via the sub claim
         return response()->json(compact('user'));
+    }
+
+    public function cadastrarUsuario(Request $request, User $user){
+
+        $newUser = $request->only([
+            'name',
+            'email',
+            'password'
+        ]);
+        $newUser['password'] = bcrypt($newUser['password']);
+
+        $user->create($newUser);
+
+        return $this->autenticar();
     }
 }

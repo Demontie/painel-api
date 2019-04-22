@@ -1887,7 +1887,14 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _toolbar_MenuItemToolbar__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./toolbar/MenuItemToolbar */ "./resources/js/components/admin/toolbar/MenuItemToolbar.vue");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var _toolbar_MenuItemToolbar__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./toolbar/MenuItemToolbar */ "./resources/js/components/admin/toolbar/MenuItemToolbar.vue");
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+//
+//
 //
 //
 //
@@ -1905,7 +1912,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 
+
 /* harmony default export */ __webpack_exports__["default"] = ({
+  components: {
+    MenuItemToolbar: _toolbar_MenuItemToolbar__WEBPACK_IMPORTED_MODULE_1__["default"]
+  },
   data: function data() {
     return {
       menu: {
@@ -1946,12 +1957,13 @@ __webpack_require__.r(__webpack_exports__);
             }
           }]
         }
-      }
+      },
+      usuario: {}
     };
   },
-  components: {
-    MenuItemToolbar: _toolbar_MenuItemToolbar__WEBPACK_IMPORTED_MODULE_0__["default"]
-  },
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])({
+    usuarioLogado: 'getUsuarioLogado'
+  })),
   methods: {
     irParaLista: function irParaLista() {
       console.log('lista');
@@ -1959,6 +1971,24 @@ __webpack_require__.r(__webpack_exports__);
     irParaTipos: function irParaTipos() {
       console.log('tipos');
     }
+  },
+  created: function created() {
+    this.usuario = {
+      texto: this.usuarioLogado.name,
+      itens: [{
+        texto: 'Perfil',
+        rota: {
+          name: 'admin.senhas'
+        },
+        icone: 'account_circle'
+      }, {
+        texto: 'Sair',
+        rota: {
+          name: 'sair'
+        },
+        icone: 'exit_to_app'
+      }]
+    };
   }
 });
 
@@ -1999,6 +2029,9 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
+//
 //
 //
 //
@@ -2094,6 +2127,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'mensagens',
@@ -2149,7 +2183,24 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var _components_admin_views_Mensagens__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./../../components/admin/views/Mensagens */ "./resources/js/components/admin/views/Mensagens.vue");
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+//
+//
+//
+//
 //
 //
 //
@@ -2210,18 +2261,72 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 
+
 /* harmony default export */ __webpack_exports__["default"] = ({
+  components: {
+    Mensagens: _components_admin_views_Mensagens__WEBPACK_IMPORTED_MODULE_2__["default"]
+  },
   data: function data() {
     return {
       dadosLogin: {
-        email: '',
-        senha: ''
+        email: 'admin@teste.com',
+        password: 'admin',
+        error: false
       }
     };
   },
-  methods: {
-    fazerLogin: function fazerLogin() {}
-  }
+  methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapActions"])({
+    fazerLogin: 'fazerLogin',
+    setMensagem: 'setMensagem'
+  }), {
+    logar: function () {
+      var _logar = _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(dadosUsuario) {
+        var usuarioLogado;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.prev = 0;
+                _context.next = 3;
+                return this.fazerLogin(dadosUsuario);
+
+              case 3:
+                usuarioLogado = _context.sent;
+                this.dadosLogin.error = false;
+                this.$router.push({
+                  name: 'admin.dashboard'
+                });
+                _context.next = 13;
+                break;
+
+              case 8:
+                _context.prev = 8;
+                _context.t0 = _context["catch"](0);
+                this.dadosLogin.error = true;
+                this.setMensagem({
+                  ativo: true,
+                  texto: _context.t0.message,
+                  tipo: 'red darken-1'
+                });
+                console.log(_context.t0.message);
+
+              case 13:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, this, [[0, 8]]);
+      }));
+
+      function logar(_x) {
+        return _logar.apply(this, arguments);
+      }
+
+      return logar;
+    }()
+  })
 });
 
 /***/ }),
@@ -51253,7 +51358,14 @@ var render = function() {
       _vm._v(" "),
       _vm._l(_vm.menu, function(item) {
         return [_c("MenuItemToolbar", { attrs: { "menu-obj": item } })]
-      })
+      }),
+      _vm._v(" "),
+      _c(
+        "v-layout",
+        { attrs: { "justify-end": "" } },
+        [_c("MenuItemToolbar", { attrs: { "menu-obj": _vm.usuario } })],
+        1
+      )
     ],
     2
   )
@@ -51340,9 +51452,19 @@ var render = function() {
             "v-list-tile",
             { key: index, attrs: { to: item.rota } },
             [
-              _c("v-list-tile-title", {
-                domProps: { textContent: _vm._s(item.texto) }
-              })
+              _c(
+                "v-list-tile-title",
+                [
+                  _c("span", [_vm._v(_vm._s(item.texto))]),
+                  _vm._v(" "),
+                  item.icone
+                    ? _c("v-icon", { attrs: { flat: "" } }, [
+                        _vm._v(_vm._s(item.icone))
+                      ])
+                    : _vm._e()
+                ],
+                1
+              )
             ],
             1
           )
@@ -51604,6 +51726,7 @@ var render = function() {
                                     [
                                       _c("v-text-field", {
                                         attrs: {
+                                          error: _vm.dadosLogin.error,
                                           autofocus: "",
                                           "prepend-icon": "person",
                                           name: "email",
@@ -51637,21 +51760,39 @@ var render = function() {
                                     [
                                       _c("v-text-field", {
                                         attrs: {
+                                          error: _vm.dadosLogin.error,
                                           "prepend-icon": "lock",
                                           name: "password",
                                           type: "password",
                                           label: "Senha"
                                         },
+                                        on: {
+                                          keyup: function($event) {
+                                            if (
+                                              !$event.type.indexOf("key") &&
+                                              _vm._k(
+                                                $event.keyCode,
+                                                "enter",
+                                                13,
+                                                $event.key,
+                                                "Enter"
+                                              )
+                                            ) {
+                                              return null
+                                            }
+                                            return _vm.logar(_vm.dadosLogin)
+                                          }
+                                        },
                                         model: {
-                                          value: _vm.dadosLogin.senha,
+                                          value: _vm.dadosLogin.password,
                                           callback: function($$v) {
                                             _vm.$set(
                                               _vm.dadosLogin,
-                                              "senha",
+                                              "password",
                                               $$v
                                             )
                                           },
-                                          expression: "dadosLogin.senha"
+                                          expression: "dadosLogin.password"
                                         }
                                       })
                                     ],
@@ -51674,8 +51815,7 @@ var render = function() {
                                       },
                                       on: {
                                         click: function($event) {
-                                          $event.preventDefault()
-                                          return _vm.fazerLogin($event)
+                                          return _vm.logar(_vm.dadosLogin)
                                         }
                                       }
                                     },
@@ -51701,7 +51841,9 @@ var render = function() {
           )
         ],
         1
-      )
+      ),
+      _vm._v(" "),
+      _c("Mensagens")
     ],
     1
   )
@@ -94754,7 +94896,7 @@ Configuração axios
  */
 
 
-axios__WEBPACK_IMPORTED_MODULE_0___default.a.defaults.baseURL = 'http://192.168.15.4/painel-api/api/painel/';
+axios__WEBPACK_IMPORTED_MODULE_0___default.a.defaults.baseURL = 'http://painel-api/api/painel/';
 
 
  //import VuetifyConfirm from 'vuetify-confirm'
@@ -94770,7 +94912,10 @@ Vue.component('example-component', __webpack_require__(/*! ./components/ExampleC
 var app = new Vue({
   router: _routes_router__WEBPACK_IMPORTED_MODULE_1__["default"],
   store: _store__WEBPACK_IMPORTED_MODULE_2__["default"],
-  el: '#app'
+  el: '#app',
+  beforeRouteEnter: function beforeRouteEnter() {
+    console.log(123);
+  }
 });
 
 /***/ }),
@@ -94836,6 +94981,16 @@ window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_0__["default"]({
   // encrypted: true
 
 });
+/**
+ * Armazena o token no cabeçalho das requisições
+ * @type {string}
+ */
+
+var tokenApi = localStorage.getItem('token');
+
+if (tokenApi) {
+  window.axios.defaults.headers.common['Authorization'] = 'Bearer ' + tokenApi;
+}
 
 /***/ }),
 
@@ -95427,12 +95582,21 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-router */ "./node_modules/vue-router/dist/vue-router.esm.js");
-/* harmony import */ var _views_admin_Login__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./../views/admin/Login */ "./resources/js/views/admin/Login.vue");
-/* harmony import */ var _views_admin_routes_admin__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./../views/admin/routes-admin */ "./resources/js/views/admin/routes-admin.js");
-/* harmony import */ var _views_painel_Principal__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./../views/painel/Principal */ "./resources/js/views/painel/Principal.vue");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vue-router */ "./node_modules/vue-router/dist/vue-router.esm.js");
+/* harmony import */ var _views_admin_Login__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./../views/admin/Login */ "./resources/js/views/admin/Login.vue");
+/* harmony import */ var _views_admin_routes_admin__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./../views/admin/routes-admin */ "./resources/js/views/admin/routes-admin.js");
+/* harmony import */ var _views_painel_Principal__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./../views/painel/Principal */ "./resources/js/views/painel/Principal.vue");
+/* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./../store */ "./resources/js/store.js");
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
 
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
@@ -95446,21 +95610,137 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 
 
 
-vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]);
-/* harmony default export */ __webpack_exports__["default"] = (new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
+
+
+vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vue_router__WEBPACK_IMPORTED_MODULE_2__["default"]);
+var router = new vue_router__WEBPACK_IMPORTED_MODULE_2__["default"]({
   mode: 'history',
-  base: '/painel-api',
+  //base: '/painel-api',
+  meta: {
+    autenticado: true
+  },
   routes: [{
     path: '/login',
-    component: _views_admin_Login__WEBPACK_IMPORTED_MODULE_2__["default"]
-  }].concat(_toConsumableArray(_views_admin_routes_admin__WEBPACK_IMPORTED_MODULE_3__["default"]), [{
+    name: 'login',
+    component: _views_admin_Login__WEBPACK_IMPORTED_MODULE_3__["default"]
+  }, {
+    path: '/sair',
+    name: 'sair'
+  }].concat(_toConsumableArray(_views_admin_routes_admin__WEBPACK_IMPORTED_MODULE_4__["default"]), [{
+    name: 'painel-chamadas',
     path: '/painel-chamadas',
-    component: _views_painel_Principal__WEBPACK_IMPORTED_MODULE_4__["default"]
+    component: _views_painel_Principal__WEBPACK_IMPORTED_MODULE_5__["default"]
   }, {
     path: '*',
     redirect: '/admin'
   }])
-}));
+});
+/**
+ * Verificações para troca de rota
+ */
+
+router.beforeEach(
+/*#__PURE__*/
+function () {
+  var _ref = _asyncToGenerator(
+  /*#__PURE__*/
+  _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(to, from, next) {
+    var isLogado, autenticado, checkLogin, _checkLogin;
+
+    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+      while (1) {
+        switch (_context.prev = _context.next) {
+          case 0:
+            /*
+            Atributos de autenticação
+             */
+            isLogado = _store__WEBPACK_IMPORTED_MODULE_6__["default"].state.adminStore.isLogado;
+            autenticado = to.matched.some(function (m) {
+              return m.meta.autenticado;
+            });
+            /**
+             * Redirecionamento para rota anterior a navegação ou refresh
+              Caso o usuário esteja logado irá redirecionar para a url acessada anteriormente
+             */
+
+            if (!(to.name !== 'login' && !isLogado)) {
+              _context.next = 10;
+              break;
+            }
+
+            _context.next = 5;
+            return _store__WEBPACK_IMPORTED_MODULE_6__["default"].dispatch('checkLogin');
+
+          case 5:
+            checkLogin = _context.sent;
+
+            if (!checkLogin) {
+              _context.next = 8;
+              break;
+            }
+
+            return _context.abrupt("return", router.push({
+              name: to.name
+            }));
+
+          case 8:
+            _context.next = 16;
+            break;
+
+          case 10:
+            if (!(!from.name && !isLogado)) {
+              _context.next = 16;
+              break;
+            }
+
+            _context.next = 13;
+            return _store__WEBPACK_IMPORTED_MODULE_6__["default"].dispatch('checkLogin');
+
+          case 13:
+            _checkLogin = _context.sent;
+
+            if (!_checkLogin) {
+              _context.next = 16;
+              break;
+            }
+
+            return _context.abrupt("return", router.push({
+              name: 'admin.dashboard'
+            }));
+
+          case 16:
+            if (!(autenticado && !isLogado || to.name === 'sair')) {
+              _context.next = 20;
+              break;
+            }
+
+            localStorage.removeItem('token');
+            localStorage.removeItem('usuarioLogado'); //storeCore.commit('changeUrlBack', to.name)
+
+            /*
+            Armazenamento da url antes do refresh ou navegação
+            */
+
+            return _context.abrupt("return", router.push({
+              name: 'login'
+            }));
+
+          case 20:
+            next();
+
+          case 21:
+          case "end":
+            return _context.stop();
+        }
+      }
+    }, _callee);
+  }));
+
+  return function (_x, _x2, _x3) {
+    return _ref.apply(this, arguments);
+  };
+}());
+/* harmony default export */ __webpack_exports__["default"] = (router);
 
 /***/ }),
 
@@ -96242,6 +96522,9 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 /* harmony default export */ __webpack_exports__["default"] = ([{
   path: '/admin',
   component: _components_admin_Layout__WEBPACK_IMPORTED_MODULE_0__["default"],
+  meta: {
+    autenticado: true
+  },
   children: [{
     path: '',
     name: 'admin.dashboard',
@@ -97598,7 +97881,167 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ({});
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+
+var BASE_URL = 'http://painel-api/api/';
+/* harmony default export */ __webpack_exports__["default"] = ({
+  /**
+   * Realiza o login para a aplicação
+   * @param commit
+   * @param dadosLogin
+   * @returns {Promise<*>}
+   */
+  fazerLogin: function () {
+    var _fazerLogin = _asyncToGenerator(
+    /*#__PURE__*/
+    _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(_ref, dadosLogin) {
+      var commit, request;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              commit = _ref.commit;
+              _context.prev = 1;
+              _context.next = 4;
+              return axios__WEBPACK_IMPORTED_MODULE_1___default()({
+                method: 'post',
+                url: BASE_URL + 'autenticar',
+                data: dadosLogin
+              });
+
+            case 4:
+              request = _context.sent;
+              localStorage.setItem('token', request.data.token);
+              localStorage.setItem('usuarioLogado', JSON.stringify(request.data.user));
+              commit('setUsuarioLogado');
+              return _context.abrupt("return", request.data);
+
+            case 11:
+              _context.prev = 11;
+              _context.t0 = _context["catch"](1);
+              throw new Error(_context.t0.response.data.error);
+
+            case 14:
+            case "end":
+              return _context.stop();
+          }
+        }
+      }, _callee, null, [[1, 11]]);
+    }));
+
+    function fazerLogin(_x, _x2) {
+      return _fazerLogin.apply(this, arguments);
+    }
+
+    return fazerLogin;
+  }(),
+
+  /**
+   * Realiza a verificação e validação do token e login junto a API
+   * @param commit
+   * @returns {Promise<boolean>}
+   */
+  checkLogin: function () {
+    var _checkLogin = _asyncToGenerator(
+    /*#__PURE__*/
+    _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2(_ref2) {
+      var commit, token, request;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+        while (1) {
+          switch (_context2.prev = _context2.next) {
+            case 0:
+              commit = _ref2.commit;
+              _context2.prev = 1;
+              token = localStorage.getItem('token');
+              _context2.next = 5;
+              return axios__WEBPACK_IMPORTED_MODULE_1___default()({
+                method: 'get',
+                url: BASE_URL + 'getUsuarioAutenticado',
+                data: {}
+              });
+
+            case 5:
+              request = _context2.sent;
+
+              if (token) {
+                _context2.next = 10;
+                break;
+              }
+
+              return _context2.abrupt("return", false);
+
+            case 10:
+              localStorage.setItem('usuarioLogado', JSON.stringify(request.data.user));
+              commit('setUsuarioLogado');
+              return _context2.abrupt("return", true);
+
+            case 13:
+              _context2.next = 18;
+              break;
+
+            case 15:
+              _context2.prev = 15;
+              _context2.t0 = _context2["catch"](1);
+              throw new Error(_context2.t0.message);
+
+            case 18:
+            case "end":
+              return _context2.stop();
+          }
+        }
+      }, _callee2, null, [[1, 15]]);
+    }));
+
+    function checkLogin(_x3) {
+      return _checkLogin.apply(this, arguments);
+    }
+
+    return checkLogin;
+  }(),
+
+  /**
+   * Armazena url acessada anteriormente
+   * @param commit
+   * @param urlBack
+   * @returns {Promise<void>}
+   */
+  changeUrlBack: function () {
+    var _changeUrlBack = _asyncToGenerator(
+    /*#__PURE__*/
+    _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3(_ref3, urlBack) {
+      var commit;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
+        while (1) {
+          switch (_context3.prev = _context3.next) {
+            case 0:
+              commit = _ref3.commit;
+              commit('changeUrlBack', urlBack);
+
+            case 2:
+            case "end":
+              return _context3.stop();
+          }
+        }
+      }, _callee3);
+    }));
+
+    function changeUrlBack(_x4, _x5) {
+      return _changeUrlBack.apply(this, arguments);
+    }
+
+    return changeUrlBack;
+  }(),
+  sair: function sair() {}
+});
 
 /***/ }),
 
@@ -97611,7 +98054,14 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ({});
+/* harmony default export */ __webpack_exports__["default"] = ({
+  getUsuarioLogado: function getUsuarioLogado(state) {
+    return state.usuarioLogado;
+  },
+  getUrlBack: function getUrlBack(state) {
+    return state.urlBack;
+  }
+});
 
 /***/ }),
 
@@ -97624,40 +98074,14 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
-
-
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-
 /* harmony default export */ __webpack_exports__["default"] = ({
-  loginPainel: function () {
-    var _loginPainel = _asyncToGenerator(
-    /*#__PURE__*/
-    _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(_ref, dadosLogin) {
-      var commit;
-      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
-        while (1) {
-          switch (_context.prev = _context.next) {
-            case 0:
-              commit = _ref.commit;
-
-            case 1:
-            case "end":
-              return _context.stop();
-          }
-        }
-      }, _callee);
-    }));
-
-    function loginPainel(_x, _x2) {
-      return _loginPainel.apply(this, arguments);
-    }
-
-    return loginPainel;
-  }()
+  setUsuarioLogado: function setUsuarioLogado(state) {
+    state.usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
+    state.isLogado = true;
+  },
+  changeUrlBack: function changeUrlBack(state, urlBack) {
+    state.urlBack = urlBack;
+  }
 });
 
 /***/ }),
@@ -97672,8 +98096,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
-  usuarioLogado: {},
-  isLogado: false
+  usuarioLogado: JSON.parse(localStorage.getItem('usuarioLogado')),
+  isLogado: false,
+  urlBack: 'login'
 });
 
 /***/ }),

@@ -7,7 +7,8 @@
             :color="mensagem.tipo"
     >
         {{ mensagem.texto }}
-    </v-snackbar></template>
+    </v-snackbar>
+</template>
 <script>
     import { mapGetters } from 'vuex'
 
