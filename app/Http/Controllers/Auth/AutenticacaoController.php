@@ -37,11 +37,19 @@ class AutenticacaoController extends Controller
         return response()->json(compact('token','user'));
     }
 
-    public function getUsuarioAutenticado()
+    public function getUsuarioAutenticado(Request $request)
     {
+        /*
+         * Caso a requisição não tenha token
+         */
+        $token = $request->header('authorization');
+        if(is_null($token) || empty($token)){
+            exit;
+        }
+
         try {
 
-            if (! $user = JWTAuth::parseToken()->authenticate()) {
+            if (!$user = JWTAuth::parseToken()->authenticate()) {
                 return response()->json(['user_not_found'], 404);
             }
 

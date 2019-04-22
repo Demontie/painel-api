@@ -5,6 +5,7 @@ import routesAdmin from './../views/admin/routes-admin'
 import Principal from './../views/painel/Principal'
 
 import storeCore from './../store'
+import store from "../store";
 
 Vue.use(Router)
 
@@ -37,25 +38,42 @@ const router =  new Router({
 /**
  * Verificações para troca de rota
  */
-router.beforeEach((to,from, next) => {
+router.beforeEach(async (to,from, next) => {
     /*
     Atributos de autenticação
      */
     const isLogado = storeCore.state.adminStore.isLogado
     const autenticado = to.matched.some(m => m.meta.autenticado)
 
-    /*
-    Armazenamento da url antes do refresh ou navegação
-     */
-    storeCore.commit('changeUrlBack',to.name)
+    /**
+     * Redirecionamento para rota anterior a navegação ou refresh
 
-    /*
-    Caso não esteja autenticado redireciona para login
+     Caso o usuário esteja logado irá redirecionar para a url acessada anteriormente
+     */
+    if(to.name !== 'login' && !isLogado){
+        const checkLogin = await store.dispatch('checkLogin')
+
+        if(checkLogin){
+            return router.push({name: to.name})
+        }
+    }else if(!from.name && !isLogado){
+        const checkLogin = await store.dispatch('checkLogin')
+
+        if(checkLogin){
+            return router.push({name: 'admin.dashboard'})
+        }
+    }
+
+
+    /**
+    * Caso não esteja autenticado redireciona para login
      */
     if(autenticado && !isLogado){
+        //storeCore.commit('changeUrlBack', to.name)
+        /*
+    Armazenamento da url antes do refresh ou navegação
+     */
         return router.push({name:'login'})
-    }else if(to.name === 'login'){
-        //return router.push({name: from.name})
     }
 
     next()

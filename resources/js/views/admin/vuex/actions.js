@@ -19,7 +19,9 @@ export default {
 
             localStorage.setItem('token', request.data.token)
 
-            commit('setUsuarioLogado',request.data)
+            localStorage.setItem('usuarioLogado', JSON.stringify(request.data.user))
+
+            commit('setUsuarioLogado')
 
             return request.data
         }catch (e) {
@@ -32,20 +34,28 @@ export default {
      * @returns {Promise<boolean>}
      */
     async checkLogin({ commit }){
-        const token = localStorage.getItem('token')
+        try{
+            const token = localStorage.getItem('token')
 
-        const request = await axios({
-            method: 'get',
-            url: BASE_URL + 'getUsuarioAutenticado',
-            data: {
+            const request = await axios({
+                method: 'get',
+                url: BASE_URL + 'getUsuarioAutenticado',
+                data: {
 
+                }
+            })
+
+            if(!token){
+                return false
+            }else {
+                localStorage.setItem('usuarioLogado', JSON.stringify(request.data.user))
+
+                commit('setUsuarioLogado')
+                return true
+                //commit('setUsuarioLogado',request.data)
             }
-        })
-
-        if(!token){
-            return false
-        }else {
-            commit('setUsuarioLogado',request.data)
+        }catch (e) {
+            throw new Error(e.message)
         }
     },
     /**
@@ -56,5 +66,8 @@ export default {
      */
     async changeUrlBack({commit}, urlBack) {
         commit('changeUrlBack',urlBack)
+    },
+    sair(){
+
     }
 }

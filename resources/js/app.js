@@ -27,14 +27,9 @@ Vue.component('example-component', require('./components/ExampleComponent.vue').
 const app = new Vue({
     router,
     store,
-    el: '#app'
+    el: '#app',
+    beforeRouteEnter(){
+        console.log(123)
+    }
 });
 
-/**
- * Redirecionamento para rota anterior a navegação ou refresh
-
- Caso o usuário esteja logado irá redirecionar para a rl acessada anteriormente
- */
-store.dispatch('checkLogin').then(
-    () => router.push({name: store.getters.getUrlBack})
-)

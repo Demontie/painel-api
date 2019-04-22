@@ -10,14 +10,20 @@
         <template v-for="item in menu">
             <MenuItemToolbar :menu-obj="item"/>
         </template>
-
+        <v-layout  justify-end>
+            <MenuItemToolbar :menu-obj="usuario"/>
+        </v-layout>
     </v-toolbar>
 </template>
 
 <script>
+    import { mapGetters, mapActions } from 'vuex'
     import MenuItemToolbar from './toolbar/MenuItemToolbar'
 
     export default {
+        components:{
+            MenuItemToolbar
+        },
         data(){
             return{
                 menu:{
@@ -56,11 +62,14 @@
                             }
                         ]
                     }
-                }
+                },
+                usuario:{}
             }
         },
-        components:{
-            MenuItemToolbar
+        computed:{
+            ...mapGetters({
+                usuarioLogado: 'getUsuarioLogado'
+            })
         },
         methods:{
             irParaLista(){
@@ -68,6 +77,23 @@
             },
             irParaTipos(){
                 console.log('tipos')
+            }
+        },
+        created() {
+            this.usuario = {
+                texto: this.usuarioLogado.name,
+                itens:[
+                    {
+                        texto:'Perfil',
+                        rota: {name:'admin.senhas'},
+                        icone:'account_circle'
+                    },
+                    {
+                        texto:'Sair',
+                        rota: {name:'admin.tipo-senhas'},
+                        icone:'exit_to_app'
+                    }
+                ]
             }
         }
     }

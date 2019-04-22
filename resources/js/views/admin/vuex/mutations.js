@@ -1,6 +1,6 @@
 export default {
-    setUsuarioLogado(state, dadosUsuario) {
-        state.usuarioLogado = dadosUsuario
+    setUsuarioLogado(state) {
+        state.usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'))
         state.isLogado = true
     },
     changeUrlBack(state, urlBack){
