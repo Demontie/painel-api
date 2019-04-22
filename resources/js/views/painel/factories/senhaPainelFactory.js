@@ -1,6 +1,6 @@
 export default {
     fabricarChamadaAtual(senhaChamada){
-        return `Senha: ${senhaChamada.tipo_senha.prefixo} - ${senhaChamada.numero}, ${senhaChamada.guiche.descricao}`
+        return `Senha: ${senhaChamada.tipo_senha.prefixo}  ${senhaChamada.numero}, ${senhaChamada.guiche.descricao}`
     },
     // fabricarTextoParaChamarSenha(senhaChamada){
     //     return `Senha: ${senhaChamada.prefix} - ${senhaChamada.numero}, Guichê: ${senhaChamada.guiche.descricao}`

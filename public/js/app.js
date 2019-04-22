@@ -2996,11 +2996,187 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _components_admin_views_Loader__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./../../../components/admin/views/Loader */ "./resources/js/components/admin/views/Loader.vue");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 //
 //
 //
 //
-/* harmony default export */ __webpack_exports__["default"] = ({});
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  components: {
+    Loader: _components_admin_views_Loader__WEBPACK_IMPORTED_MODULE_1__["default"]
+  },
+  props: [],
+  data: function data() {
+    return {
+      idTela: this.$route.params.idTela,
+      load: false,
+      grupoTela: {}
+    };
+  },
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_2__["mapGetters"])({
+    telas: 'getTelas',
+    grupoTelas: 'getGrupoTelas'
+  }), {
+    tela: {
+      get: function get() {
+        return this.$store.getters.getTela;
+      },
+      set: function set(valor) {
+        this.$store.dispatch('setTela', valor);
+      }
+    },
+    tituloForm: function tituloForm() {
+      return this.idTela ? 'Editar tela' : 'Nova tela';
+    },
+    labelAtivo: function labelAtivo() {
+      return this.tela.ativo ? 'Ativo' : 'Inativo';
+    }
+  }),
+  methods: {
+    loadGrupoTela: function loadGrupoTela() {
+      var _this = this;
+
+      if (this.idTela) {
+        var grupoTelaFiltrado = this.grupoTelas.find(function (grupoTela) {
+          if (grupoTela.id === _this.tela.grupo_tela_id) {
+            return grupoTela;
+          }
+        });
+        return this.grupoTela = grupoTelaFiltrado;
+      }
+    },
+    salvar: function () {
+      var _salvar = _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                if (!this.idTela) {
+                  _context.next = 11;
+                  break;
+                }
+
+                _context.prev = 1;
+                _context.next = 4;
+                return this.$store.dispatch('updateTela', this.tela);
+
+              case 4:
+                this.$router.push({
+                  name: 'admin.telas'
+                });
+                _context.next = 9;
+                break;
+
+              case 7:
+                _context.prev = 7;
+                _context.t0 = _context["catch"](1);
+
+              case 9:
+                _context.next = 19;
+                break;
+
+              case 11:
+                _context.prev = 11;
+                _context.next = 14;
+                return this.$store.dispatch('insertTela', this.tela);
+
+              case 14:
+                this.$router.push({
+                  name: 'admin.telas'
+                });
+                _context.next = 19;
+                break;
+
+              case 17:
+                _context.prev = 17;
+                _context.t1 = _context["catch"](11);
+
+              case 19:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, this, [[1, 7], [11, 17]]);
+      }));
+
+      function salvar() {
+        return _salvar.apply(this, arguments);
+      }
+
+      return salvar;
+    }()
+  },
+  created: function created() {
+    this.$store.dispatch('loadGrupoTelas');
+
+    if (!this.tela.id && this.idTela) {
+      this.$store.dispatch('loadTela', this.idTela);
+    }
+
+    if (this.telas.length <= 0) {
+      this.$store.dispatch('loadTelas');
+    }
+
+    this.loadGrupoTela();
+  }
+});
 
 /***/ }),
 
@@ -3013,11 +3189,125 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 //
 //
 //
 //
-/* harmony default export */ __webpack_exports__["default"] = ({});
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      cabecalho: [{
+        text: 'Telas',
+        align: 'left',
+        value: 'descricao'
+      }, {
+        text: 'Grupo',
+        value: 'grupo_tela.descricao'
+      }, {
+        text: 'Ativo',
+        value: 'ativo'
+      }, {
+        text: 'Ações',
+        align: 'justify'
+      }],
+      load: true,
+      busca: ''
+    };
+  },
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])({
+    telas: 'getTelas'
+  })),
+  methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])({
+    setTela: 'setTela'
+  }), {
+    novaTela: function novaTela() {
+      this.setTela({});
+      this.$router.push({
+        name: 'admin.telas.nova-tela'
+      });
+    },
+    editarTela: function editarTela(tela) {
+      this.setTela(tela);
+      this.$router.push({
+        name: 'admin.telas.editar-tela',
+        params: {
+          idTela: tela.id
+        }
+      });
+    },
+    excluirTela: function excluirTela(tela) {}
+  }),
+  watch: {
+    senhas: function senhas(novoValor) {
+      if (Array.isArray(novoValor)) {
+        this.load = false;
+      }
+    }
+  },
+  created: function created() {
+    this.$store.dispatch('loadTelas');
+  }
+});
 
 /***/ }),
 
@@ -52396,7 +52686,116 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div")
+  return _c(
+    "v-card",
+    [
+      _c("v-card-title", [
+        _c("span", { staticClass: "headline" }, [
+          _vm._v(_vm._s(_vm.tituloForm))
+        ])
+      ]),
+      _vm._v(" "),
+      _c(
+        "v-card-text",
+        [
+          _c("Loader", { attrs: { load: _vm.load } }),
+          _vm._v(" "),
+          _c(
+            "v-container",
+            { attrs: { "grid-list-md": "" } },
+            [
+              _c(
+                "v-layout",
+                { attrs: { wrap: "" } },
+                [
+                  _c(
+                    "v-flex",
+                    { attrs: { xs12: "", sm4: "" } },
+                    [
+                      _c("v-text-field", {
+                        attrs: { autofocus: true, label: "Descrição" },
+                        model: {
+                          value: _vm.tela.descricao,
+                          callback: function($$v) {
+                            _vm.$set(_vm.tela, "descricao", $$v)
+                          },
+                          expression: "tela.descricao"
+                        }
+                      })
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-flex",
+                    { staticClass: "ml-2", attrs: { xs12: "", sm4: "" } },
+                    [
+                      _c("v-select", {
+                        attrs: {
+                          items: _vm.grupoTelas,
+                          "menu-props": "auto",
+                          label: "Grupo de telas",
+                          "item-text": "descricao",
+                          "item-value": "id",
+                          "hide-details": ""
+                        },
+                        model: {
+                          value: _vm.tela.grupo_tela_id,
+                          callback: function($$v) {
+                            _vm.$set(_vm.tela, "grupo_tela_id", $$v)
+                          },
+                          expression: "tela.grupo_tela_id"
+                        }
+                      })
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _vm.idTela
+                    ? _c(
+                        "v-flex",
+                        { attrs: { xs12: "", sm2: "" } },
+                        [
+                          _c("v-switch", {
+                            attrs: { color: "primary", label: _vm.labelAtivo },
+                            model: {
+                              value: _vm.tela.ativo,
+                              callback: function($$v) {
+                                _vm.$set(_vm.tela, "ativo", $$v)
+                              },
+                              expression: "tela.ativo"
+                            }
+                          })
+                        ],
+                        1
+                      )
+                    : _vm._e()
+                ],
+                1
+              )
+            ],
+            1
+          )
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "v-card-actions",
+        [
+          _c("v-spacer"),
+          _vm._v(" "),
+          _c(
+            "v-btn",
+            { attrs: { color: "primary darken-1" }, on: { click: _vm.salvar } },
+            [_vm._v("Salvar")]
+          )
+        ],
+        1
+      )
+    ],
+    1
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -52420,7 +52819,149 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div")
+  return _c(
+    "div",
+    [
+      _c(
+        "v-container",
+        { staticClass: "px-0 py-0", attrs: { "grid-list-sm": "" } },
+        [
+          _c(
+            "v-layout",
+            { attrs: { wrap: "", "justify-end": "" } },
+            [
+              _c(
+                "v-flex",
+                { attrs: { sm12: "", md5: "" } },
+                [
+                  _c(
+                    "v-toolbar-title",
+                    { staticClass: "headline text-uppercase mr-4" },
+                    [_c("span", [_vm._v("Telas ")])]
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "v-flex",
+                { attrs: { sm12: "", md3: "" } },
+                [
+                  _c(
+                    "v-btn",
+                    {
+                      staticClass: "mb-1",
+                      attrs: { color: "primary darken-3" },
+                      on: { click: _vm.novaTela }
+                    },
+                    [_vm._v("Novo")]
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "v-flex",
+                { attrs: { sm12: "", md3: "" } },
+                [
+                  _c("v-text-field", {
+                    attrs: {
+                      "append-icon": "search",
+                      label: "Pesquisar",
+                      "single-line": "",
+                      "hide-details": ""
+                    },
+                    model: {
+                      value: _vm.busca,
+                      callback: function($$v) {
+                        _vm.busca = $$v
+                      },
+                      expression: "busca"
+                    }
+                  })
+                ],
+                1
+              )
+            ],
+            1
+          )
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c("v-data-table", {
+        staticClass: "elevation-1",
+        attrs: {
+          headers: _vm.cabecalho,
+          items: _vm.telas,
+          load: _vm.load,
+          search: _vm.busca,
+          "rows-per-page-items": [10, 25, 50],
+          "disable-initial-sort": true
+        },
+        scopedSlots: _vm._u([
+          {
+            key: "items",
+            fn: function(props) {
+              return [
+                _c("td", [_vm._v(_vm._s(props.item.descricao))]),
+                _vm._v(" "),
+                _c("td", [_vm._v(_vm._s(props.item.grupo_tela.descricao))]),
+                _vm._v(" "),
+                _c(
+                  "td",
+                  [
+                    props.item.ativo
+                      ? _c("v-icon", { attrs: { title: "Tela ativa" } }, [
+                          _vm._v("done")
+                        ])
+                      : _c("v-icon", { attrs: { title: "Tela inativa" } }, [
+                          _vm._v("clear")
+                        ])
+                  ],
+                  1
+                ),
+                _vm._v(" "),
+                _c(
+                  "td",
+                  [
+                    _c(
+                      "v-icon",
+                      {
+                        staticClass: "mr-5",
+                        attrs: { title: "Editar tela" },
+                        on: {
+                          click: function($event) {
+                            return _vm.editarTela(props.item)
+                          }
+                        }
+                      },
+                      [_vm._v("\n                    edit\n                ")]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "v-icon",
+                      {
+                        attrs: { title: "Excluir tela" },
+                        on: {
+                          click: function($event) {
+                            return _vm.excluirTela(props.item.id)
+                          }
+                        }
+                      },
+                      [_vm._v("\n                    delete\n                ")]
+                    )
+                  ],
+                  1
+                )
+              ]
+            }
+          }
+        ])
+      })
+    ],
+    1
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -94896,7 +95437,7 @@ Configuração axios
  */
 
 
-axios__WEBPACK_IMPORTED_MODULE_0___default.a.defaults.baseURL = 'http://painel-api/api/painel/';
+axios__WEBPACK_IMPORTED_MODULE_0___default.a.defaults.baseURL = 'http://192.168.15.4/painel-api/api/painel/';
 
 
  //import VuetifyConfirm from 'vuetify-confirm'
@@ -95615,7 +96156,7 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vue_router__WEBPACK_IMPORTED_MODULE_2__["default"]);
 var router = new vue_router__WEBPACK_IMPORTED_MODULE_2__["default"]({
   mode: 'history',
-  //base: '/painel-api',
+  base: '/painel-api',
   meta: {
     autenticado: true
   },
@@ -96710,7 +97251,181 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ({});
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  setSala: function setSala(_ref, sala) {
+    var commit = _ref.commit;
+    commit('setSala', sala);
+  },
+  loadSalas: function () {
+    var _loadSalas = _asyncToGenerator(
+    /*#__PURE__*/
+    _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(_ref2) {
+      var commit, request;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              commit = _ref2.commit;
+              _context.prev = 1;
+              _context.next = 4;
+              return axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('salas');
+
+            case 4:
+              request = _context.sent;
+              commit('setSalas', request.data);
+              _context.next = 12;
+              break;
+
+            case 8:
+              _context.prev = 8;
+              _context.t0 = _context["catch"](1);
+              console.log(_context.t0);
+              throw new Error(_context.t0.response.data.error);
+
+            case 12:
+            case "end":
+              return _context.stop();
+          }
+        }
+      }, _callee, null, [[1, 8]]);
+    }));
+
+    function loadSalas(_x) {
+      return _loadSalas.apply(this, arguments);
+    }
+
+    return loadSalas;
+  }(),
+  loadSala: function () {
+    var _loadSala = _asyncToGenerator(
+    /*#__PURE__*/
+    _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2(_ref3, idSala) {
+      var commit, request;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+        while (1) {
+          switch (_context2.prev = _context2.next) {
+            case 0:
+              commit = _ref3.commit;
+              _context2.prev = 1;
+              _context2.next = 4;
+              return axios__WEBPACK_IMPORTED_MODULE_1___default.a.get("salas/".concat(idSala));
+
+            case 4:
+              request = _context2.sent;
+              commit('setSala', request.data);
+              _context2.next = 11;
+              break;
+
+            case 8:
+              _context2.prev = 8;
+              _context2.t0 = _context2["catch"](1);
+              throw new Error(_context2.t0.response.data.error);
+
+            case 11:
+            case "end":
+              return _context2.stop();
+          }
+        }
+      }, _callee2, null, [[1, 8]]);
+    }));
+
+    function loadSala(_x2, _x3) {
+      return _loadSala.apply(this, arguments);
+    }
+
+    return loadSala;
+  }(),
+  insertSala: function () {
+    var _insertSala = _asyncToGenerator(
+    /*#__PURE__*/
+    _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3(_ref4, sala) {
+      var dispatch, request;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
+        while (1) {
+          switch (_context3.prev = _context3.next) {
+            case 0:
+              dispatch = _ref4.dispatch;
+              _context3.prev = 1;
+              _context3.next = 4;
+              return axios__WEBPACK_IMPORTED_MODULE_1___default.a.post("salas", sala);
+
+            case 4:
+              request = _context3.sent;
+              dispatch('loadSalas');
+              return _context3.abrupt("return", request);
+
+            case 9:
+              _context3.prev = 9;
+              _context3.t0 = _context3["catch"](1);
+              console.log(_context3.t0.response);
+              throw new Error(_context3.t0.response.data.error);
+
+            case 13:
+            case "end":
+              return _context3.stop();
+          }
+        }
+      }, _callee3, null, [[1, 9]]);
+    }));
+
+    function insertSala(_x4, _x5) {
+      return _insertSala.apply(this, arguments);
+    }
+
+    return insertSala;
+  }(),
+  updateSala: function () {
+    var _updateSala = _asyncToGenerator(
+    /*#__PURE__*/
+    _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4(_ref5, sala) {
+      var dispatch, request;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
+        while (1) {
+          switch (_context4.prev = _context4.next) {
+            case 0:
+              dispatch = _ref5.dispatch;
+              _context4.prev = 1;
+              console.log(sala);
+              _context4.next = 5;
+              return axios__WEBPACK_IMPORTED_MODULE_1___default.a.put("salas/".concat(sala.id), sala);
+
+            case 5:
+              request = _context4.sent;
+              dispatch('loadSalas');
+              return _context4.abrupt("return", request);
+
+            case 10:
+              _context4.prev = 10;
+              _context4.t0 = _context4["catch"](1);
+              console.log(_context4.t0);
+              throw new Error(_context4.t0.response.data.error);
+
+            case 14:
+            case "end":
+              return _context4.stop();
+          }
+        }
+      }, _callee4, null, [[1, 10]]);
+    }));
+
+    function updateSala(_x6, _x7) {
+      return _updateSala.apply(this, arguments);
+    }
+
+    return updateSala;
+  }()
+});
 
 /***/ }),
 
@@ -96723,7 +97438,14 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ({});
+/* harmony default export */ __webpack_exports__["default"] = ({
+  getSalas: function getSalas(state) {
+    return state.salas;
+  },
+  getSala: function getSala(state) {
+    return state.sala;
+  }
+});
 
 /***/ }),
 
@@ -96736,7 +97458,14 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ({});
+/* harmony default export */ __webpack_exports__["default"] = ({
+  setSalas: function setSalas(state, salas) {
+    state.salas = salas;
+  },
+  setSala: function setSala(state, sala) {
+    state.sala = sala;
+  }
+});
 
 /***/ }),
 
@@ -96749,7 +97478,10 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ({});
+/* harmony default export */ __webpack_exports__["default"] = ({
+  sala: {},
+  salas: []
+});
 
 /***/ }),
 
@@ -97316,20 +98048,26 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _ListaTelas__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ListaTelas */ "./resources/js/views/admin/telas/ListaTelas.vue");
 /* harmony import */ var _FormTela__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./FormTela */ "./resources/js/views/admin/telas/FormTela.vue");
+/* harmony import */ var _ContainerRouter__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./../ContainerRouter */ "./resources/js/views/admin/ContainerRouter.vue");
+
 
 
 /* harmony default export */ __webpack_exports__["default"] = ([{
   path: 'telas',
-  name: 'admin.telas',
-  component: _ListaTelas__WEBPACK_IMPORTED_MODULE_0__["default"]
-}, {
-  path: 'nova-tela',
-  name: 'admin.nova-tela',
-  component: _FormTela__WEBPACK_IMPORTED_MODULE_1__["default"]
-}, {
-  path: '/editar-tela/:idTela',
-  name: 'admin.editar-tela',
-  component: _FormTela__WEBPACK_IMPORTED_MODULE_1__["default"]
+  component: _ContainerRouter__WEBPACK_IMPORTED_MODULE_2__["default"],
+  children: [{
+    path: '',
+    name: 'admin.telas',
+    component: _ListaTelas__WEBPACK_IMPORTED_MODULE_0__["default"]
+  }, {
+    path: 'nova-tela',
+    name: 'admin.telas.nova-tela',
+    component: _FormTela__WEBPACK_IMPORTED_MODULE_1__["default"]
+  }, {
+    path: '/editar-tela/:idTela',
+    name: 'admin.telas.editar-tela',
+    component: _FormTela__WEBPACK_IMPORTED_MODULE_1__["default"]
+  }]
 }]);
 
 /***/ }),
@@ -97343,7 +98081,181 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ({});
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  setTela: function setTela(_ref, tela) {
+    var commit = _ref.commit;
+    commit('setTela', tela);
+  },
+  loadTelas: function () {
+    var _loadTelas = _asyncToGenerator(
+    /*#__PURE__*/
+    _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(_ref2) {
+      var commit, request;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              commit = _ref2.commit;
+              _context.prev = 1;
+              _context.next = 4;
+              return axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('telas');
+
+            case 4:
+              request = _context.sent;
+              commit('setTelas', request.data);
+              _context.next = 12;
+              break;
+
+            case 8:
+              _context.prev = 8;
+              _context.t0 = _context["catch"](1);
+              console.log(_context.t0);
+              throw new Error(_context.t0.response.data.error);
+
+            case 12:
+            case "end":
+              return _context.stop();
+          }
+        }
+      }, _callee, null, [[1, 8]]);
+    }));
+
+    function loadTelas(_x) {
+      return _loadTelas.apply(this, arguments);
+    }
+
+    return loadTelas;
+  }(),
+  loadTela: function () {
+    var _loadTela = _asyncToGenerator(
+    /*#__PURE__*/
+    _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2(_ref3, idTela) {
+      var commit, request;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+        while (1) {
+          switch (_context2.prev = _context2.next) {
+            case 0:
+              commit = _ref3.commit;
+              _context2.prev = 1;
+              _context2.next = 4;
+              return axios__WEBPACK_IMPORTED_MODULE_1___default.a.get("telas/".concat(idTela));
+
+            case 4:
+              request = _context2.sent;
+              commit('setTela', request.data);
+              _context2.next = 11;
+              break;
+
+            case 8:
+              _context2.prev = 8;
+              _context2.t0 = _context2["catch"](1);
+              throw new Error(_context2.t0.response.data.error);
+
+            case 11:
+            case "end":
+              return _context2.stop();
+          }
+        }
+      }, _callee2, null, [[1, 8]]);
+    }));
+
+    function loadTela(_x2, _x3) {
+      return _loadTela.apply(this, arguments);
+    }
+
+    return loadTela;
+  }(),
+  insertTela: function () {
+    var _insertTela = _asyncToGenerator(
+    /*#__PURE__*/
+    _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3(_ref4, tela) {
+      var dispatch, request;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
+        while (1) {
+          switch (_context3.prev = _context3.next) {
+            case 0:
+              dispatch = _ref4.dispatch;
+              _context3.prev = 1;
+              _context3.next = 4;
+              return axios__WEBPACK_IMPORTED_MODULE_1___default.a.post("telas", tela);
+
+            case 4:
+              request = _context3.sent;
+              dispatch('loadTelas');
+              return _context3.abrupt("return", request);
+
+            case 9:
+              _context3.prev = 9;
+              _context3.t0 = _context3["catch"](1);
+              console.log(_context3.t0.response);
+              throw new Error(_context3.t0.response.data.error);
+
+            case 13:
+            case "end":
+              return _context3.stop();
+          }
+        }
+      }, _callee3, null, [[1, 9]]);
+    }));
+
+    function insertTela(_x4, _x5) {
+      return _insertTela.apply(this, arguments);
+    }
+
+    return insertTela;
+  }(),
+  updateTela: function () {
+    var _updateTela = _asyncToGenerator(
+    /*#__PURE__*/
+    _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4(_ref5, tela) {
+      var dispatch, request;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
+        while (1) {
+          switch (_context4.prev = _context4.next) {
+            case 0:
+              dispatch = _ref5.dispatch;
+              _context4.prev = 1;
+              console.log(tela);
+              _context4.next = 5;
+              return axios__WEBPACK_IMPORTED_MODULE_1___default.a.put("telas/".concat(tela.id), tela);
+
+            case 5:
+              request = _context4.sent;
+              dispatch('loadTelas');
+              return _context4.abrupt("return", request);
+
+            case 10:
+              _context4.prev = 10;
+              _context4.t0 = _context4["catch"](1);
+              console.log(_context4.t0);
+              throw new Error(_context4.t0.response.data.error);
+
+            case 14:
+            case "end":
+              return _context4.stop();
+          }
+        }
+      }, _callee4, null, [[1, 10]]);
+    }));
+
+    function updateTela(_x6, _x7) {
+      return _updateTela.apply(this, arguments);
+    }
+
+    return updateTela;
+  }()
+});
 
 /***/ }),
 
@@ -97356,7 +98268,14 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ({});
+/* harmony default export */ __webpack_exports__["default"] = ({
+  getTelas: function getTelas(state) {
+    return state.telas;
+  },
+  getTela: function getTela(state) {
+    return state.tela;
+  }
+});
 
 /***/ }),
 
@@ -97369,7 +98288,14 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ({});
+/* harmony default export */ __webpack_exports__["default"] = ({
+  setTelas: function setTelas(state, telas) {
+    state.telas = telas;
+  },
+  setTela: function setTela(state, tela) {
+    state.tela = tela;
+  }
+});
 
 /***/ }),
 
@@ -97382,7 +98308,10 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ({});
+/* harmony default export */ __webpack_exports__["default"] = ({
+  tela: {},
+  telas: []
+});
 
 /***/ }),
 
@@ -97892,7 +98821,7 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 
-var BASE_URL = 'http://painel-api/api/';
+var BASE_URL = 'http://192.168.15.4/painel-api/api/';
 /* harmony default export */ __webpack_exports__["default"] = ({
   /**
    * Realiza o login para a aplicação
@@ -97914,6 +98843,7 @@ var BASE_URL = 'http://painel-api/api/';
               _context.next = 4;
               return axios__WEBPACK_IMPORTED_MODULE_1___default()({
                 method: 'post',
+                contentType: 'application/json',
                 url: BASE_URL + 'autenticar',
                 data: dadosLogin
               });
@@ -97965,8 +98895,9 @@ var BASE_URL = 'http://painel-api/api/';
               _context2.next = 5;
               return axios__WEBPACK_IMPORTED_MODULE_1___default()({
                 method: 'get',
+                contentType: 'application/jsonp',
                 url: BASE_URL + 'getUsuarioAutenticado',
-                data: {}
+                'X-Requested-With': 'XMLHttpRequest'
               });
 
             case 5:
@@ -98401,7 +99332,7 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   fabricarChamadaAtual: function fabricarChamadaAtual(senhaChamada) {
-    return "Senha: ".concat(senhaChamada.tipo_senha.prefixo, " - ").concat(senhaChamada.numero, ", ").concat(senhaChamada.guiche.descricao);
+    return "Senha: ".concat(senhaChamada.tipo_senha.prefixo, "  ").concat(senhaChamada.numero, ", ").concat(senhaChamada.guiche.descricao);
   },
   // fabricarTextoParaChamarSenha(senhaChamada){
   //     return `Senha: ${senhaChamada.prefix} - ${senhaChamada.numero}, Guichê: ${senhaChamada.guiche.descricao}`
@@ -98627,8 +99558,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /home/jp/projetos/laravel/painel-api/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /home/jp/projetos/laravel/painel-api/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /home/programador/projetos/painel-api/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /home/programador/projetos/painel-api/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ }),

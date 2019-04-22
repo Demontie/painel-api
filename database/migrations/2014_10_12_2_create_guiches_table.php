@@ -15,6 +15,8 @@ class CreateGuichesTable extends Migration
     {
         Schema::create('guiches', function (Blueprint $table) {
             $table->increments('id');
+            $table->unsignedInteger('grupo_tela_id');
+            $table->foreign('grupo_tela_id')->references('id')->on('grupo_telas');
             $table->string('descricao',150);
             $table->boolean('ativo')->default(true);
             $table->timestamps();

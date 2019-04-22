@@ -11,7 +11,7 @@ Vue.use(Router)
 
 const router =  new Router({
     mode: 'history',
-    //base: '/painel-api',
+    base: '/painel-api',
     meta:{
         autenticado: true
     },

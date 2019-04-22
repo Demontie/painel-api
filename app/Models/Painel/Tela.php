@@ -7,7 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 class Tela extends Model
 {
     protected $fillable = [
-        'tela_salas_id'
+        'tela_salas_id',
+        'descricao',
+        'ativo',
+        'grupo_tela_id'
     ];
 
     protected $hidden = [

@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api\Painel;
 
 use App\Models\Painel\Tela;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class TelaController extends Controller
 {
@@ -21,7 +22,11 @@ class TelaController extends Controller
      */
     public function index()
     {
-        $tela = $this->tela->get();
+        $tela = $this->tela
+            ->with([
+                'grupo_tela'
+            ])
+            ->get();
 
         return response()->json($tela);
     }
@@ -47,7 +52,11 @@ class TelaController extends Controller
      */
     public function show($id)
     {
-        $tela = $this->tela->find($id);
+        $tela = $this->tela
+            ->with([
+                'grupo_tela'
+            ])
+            ->find($id);
 
         if(is_null($tela)){
             return response()->json(['error' => ' de telas não encontrado'],404);

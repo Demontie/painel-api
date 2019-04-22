@@ -22,6 +22,7 @@ $this->group([
         $this->apiResource('especialidades','EspecialidadeController');
         $this->apiResource('grupoTelas','GrupoTelaController');
         $this->apiResource('telas','TelaController');
+        $this->apiResource('salas','SalaController');
     });
 
 $this->group([
