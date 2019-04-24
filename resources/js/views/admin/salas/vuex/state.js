@@ -1,4 +1,5 @@
 export default {
     sala:{},
-    salas:[]
+    salas:[],
+    grupoSalas: []
 }

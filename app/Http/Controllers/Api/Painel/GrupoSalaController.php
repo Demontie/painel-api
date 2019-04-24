@@ -25,8 +25,12 @@ class GrupoSalaController extends Controller
         $grupoSala = $this->grupoSala
             ->with([
                 'grupo_tela',
-                'sala'
+                'salas'
             ])
+            ->whereHas(
+                'grupo_tela', function ($query){
+                    $query->distinct('id');
+            })
             ->get();
 
         return response()->json($grupoSala);

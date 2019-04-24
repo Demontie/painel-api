@@ -24,8 +24,9 @@ class SalaController extends Controller
     {
         $sala = $this->sala
             ->with([
-                'grupo_sala.grupo_tela'
+                'grupo_tela'
             ])
+            ->where('ativo',true)
             ->get();
 
         return response()->json($sala);
@@ -39,6 +40,11 @@ class SalaController extends Controller
      */
     public function store(Request $request)
     {
+        $salaInativa = $this->sala
+            ->where('descricao', $request->descricao)
+            ->where('grupo_tela_id', $request->grupo_tela_id)
+            ->first();
+
         $novaSala = $this->sala->create($request->all());
 
         return response()->json($novaSala,201);

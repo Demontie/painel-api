@@ -4,5 +4,8 @@ export default {
     },
     getSala(state){
         return state.sala
+    },
+    getGrupoSalas(state){
+        return state.grupoSalas
     }
 }

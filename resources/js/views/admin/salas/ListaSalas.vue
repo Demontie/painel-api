@@ -33,7 +33,7 @@
         >
             <template slot="items" slot-scope="props">
                 <td>{{ props.item.descricao }}</td>
-                <td>{{ props.item.grupo_sala.grupo_tela.descricao }}</td>
+                <td>{{ props.item.grupo_tela.descricao }}</td>
                 <td>
                     <v-icon v-if="props.item.ativo" title="Sala ativa">done</v-icon>
                     <v-icon v-else title="Sala inativa">clear</v-icon>
@@ -46,7 +46,7 @@
                         edit
                     </v-icon>
                     <v-icon title="Excluir sala"
-                            @click="excluirSala(props.item.id)"
+                            @click="excluirSala(props.item)"
                     >
                         delete
                     </v-icon>
@@ -68,7 +68,7 @@
                         align: 'left',
                         value: 'descricao'
                     },
-                    {text:'Grupo',value:'grupo_sala.grupo_tela.descricao'},
+                    {text:'Telas',value:'grupo_tela.descricao'},
                     {text:'Ativo',value:'ativo'},
                     {text:'Ações', align:'justify'}
                 ],
@@ -83,7 +83,8 @@
         },
         methods:{
             ...mapActions({
-                setSala: 'setSala'
+                setSala: 'setSala',
+                deleteSala: 'deleteSala'
             }),
             novaSala(){
                 this.setSala({})
@@ -98,8 +99,20 @@
                     }
                 })
             },
-            excluirSala(sala){
+            async excluirSala(sala){
+                let res = await this.$confirm('Tem certeza que deseja excluir esse registro?',{
+                    title:'Atenção',
+                    icon:'warning',
+                    color:'warning'
+                })
 
+                if(res){
+                    try{
+                        const request = await this.deleteSala(sala)
+                    }catch (e){
+                        console.log(e)
+                    }
+                }
             }
         },
         watch:{
