@@ -24,7 +24,7 @@ class PerfilController extends Controller
     {
         $perfil = $this->perfil
             ->with([
-                'grupo_perfil'
+                'usuarios'
             ])
             ->get();
 
@@ -54,7 +54,7 @@ class PerfilController extends Controller
     {
         $perfil = $this->perfil
             ->with([
-                'grupo_perfil'
+                'usuarios'
             ])
             ->find($id);
 

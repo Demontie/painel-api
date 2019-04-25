@@ -2,10 +2,13 @@
 
 namespace App\Models\Painel;
 
+use App\User;
 use Illuminate\Database\Eloquent\Model;
 
 class Perfil extends Model
 {
+    protected $table = 'perfis';
+
     protected $fillable = [
         'descricao',
         'ativo'
@@ -16,7 +19,7 @@ class Perfil extends Model
         'updated_at'
     ];
 
-    public function senhas(){
-        return $this->hasMany(Senha::class);
+    public function usuarios(){
+        return $this->hasMany(User::class);
     }
 }

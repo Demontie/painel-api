@@ -15,19 +15,6 @@
                                     label="Descrição"/>
                         </v-flex>
 
-                        <v-flex xs12 sm4 class="ml-2">
-                            <v-select
-                                    v-model="perfil.grupo_tela_id"
-                                    :error-messages="grupoTelaError"
-                                    :items="grupoTelas"
-                                    menu-props="auto"
-                                    label="Grupo de Telas"
-                                    item-text="descricao"
-                                    item-value="id"
-                                    hide-details
-                            ></v-select>
-                        </v-flex>
-
                         <v-flex v-if="idPerfil" xs12 sm2>
                             <v-switch
                                     v-model="perfil.ativo"
@@ -106,6 +93,8 @@
         methods:{
             async salvar(){
 
+                this.perfil.descricao = this.perfil.descricao.toUpperCase()
+
                 if(this.idPerfil){
                     try{
                         await this.$store.dispatch('updatePerfil',this.perfil )
@@ -123,6 +112,14 @@
                 }
             }
         },
+        // watch:{
+        //   perfil:{
+        //       handler(novoValor){
+        //           novoValor
+        //       },
+        //       deep:true
+        //   }
+        // },
         created(){
 
             if(!this.perfil.id && this.idPerfil){
@@ -138,5 +135,4 @@
 </script>
 
 <style scoped>
-
 </style>

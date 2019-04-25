@@ -2,6 +2,8 @@ require('./bootstrap');
 
 window.Vue = require('vue');
 
+import './filters'
+
 /*
 Configuração axios
  */

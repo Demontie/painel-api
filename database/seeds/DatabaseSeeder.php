@@ -15,8 +15,7 @@ class DatabaseSeeder extends Seeder
             /*
              * 1
              */
-            UserTableSeeder::class,
-
+            PerfisTableSeeder::class,
             GrupoTelasTableSeeder::class,
             TipoSenhaTableSeeder::class,
             /*
@@ -24,6 +23,7 @@ class DatabaseSeeder extends Seeder
              */
             //GrupoSalasTableSeeder::class,
             GuichesTableSeeder::class,
+            UserTableSeeder::class,
             /*
              * 3
              */
