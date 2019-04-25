@@ -5,6 +5,7 @@ import senhasRoutes from './senhas/routes'
 import telasRoutes from './telas/routes'
 import salasRoutes from './salas/routes'
 import grupoTelasRoutes from './grupoTelas/routes'
+import perfisRoutes from './perfis/routes'
 
 export default [
     {
@@ -38,9 +39,11 @@ export default [
             /*
             Grupo telas
              */
-            ...grupoTelasRoutes
-
-
+            ...grupoTelasRoutes,
+            /*
+            Perfis
+             */
+            ...perfisRoutes
         ]
     }
 ]

@@ -28,4 +28,7 @@ class Senha extends Model
         return $this->belongsTo(Guiche::class);
     }
 
+    public function perfil(){
+        return $this->belongsTo(Perfil::class);
+    }
 }
