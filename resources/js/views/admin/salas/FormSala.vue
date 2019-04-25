@@ -1,47 +1,50 @@
 <template>
-    <v-card>
-        <v-card-title>
-            <span class="headline">{{ tituloForm }}</span>
-        </v-card-title>
-        <v-card-text>
-            <Loader :load="load" />
-            <v-container grid-list-md>
-                <v-layout wrap>
-                    <v-flex xs12 sm4>
-                        <v-text-field
-                                :error-messages="descricaoError"
-                                :success="!$v.sala.descricao.$invalid"
-                                :autofocus="true"
-                                v-model="sala.descricao"
-                                label="Descrição"/>
-                    </v-flex>
-                    <v-flex xs12 sm4 class="ml-2">
-                        <v-select
-                                v-model="sala.grupo_tela_id"
-                                :items="grupoTelas"
-                                menu-props="auto"
-                                label="Grupo de Telas"
-                                item-text="descricao"
-                                item-value="id"
-                                hide-details
-                        ></v-select>
-                    </v-flex>
-                    <v-flex v-if="idSala" xs12 sm2>
-                        <v-switch
-                                v-model="sala.ativo"
-                                color="primary"
-                                :label="labelAtivo"
-                        ></v-switch>
-                    </v-flex>
-                </v-layout>
-            </v-container>
-        </v-card-text>
+    <v-form>
+        <v-card>
+            <v-card-title>
+                <span class="headline">{{ tituloForm }}</span>
+            </v-card-title>
+            <v-card-text>
+                <Loader :load="load" />
+                <v-container grid-list-md>
+                    <v-layout wrap>
+                        <v-flex xs12 sm4>
+                            <v-text-field
+                                    :error-messages="descricaoError"
+                                    v-model.trim="sala.descricao"
+                                    label="Descrição"/>
+                        </v-flex>
 
-        <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn color="primary darken-1" @click="salvar">Salvar</v-btn>
-        </v-card-actions>
-    </v-card>
+                        <v-flex xs12 sm4 class="ml-2">
+                            <v-select
+                                    v-model="sala.grupo_tela_id"
+                                    :error-messages="grupoTelaError"
+                                    :items="grupoTelas"
+                                    menu-props="auto"
+                                    label="Grupo de Telas"
+                                    item-text="descricao"
+                                    item-value="id"
+                                    hide-details
+                            ></v-select>
+                        </v-flex>
+
+                        <v-flex v-if="idSala" xs12 sm2>
+                            <v-switch
+                                    v-model="sala.ativo"
+                                    color="primary"
+                                    :label="labelAtivo"
+                            ></v-switch>
+                        </v-flex>
+                    </v-layout>
+                </v-container>
+            </v-card-text>
+
+            <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn :disabled="dasabilitarBotao" color="primary darken-1" @click="salvar">Salvar</v-btn>
+            </v-card-actions>
+        </v-card>
+    </v-form>
 </template>
 
 <script>
@@ -58,7 +61,7 @@
             return{
                 idSala: this.$route.params.idSala,
                 load:false,
-                grupoTela: {},
+                grupoTela: {}
             }
         },
         computed:{
@@ -84,27 +87,30 @@
                 const erros = []
                 const descricao = this.$v.sala.descricao
 
-                if(!descricao.dirty){return erros}
-                !descricao.required && erros.push('Descrição obrigatória')
-                !descricao.minLength && erros.push(`Número de caracteres é ${descricao.$params.minLength.min}`)
+                if(descricao.$dirty) {return erros}
+                //!descricao.required && erros.push('Descrição obrigatória')
+                !descricao.minLength && erros.push(`Mínimo de ${descricao.$params.minLength.min} caracteres`)
 
                 return erros
             },
-            // grupoTelaError(){
-            //     const erro = []
-            //     const descricao = this.$v.sala.descricao
-            //
-            //     if(!descricao.dirty){return erro}
-            //     !descricao.required && erro.push('Descrição obrigatória')
-            // }
+            grupoTelaError(){
+                const erro = []
+                const grupoTelas = this.$v.sala.grupo_tela_id
+
+                if(!grupoTelas.dirty){return erro}
+                !grupoTelas.required && erro.push('Grupo de telas obrigatório')
+            },
+            dasabilitarBotao(){
+                return this.$v.sala.$invalid
+            }
         },
         validations: {
             sala:{
                 descricao: {
-                    required:true,
+                    required,
                     minLength: minLength(4)
                 },
-                grupo_sala_id:{
+                grupo_tela_id:{
                     required
                 }
             },
@@ -122,7 +128,7 @@
                 }
             },
             async salvar(){
-                console.log(this.$v)
+
                 if(this.idSala){
                     try{
                         await this.$store.dispatch('updateSala',this.sala )
