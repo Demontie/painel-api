@@ -11,6 +11,7 @@
             <v-list-tile
                     v-for="(item,index) in menuObj.itens"
                     :key="index"
+                    v-if="item.permissao"
                     :to="item.rota"
             >
                 <v-list-tile-title>

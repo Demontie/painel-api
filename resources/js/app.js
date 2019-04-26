@@ -25,9 +25,6 @@ Vue.use(VuetifyConfirm,{
     property: '$confirm'
 })
 
-
-Vue.component('example-component', require('./components/ExampleComponent.vue').default);
-
 const app = new Vue({
     router,
     store,

@@ -25,6 +25,7 @@ $this->group([
         $this->apiResource('telas','TelaController');
         $this->apiResource('salas','SalaController');
         $this->apiResource('perfis','PerfilController');
+        $this->apiResource('users','UserController');
     });
 
 $this->group([
