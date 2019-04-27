@@ -15,19 +15,20 @@ class DatabaseSeeder extends Seeder
             /*
              * 1
              */
-            UserTableSeeder::class,
-            SalasTableSeeder::class,
+            PerfisTableSeeder::class,
             GrupoTelasTableSeeder::class,
             TipoSenhaTableSeeder::class,
-            GuichesTableSeeder::class,
             /*
              * 2
              */
-            TelasTableSeeder::class,
+            //GrupoSalasTableSeeder::class,
+            GuichesTableSeeder::class,
+            UserTableSeeder::class,
             /*
              * 3
              */
-            GrupoSalasTableSeeder::class,
+            SalasTableSeeder::class,
+            TelasTableSeeder::class,
             //SenhasTableSeeder::class,
         ]);
     }

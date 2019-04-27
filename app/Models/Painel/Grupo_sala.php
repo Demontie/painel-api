@@ -17,11 +17,11 @@ class Grupo_sala extends Model
     ];
 
     public function senhas(){
-        return $this->hasOne(Senha::class);
+        return $this->hasMany(Senha::class);
     }
 
-    public function sala(){
-        return $this->belongsTo(Sala::class);
+    public function salas(){
+        return $this->hasMany(Sala::class);
     }
 
     public function grupo_tela(){

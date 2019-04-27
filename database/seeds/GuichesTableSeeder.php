@@ -13,7 +13,8 @@ class GuichesTableSeeder extends Seeder
     public function run()
     {
         Guiche::create([
-            'descricao' => 'Guichê 1'
+            'descricao' => 'Guichê 1',
+            'grupo_tela_id' => 1
         ]);
     }
 }

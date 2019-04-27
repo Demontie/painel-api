@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = 'http://painel-api/api/'
+const BASE_URL = 'http://192.168.15.4/painel-api/api/'
 
 export default {
     /**
@@ -13,6 +13,7 @@ export default {
         try{
             const request = await axios({
                 method: 'post',
+                contentType: 'application/json',
                 url: BASE_URL + 'autenticar',
                 data: dadosLogin}
                 )
@@ -39,10 +40,9 @@ export default {
 
             const request = await axios({
                 method: 'get',
+                contentType: 'application/jsonp',
                 url: BASE_URL + 'getUsuarioAutenticado',
-                data: {
-
-                }
+                'X-Requested-With': 'XMLHttpRequest'
             })
 
             if(!token){

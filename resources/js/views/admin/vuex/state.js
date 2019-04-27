@@ -1,5 +1,5 @@
 export default {
-    usuarioLogado: JSON.parse(localStorage.getItem('usuarioLogado')),
+    usuarioLogado: {},
     isLogado: false,
     urlBack: 'login'
 }

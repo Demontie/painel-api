@@ -15,8 +15,10 @@ class CreateSalasTable extends Migration
     {
         Schema::create('salas', function (Blueprint $table) {
             $table->increments('id');
+            $table->unsignedInteger('grupo_tela_id');
+            $table->foreign('grupo_tela_id')->references('id')->on('grupo_telas');
             $table->string('descricao',100);
-            $table->unsignedInteger('sala_id_stg');
+            $table->unsignedInteger('sala_id_stg')->nullable();
             $table->boolean('ativo')->default(true);
             $table->timestamps();
         });

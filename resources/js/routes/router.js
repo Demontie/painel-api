@@ -11,7 +11,7 @@ Vue.use(Router)
 
 const router =  new Router({
     mode: 'history',
-    //base: '/painel-api',
+    base: '/painel-api',
     meta:{
         autenticado: true
     },
@@ -53,23 +53,30 @@ router.beforeEach(async (to,from, next) => {
 
      Caso o usuário esteja logado irá redirecionar para a url acessada anteriormente
      */
-    if(to.name !== 'login' && !isLogado){
+
+    try{
         const checkLogin = await store.dispatch('checkLogin')
 
-        if(checkLogin){
-            return router.push({name: to.name})
-        }
-    }else if(!from.name && !isLogado){
-        const checkLogin = await store.dispatch('checkLogin')
+        if(to.name !== 'login' && !isLogado){
+            //const checkLogin = await store.dispatch('checkLogin')
 
-        if(checkLogin){
-            return router.push({name: 'admin.dashboard'})
+            if(checkLogin){
+                return router.push({name: to.name})
+            }
+        }else if(!from.name && !isLogado){
+            //const checkLogin = await store.dispatch('checkLogin')
+
+            if(checkLogin){
+                return router.push({name: 'admin.dashboard'})
+            }
         }
+    }catch (e){
+        console.log(e.message)
     }
 
 
     /**
-    * Caso não esteja autenticado redireciona para login
+     * Caso não esteja autenticado redireciona para login
      */
     if(autenticado && !isLogado || to.name === 'sair'){
         localStorage.removeItem('token')

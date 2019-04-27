@@ -22,7 +22,12 @@ class GrupoTelaController extends Controller
      */
     public function index()
     {
-        $grupoTela = $this->grupoTela->get();
+        $grupoTela = $this->grupoTela
+            ->with([
+                'telas',
+                'salas'
+            ])
+            ->get();
 
         return response()->json($grupoTela);
     }
