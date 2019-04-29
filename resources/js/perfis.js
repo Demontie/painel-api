@@ -2,8 +2,6 @@ const ADMIN = 1
 const GUICHE = 2
 const TELA = 3
 
-const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'))
-
 export default {
     ADMIN,
     GUICHE,
@@ -14,6 +12,8 @@ export default {
      * @returns {boolean}
      */
     verificarPermissao(permissoes){
+        const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'))
+
         let permissaoUsuario = Object.values(permissoes).find((valor,key) => {
             if(valor === usuarioLogado.perfil_id){
                 return true

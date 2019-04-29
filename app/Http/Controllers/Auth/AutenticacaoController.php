@@ -51,7 +51,7 @@ class AutenticacaoController extends Controller
          */
         $token = $request->header('authorization');
         if(is_null($token) || empty($token)){
-            exit;
+            return response()->json(['token_invalid'], 401);
         }
 
         try {

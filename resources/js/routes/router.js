@@ -49,6 +49,16 @@ router.beforeEach(async (to,from, next) => {
     const autenticado = to.matched.some(m => m.meta.autenticado)
 
     /**
+     * Sair
+     */
+    if(to.name === 'sair'){
+        localStorage.removeItem('token')
+        localStorage.removeItem('usuarioLogado')
+
+        return router.push({name:'login'})
+    }
+
+    /**
      * Redirecionamento para rota anterior a navegação ou refresh
 
      Caso o usuário esteja logado irá redirecionar para a url acessada anteriormente
@@ -59,12 +69,12 @@ router.beforeEach(async (to,from, next) => {
 
         if(to.name !== 'login' && !isLogado){
             //const checkLogin = await store.dispatch('checkLogin')
-
             if(checkLogin){
                 return router.push({name: to.name})
             }
         }else if(!from.name && !isLogado){
             //const checkLogin = await store.dispatch('checkLogin')
+            console.log(localStorage.getItem('token'))
 
             if(checkLogin){
                 return router.push({name: 'admin.dashboard'})
@@ -78,9 +88,7 @@ router.beforeEach(async (to,from, next) => {
     /**
      * Caso não esteja autenticado redireciona para login
      */
-    if(autenticado && !isLogado || to.name === 'sair'){
-        localStorage.removeItem('token')
-        localStorage.removeItem('usuarioLogado')
+    if(autenticado && !isLogado){
         //storeCore.commit('changeUrlBack', to.name)
         /*
     Armazenamento da url antes do refresh ou navegação
