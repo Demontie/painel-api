@@ -58,12 +58,11 @@ window.Echo = new Echo({
     // encrypted: true
 });
 
-// /**
-//  * Armazena o token no cabeçalho das requisições
-//  * @type {string}
-//  */
-// const tokenApi = localStorage.getItem('token')
-// if(tokenApi){
-//     //const tokenApi = localStorage.getItem('token')
-//     window.axios.defaults.headers.common['Authorization'] = 'Bearer ' + tokenApi;
-// }
+/**
+ * Armazena o token no cabeçalho das requisições
+ * @type {string}
+ */
+const tokenApi = localStorage.getItem('token')
+if(tokenApi){
+    window.axios.defaults.headers.common['Authorization'] = 'Bearer ' + tokenApi;
+}

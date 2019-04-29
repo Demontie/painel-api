@@ -1,7 +1,7 @@
 <template>
     <v-toolbar app dark color="primary">
         <!--<v-toolbar-side-icon></v-toolbar-side-icon>-->
-        <v-toolbar-title class="headline text-uppercase mr-4">
+        <v-toolbar-title class="headline text-uppercase mr-4" style="cursor: pointer" @click="irParaHome">
             <span>Painel </span>
             <span class="font-weight-light">de chamadas</span>
         </v-toolbar-title>
@@ -47,6 +47,23 @@
                                 rota: {name:'admin.tipo-senhas'},
                                 permissao: permissoes.verificarPermissao([
                                     permissoes.ADMIN
+                                ])
+                            }
+                        ]
+                    },
+                    guiche:{
+                        texto: 'Guiche',
+                        permissao: permissoes.verificarPermissao([
+                            permissoes.ADMIN,
+                            permissoes.GUICHE
+                        ]),
+                        itens:[
+                            {
+                                texto:'Listar',
+                                rota: {name:'admin.guiches'},
+                                permissao: permissoes.verificarPermissao([
+                                    permissoes.ADMIN,
+                                    permissoes.GUICHE
                                 ])
                             }
                         ]
@@ -103,6 +120,9 @@
             },
             irParaTipos(){
                 console.log('tipos')
+            },
+            irParaHome(){
+                this.$router.push({name:'admin.dashboard'})
             }
         },
         created() {
@@ -140,5 +160,4 @@
 </script>
 
 <style scoped>
-
 </style>

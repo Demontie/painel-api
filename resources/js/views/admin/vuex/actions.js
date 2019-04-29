@@ -42,7 +42,6 @@ export default {
             const token = localStorage.getItem('token')
             //console.log(token)
             const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'))
-            console.log(usuarioLogado.name)
 
             const request = await axios({
                 method: 'get',

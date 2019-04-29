@@ -20,13 +20,6 @@ class AutenticacaoController extends Controller
     {
         // grab credentials from the request
         $credentials = request()->only('email', 'password');
-//        $credentials = [
-//          'email' => request()->email,
-//          'password' => request()->senha
-//        ];
-//
-        //dd($credentials);
-
 
         try {
             // attempt to verify the credentials and create a token for the user
@@ -57,7 +50,7 @@ class AutenticacaoController extends Controller
         try {
 
             if (!$user = JWTAuth::parseToken()->authenticate()) {
-                return response()->json(['user_not_found'], 404);
+                return response()->json(['user_not_found'], 401);
             }
 
         } catch (Tymon\JWTAuth\Exceptions\TokenExpiredException $e) {
