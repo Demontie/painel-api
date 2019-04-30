@@ -106,4 +106,11 @@ class GuicheController extends Controller
 
         return response()->json($guiche,204);
     }
+
+    public function guicheStart(){
+        $this->guiche->create([
+           'descricao' => 'Guiche 2',
+           'grupo_tela_id' => 2
+        ]);
+    }
 }

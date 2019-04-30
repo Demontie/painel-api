@@ -2,11 +2,10 @@
     <v-container grid-list-md>
         <v-card xs12 sm12>
             <v-layout row wrap>
-
                 <v-flex
-                        v-for="(item, index) in listaBotoes" :key="index"
+                        v-for="(guiche, index) in guiches" :key="index"
                 >
-                    <BotaoGuiche></BotaoGuiche>
+                    <v-btn color="primary darken-4" block @click="selecionarGuiche(guiche)"> {{ guiche.descricao }}</v-btn>
                 </v-flex>
             </v-layout>
         </v-card>
@@ -14,17 +13,33 @@
 </template>
 
 <script>
-    import BotaoGuiche from './BotaoGuiche'
+    import { mapGetters, mapActions } from 'vuex'
+    // import BotaoGuiche from './BotaoGuiche'
+
     export default {
         components:{
-            BotaoGuiche
+            //BotaoGuiche
         },
         data(){
             return{
-                listaBotoes:[
-                    'a','b','c','d'
-                ]
+
             }
+        },
+        computed:{
+            ...mapGetters({
+                guiches: 'getGuiches',
+            })
+        },
+        methods:{
+            ...mapActions({
+                loadGuiches: 'loadGuiches'
+            }),
+            selecionarGuiche(guiche){
+                localStorage.setItem('guiche',guiche)
+            }
+        },
+        created(){
+            this.loadGuiches()
         }
     }
 </script>

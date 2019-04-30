@@ -29,6 +29,7 @@ class DatabaseSeeder extends Seeder
              */
             SalasTableSeeder::class,
             TelasTableSeeder::class,
+            GuicheAtivoTableSeeder::class,
             //SenhasTableSeeder::class,
         ]);
     }
