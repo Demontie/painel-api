@@ -10,5 +10,9 @@ export default {
     },
     getDialogGuiche(state){
         return state.dialogGuiche
+    },
+    getGuicheSelecionado(state){
+        const guicheLocalStorage = localStorage.getItem('guicheSelecionado')
+        return state.guicheSelecionado = guicheLocalStorage ? JSON.parse(guicheLocalStorage) : {}
     }
 }

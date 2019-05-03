@@ -50,6 +50,7 @@
             }),
             selecionarGuiche(guiche){
                 localStorage.setItem('guicheSelecionado',JSON.stringify(guiche))
+                this.$store.dispatch('setGuicheSelecionado',guiche)
                 this.$store.dispatch('setDialogGuiche',false)
             }
         },

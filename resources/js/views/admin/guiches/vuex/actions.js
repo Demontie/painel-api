@@ -7,6 +7,9 @@ export default {
     setDialogGuiche({commit},dialogGuiche){
         commit('setDialogGuiche',dialogGuiche)
     },
+    setGuicheSelecionado({commit},guicheSelecionado){
+        commit('setGuicheSelecionado',guicheSelecionado)
+    },
     async loadGuiches({commit}){
         try{
             const request = await  axios.get('guiches')

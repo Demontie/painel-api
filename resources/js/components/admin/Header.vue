@@ -9,7 +9,12 @@
         <template v-for="item in menu">
             <MenuItemToolbar v-if="item.permissao" :menu-obj="item"/>
         </template>
-        <v-layout  justify-end>
+
+        <v-layout justify-end>
+            <v-toolbar-title v-if="guicheSelecionado" class="mr-3 texto-extra px-2 py-2">
+                {{ guicheSelecionado.descricao }}
+            </v-toolbar-title>
+
             <MenuItemToolbar :menu-obj="usuario"/>
         </v-layout>
     </v-toolbar>
@@ -111,7 +116,8 @@
         },
         computed:{
             ...mapGetters({
-                usuarioLogado: 'getUsuarioLogado'
+                usuarioLogado: 'getUsuarioLogado',
+                guicheSelecionado: 'getGuicheSelecionado'
             })
         },
         methods:{
@@ -160,4 +166,9 @@
 </script>
 
 <style scoped>
+    .texto-extra{
+        border: 1px solid #fff;
+        border-radius: 100px;
+        font-size: 1rem;
+    }
 </style>

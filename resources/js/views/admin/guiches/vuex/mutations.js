@@ -11,4 +11,7 @@ export default {
     setDialogGuiche(state,dialogGuiche){
         state.dialogGuiche = dialogGuiche
     },
+    setGuicheSelecionado(state,guicheSelecionado){
+        state.guicheSelecionado = guicheSelecionado
+    },
 }
