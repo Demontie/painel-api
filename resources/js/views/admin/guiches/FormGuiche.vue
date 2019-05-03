@@ -118,14 +118,14 @@
                 if(this.idGuiche){
                     try{
                         await this.$store.dispatch('updateGuiche',this.guiche )
-                        this.$router.push({name:'admin.perfis'})
+                        this.$router.push({name:'admin.guiches'})
                     }catch (e){
 
                     }
                 }else{
                     try{
                         await this.$store.dispatch('insertGuiche', this.guiche)
-                        this.$router.push({name:'admin.perfis'})
+                        this.$router.push({name:'admin.guiches'})
                     }catch (e){
 
                     }

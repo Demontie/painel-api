@@ -17,6 +17,7 @@ class CreateGuichesTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('grupo_tela_id');
             $table->foreign('grupo_tela_id')->references('id')->on('grupo_telas');
+            $table->integer('user_id')->nullable();
             $table->string('descricao',150);
             $table->boolean('ativo')->default(true);
             $table->timestamps();

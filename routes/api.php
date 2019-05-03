@@ -18,7 +18,16 @@ $this->group([
 
         $this->apiResource('fila','FilaController');
         $this->apiResource('tipoSenhas','TipoSenhaController');
+        /*
+         * Guiches
+         */
+        $this->group([
+            'prefix' => 'guiches'
+        ],function (){
+            $this->get('guichesDisponiveis','GuicheController@guichesDisponiveis');
+        });
         $this->apiResource('guiches','GuicheController');
+
         $this->apiResource('especialidades','EspecialidadeController');
         $this->apiResource('grupoTelas','GrupoTelaController');
         $this->apiResource('grupoSalas','GrupoSalaController');

@@ -11,7 +11,7 @@ Configuração axios
 import axios from 'axios'
 axios.defaults.baseURL = utils.URL_BASE + 'api/painel/'
 
-import router from './routes/router'
+import router from './router'
 import store from './store'
 import './vuelidate'
 import Vuetify from 'vuetify'

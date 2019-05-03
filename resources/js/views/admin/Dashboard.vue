@@ -1,7 +1,5 @@
 <template>
     <div>
-        Dashboard
-        <br>
         <ListaGuichesDashboard></ListaGuichesDashboard>
     </div>
 </template>
@@ -15,8 +13,14 @@
         },
         data(){
             return{
-
+                guicheSelecionado: localStorage.getItem('guicheSelecionado')
             }
+        },
+        created(){
+            //const guicheSelecionado = localStorage.getItem('guicheSelecionando')
+
+            if(!this.guicheSelecionado)
+                this.$store.dispatch('setDialogGuiche',true)
         }
     }
 </script>

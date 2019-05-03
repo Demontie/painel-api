@@ -1,4 +1,5 @@
 import Layout from './../../components/admin/Layout'
+import ContainerRouter from './ContainerRouter'
 import Dashboard from './Dashboard'
 import tipoSenhaRoutes from './tipoSenhas/routes'
 import senhasRoutes from './senhas/routes'
@@ -19,8 +20,15 @@ export default [
         children:[
             {
                 path:'',
-                name:'admin.dashboard',
-                component: Dashboard
+                name:'',
+                component: ContainerRouter,
+                children:[
+                    {
+                        path:'',
+                        name:'admin.dashboard',
+                        component: Dashboard,
+                    },
+                ]
             },
             /*
             Tipo senhas

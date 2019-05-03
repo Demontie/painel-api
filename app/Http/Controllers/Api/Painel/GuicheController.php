@@ -31,6 +31,18 @@ class GuicheController extends Controller
         return response()->json($guiche);
     }
 
+    public function guichesDisponiveis()
+    {
+        $guiche = $this->guiche
+            ->with([
+                'grupo_tela'
+            ])
+            ->where('ativo',true)
+            ->get();
+
+        return response()->json($guiche);
+    }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -109,8 +121,8 @@ class GuicheController extends Controller
 
     public function guicheStart(){
         $this->guiche->create([
-           'descricao' => 'Guiche 2',
-           'grupo_tela_id' => 2
+            'descricao' => 'Guiche 2',
+            'grupo_tela_id' => 2
         ]);
     }
 }

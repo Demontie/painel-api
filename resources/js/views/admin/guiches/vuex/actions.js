@@ -4,10 +4,22 @@ export default {
     setGuiche({commit},guiche){
         commit('setGuiche',guiche)
     },
+    setDialogGuiche({commit},dialogGuiche){
+        commit('setDialogGuiche',dialogGuiche)
+    },
     async loadGuiches({commit}){
         try{
             const request = await  axios.get('guiches')
             commit('setGuiches',request.data)
+        }catch (e){
+            console.log(e)
+            throw new Error(e.response.data.error)
+        }
+    },
+    async loadGuichesDisponiveis({commit}){
+        try{
+            const request = await  axios.get('guiches/guichesDisponiveis')
+            commit('setGuichesDisponiveis',request.data)
         }catch (e){
             console.log(e)
             throw new Error(e.response.data.error)
