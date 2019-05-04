@@ -84,7 +84,8 @@
         },
         computed:{
             ...mapGetters({
-                senhas:'getSenhas'
+                senhas: 'getSenhas',
+                guiche: 'getGuicheSelecionado'
             }),
             senha:{
                 get(){
@@ -114,7 +115,7 @@
             },
             async chamarSenha(){
                 let chamadaObj = {
-                    guiche_id: 1
+                    guiche_id: this.guiche.id
                 }
 
                 try{
@@ -127,7 +128,7 @@
             },
             async chamarNovamente(){
                 let chamadaObj = {
-                    guiche_id: 1
+                    guiche_id: this.guiche.id
                 }
 
                 try{

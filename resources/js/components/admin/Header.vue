@@ -137,7 +137,7 @@
                 itens:[
                     {
                         texto:'Perfil',
-                        rota: {name:'admin.senhas'},
+                        rota: {name:'admin.usuarios.editar-perfil',params:{idUsuario:1}},
                         icone:'account_circle',
                         permissao: true
                     },

@@ -63,14 +63,22 @@ router.beforeEach(async (to,from, next) => {
 
      Caso o usuário esteja logado irá redirecionar para a url acessada anteriormente
      */
-
     try{
         const checkLogin = await store.dispatch('checkLogin')
+
+        /*
+        Caso esteja logado e não tenha guiche selecionado
+         */
+        const guicheSelecionado = localStorage.getItem('guicheSelecionado')
+
+        if(!guicheSelecionado && to.name !== 'login' && to.name !== 'admin.dashboard'){
+            return router.push({name: 'admin.dashboard'})
+        }
 
         if(to.name !== 'login' && !isLogado){
             //const checkLogin = await store.dispatch('checkLogin')
             if(checkLogin){
-                return router.push({name: to.name})
+                return router.push({name: to.name,params:to.params})
             }
         }else if(!from.name && !isLogado){
             //const checkLogin = await store.dispatch('checkLogin')
