@@ -1,6 +1,7 @@
 import axios from "axios";
+import utils from './../../../utils'
 
-const BASE_URL = 'http://192.168.15.4/painel-api/api/'
+const BASE_URL = utils.URL_BASE + 'api/'
 
 export default {
     /**
@@ -22,6 +23,8 @@ export default {
 
             localStorage.setItem('usuarioLogado', JSON.stringify(request.data.user))
 
+            window.axios.defaults.headers.common['Authorization'] = 'Bearer ' + request.data.token;
+
             commit('setUsuarioLogado')
 
             return request.data
@@ -37,6 +40,8 @@ export default {
     async checkLogin({ commit }){
         try{
             const token = localStorage.getItem('token')
+            //console.log(token)
+            const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'))
 
             const request = await axios({
                 method: 'get',
@@ -48,11 +53,12 @@ export default {
             if(!token){
                 return false
             }else {
-                localStorage.setItem('usuarioLogado', JSON.stringify(request.data.user))
+                //localStorage.setItem('usuarioLogado', JSON.stringify(request.data.user))
 
-                commit('setUsuarioLogado')
+                // commit('setUsuarioLogado')
+                // return true
+                commit('setUsuarioLogado',request.data.user)
                 return true
-                //commit('setUsuarioLogado',request.data)
             }
         }catch (e) {
             throw new Error(e.message)
@@ -67,7 +73,7 @@ export default {
     async changeUrlBack({commit}, urlBack) {
         commit('changeUrlBack',urlBack)
     },
-    sair(){
-
+    sair({commit}){
+        commit('sair')
     }
 }

@@ -1,5 +1,6 @@
 import ListaUsuarios from './ListaUsuarios'
 import FormUsuario from './FormUsuario'
+import TelaPerfil from './TelaPerfil'
 import ContainerRouter from './../ContainerRouter'
 
 export default [
@@ -18,9 +19,14 @@ export default [
                 component: FormUsuario
             },
             {
-                path:'/editar-usuarios/:idUsuario',
+                path:'editar-usuarios/:idUsuario',
                 name:'admin.usuarios.editar-usuario',
                 component: FormUsuario
+            },
+            {
+                path:'editar-perfil/:idUsuario',
+                name:'admin.usuarios.editar-perfil',
+                component: TelaPerfil
             },
         ]
     },

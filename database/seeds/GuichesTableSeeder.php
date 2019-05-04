@@ -12,9 +12,11 @@ class GuichesTableSeeder extends Seeder
      */
     public function run()
     {
-        Guiche::create([
-            'descricao' => 'Guichê 1',
-            'grupo_tela_id' => 1
-        ]);
+        for ($x= 0; $x < 5; $x++){
+            Guiche::create([
+                'descricao' => 'Guichê '.($x + 1),
+                'grupo_tela_id' => 1
+            ]);
+        }
     }
 }

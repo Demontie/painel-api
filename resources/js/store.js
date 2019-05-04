@@ -9,6 +9,7 @@ import telasStore from './views/admin/telas/vuex/store'
 import grupoTelasStore from './views/admin/grupoTelas/vuex/store'
 import perfisStore from './views/admin/perfis/vuex/store'
 import usuariosStore from './views/admin/usuarios/vuex/store'
+import guichesStore from './views/admin/guiches/vuex/store'
 import painelWebStore from './views/painel/vuex/store'
 
 Vue.use(Vuex)
@@ -24,6 +25,7 @@ export default new Vuex.Store({
       senhasStore,
       painelWebStore,
       perfisStore,
-      usuariosStore
+      guichesStore,
+      usuariosStore,
   }
 })

@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Models\Painel\GuicheAtivo;
 use App\Models\Painel\Perfil;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -64,5 +65,9 @@ class User extends Authenticatable implements JWTSubject
 
     public function perfil(){
         return $this->belongsTo(Perfil::class);
+    }
+
+    public function guiche(){
+        return $this->hasOne(GuicheAtivo::class);
     }
 }

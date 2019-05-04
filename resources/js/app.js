@@ -3,14 +3,15 @@ require('./bootstrap');
 window.Vue = require('vue');
 
 import './filters'
+import utils from './utils'
 
 /*
 Configuração axios
  */
 import axios from 'axios'
-axios.defaults.baseURL = 'http://192.168.15.4/painel-api/api/painel/'
+axios.defaults.baseURL = utils.URL_BASE + 'api/painel/'
 
-import router from './routes/router'
+import router from './router'
 import store from './store'
 import './vuelidate'
 import Vuetify from 'vuetify'

@@ -1,7 +1,7 @@
 <template>
     <v-toolbar app dark color="primary">
         <!--<v-toolbar-side-icon></v-toolbar-side-icon>-->
-        <v-toolbar-title class="headline text-uppercase mr-4">
+        <v-toolbar-title class="headline text-uppercase mr-4" style="cursor: pointer" @click="irParaHome">
             <span>Painel </span>
             <span class="font-weight-light">de chamadas</span>
         </v-toolbar-title>
@@ -9,7 +9,12 @@
         <template v-for="item in menu">
             <MenuItemToolbar v-if="item.permissao" :menu-obj="item"/>
         </template>
-        <v-layout  justify-end>
+
+        <v-layout justify-end>
+            <v-toolbar-title v-if="guicheSelecionado" class="mr-3 texto-extra px-2 py-2">
+                {{ guicheSelecionado.descricao }}
+            </v-toolbar-title>
+
             <MenuItemToolbar :menu-obj="usuario"/>
         </v-layout>
     </v-toolbar>
@@ -47,6 +52,23 @@
                                 rota: {name:'admin.tipo-senhas'},
                                 permissao: permissoes.verificarPermissao([
                                     permissoes.ADMIN
+                                ])
+                            }
+                        ]
+                    },
+                    guiche:{
+                        texto: 'Guiche',
+                        permissao: permissoes.verificarPermissao([
+                            permissoes.ADMIN,
+                            permissoes.GUICHE
+                        ]),
+                        itens:[
+                            {
+                                texto:'Listar',
+                                rota: {name:'admin.guiches'},
+                                permissao: permissoes.verificarPermissao([
+                                    permissoes.ADMIN,
+                                    permissoes.GUICHE
                                 ])
                             }
                         ]
@@ -94,7 +116,8 @@
         },
         computed:{
             ...mapGetters({
-                usuarioLogado: 'getUsuarioLogado'
+                usuarioLogado: 'getUsuarioLogado',
+                guicheSelecionado: 'getGuicheSelecionado'
             })
         },
         methods:{
@@ -103,6 +126,9 @@
             },
             irParaTipos(){
                 console.log('tipos')
+            },
+            irParaHome(){
+                this.$router.push({name:'admin.dashboard'})
             }
         },
         created() {
@@ -111,7 +137,7 @@
                 itens:[
                     {
                         texto:'Perfil',
-                        rota: {name:'admin.senhas'},
+                        rota: {name:'admin.usuarios.editar-perfil',params:{idUsuario:1}},
                         icone:'account_circle',
                         permissao: true
                     },
@@ -140,5 +166,9 @@
 </script>
 
 <style scoped>
-
+    .texto-extra{
+        border: 1px solid #fff;
+        border-radius: 100px;
+        font-size: 1rem;
+    }
 </style>

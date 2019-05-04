@@ -4,8 +4,5 @@ export default {
     },
     setUsuario(state,usuario){
         state.usuario = usuario
-    },
-    setGrupoUsuarios(state, grupoUsuarios){
-        state.grupoUsuarios = grupoUsuarios
     }
 }

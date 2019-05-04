@@ -45,7 +45,7 @@ class UserController extends Controller
         ]);
         $newUser['password'] = bcrypt($newUser['password']);
 
-        $newUser->create($newUser);
+        $this->user->create($newUser);
 
         return response()->json($newUser,201);
     }

@@ -22,17 +22,25 @@ class GuicheController extends Controller
      */
     public function index()
     {
+        $guiche = $this->guiche
+            ->with([
+                'grupo_tela'
+            ])
+            ->get();
 
+        return response()->json($guiche);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function guichesDisponiveis()
     {
-        //
+        $guiche = $this->guiche
+            ->with([
+                'grupo_tela'
+            ])
+            ->where('ativo',true)
+            ->get();
+
+        return response()->json($guiche);
     }
 
     /**
@@ -43,7 +51,9 @@ class GuicheController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $novoGuiche = $this->guiche->create($request->all());
+
+        return response()->json($novoGuiche,201);
     }
 
     /**
@@ -54,19 +64,19 @@ class GuicheController extends Controller
      */
     public function show($id)
     {
-        //
+        $guiche = $this->guiche
+            ->with([
+                'grupo_tela'
+            ])
+            ->find($id);
+
+        if(is_null($guiche)){
+            return response()->json(['error' => 'Guiche não encontrado'],404);
+        }
+
+        return response()->json($guiche);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.
@@ -77,7 +87,15 @@ class GuicheController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $guiche = $this->guiche->find($id);
+
+        if(is_null($guiche)){
+            return response()->json(['error' => 'Guiche não encontrado'],404);
+        }
+
+        $guiche->update($request->all());
+
+        return response()->json($guiche);
     }
 
     /**
@@ -88,6 +106,23 @@ class GuicheController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $guiche = $this->guiche->find($id);
+
+        if(is_null($guiche)){
+            return response()->json(['error' => 'Guiche não encontrado'],404);
+        }
+
+        $guiche->update([
+            'ativo' => false
+        ]);
+
+        return response()->json($guiche,204);
+    }
+
+    public function guicheStart(){
+        $this->guiche->create([
+            'descricao' => 'Guiche 2',
+            'grupo_tela_id' => 2
+        ]);
     }
 }

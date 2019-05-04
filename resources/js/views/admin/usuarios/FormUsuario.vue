@@ -12,7 +12,32 @@
                             <v-text-field
                                     :error-messages="nameError"
                                     v-model.trim="usuario.name"
-                                    label="Descrição"/>
+                                    label="Nome"/>
+                        </v-flex>
+                        <v-flex xs12 sm8>
+                            <v-text-field
+                                    :error-messages="emailError"
+                                    v-model.trim="usuario.email"
+                                    label="E-mail"/>
+                        </v-flex>
+                        <v-flex xs12 sm4>
+                            <v-text-field
+                                    :error-messages="passwordError"
+                                    type="password"
+                                    v-model.trim="usuario.password"
+                                    label="Senha"/>
+                        </v-flex>
+                        <v-flex xs12 sm4>
+                            <v-select
+                                    v-model="usuario.perfil_id"
+                                    :error-messages="perfilError"
+                                    :items="perfis"
+                                    menu-props="auto"
+                                    label="Perfil"
+                                    item-text="descricao"
+                                    item-value="id"
+                                    hide-details
+                            ></v-select>
                         </v-flex>
 
                         <v-flex v-if="idUsuario" xs12 sm2>
@@ -36,7 +61,7 @@
 
 <script>
     import Loader from './../../../components/admin/views/Loader'
-    import { required, minLength } from 'vuelidate/lib/validators'
+    import { required, minLength,email } from 'vuelidate/lib/validators'
     import { mapGetters,mapActions } from 'vuex'
 
     export default {
@@ -47,12 +72,12 @@
             return{
                 idUsuario: this.$route.params.idUsuario,
                 load:false,
+                //usuario:{}
             }
         },
         computed:{
             ...mapGetters({
-                usuarios: 'getUsuarios',
-                grupoTelas: 'getGrupoTelas'
+                perfis: 'getPerfis'
             }),
             usuario: {
                 get(){
@@ -78,6 +103,33 @@
 
                 return erros
             },
+            emailError(){
+                const erros = []
+                const email = this.$v.usuario.email
+
+                if(email.$dirty) {return erros}
+                //!name.required && erros.push('Descrição obrigatória')
+                !email.email && erros.push(`Deve ser um e-mail válido`)
+
+                return erros
+            },
+            passwordError(){
+                const erros = []
+                const password = this.$v.usuario.password
+
+                if(password.$dirty) {return erros}
+                //!name.required && erros.push('Descrição obrigatória')
+                !password.minLength && erros.push(`Mínimo de ${password.$params.minLength.min} caracteres`)
+
+                return erros
+            },
+            perfilError(){
+                const erro = []
+                const perfil = this.$v.usuario.perfil_id
+
+                if(!perfil.dirty){return erro}
+                !perfil.required && erro.push('Grupo de telas obrigatório')
+            },
             dasabilitarBotao(){
                 return this.$v.usuario.$invalid
             }
@@ -87,14 +139,33 @@
                 name: {
                     required,
                     minLength: minLength(4)
+                },
+                email:{
+                    required,
+                    email
+                },
+                password:{
+                    required,
+                    minLength: minLength(4)
+                },
+                perfil_id:{
+                    required
                 }
             },
         },
         methods:{
+            loadPerfis(){
+                if(this.idTela){
+                    const perfis = this.perfis.find(perfil => {
+                        if(perfil.id === this.usuario.perfil_id){
+                            return perfil
+                        }
+                    })
+
+                    return this.grupoTela = perfis
+                }
+            },
             async salvar(){
-
-                this.usuario.name = this.usuario.name.toUpperCase()
-
                 if(this.idUsuario){
                     try{
                         await this.$store.dispatch('updateUsuario',this.usuario )
@@ -112,24 +183,17 @@
                 }
             }
         },
-        // watch:{
-        //   usuario:{
-        //       handler(novoValor){
-        //           novoValor
-        //       },
-        //       deep:true
-        //   }
-        // },
         created(){
+            this.$store.dispatch('loadPerfis')
 
-            if(!this.usuario.id && this.idUsuario){
+            if(this.idUsuario){
                 this.$store.dispatch('loadUsuario',this.idUsuario)
             }
-
-            if(this.usuario.length <= 0){
-                this.$store.dispatch('loadUsuario')
-            }
-
+            //
+            // if(this.usuario.length <= 0){
+            //     this.$store.dispatch('loadUsuario')
+            // }
+            this.loadPerfis()
         }
     }
 </script>
