@@ -42,6 +42,7 @@ class SenhaController extends Controller
             ->join('tipo_senhas',"$this->tableName.tipo_senha_id",'=','tipo_senhas.id')
             ->where("$this->tableName.ativo",true)
             ->where("$this->tableName.status",$this->constantesPainel::AGUARDANDO_CHAMADA)
+            ->orWhere("$this->tableName.status",$this->constantesPainel::CHAMADA_RECEPCAO)
             ->whereDay("$this->tableName.created_at",date('d'))
             ->whereMonth("$this->tableName.created_at", date('m'))
             ->orderBy("$this->tableName.id")
@@ -253,8 +254,8 @@ class SenhaController extends Controller
         }
 
         /*
-         * Amarra a senha ao guiche a qual chamou
-         */
+        * Amarra a senha ao guiche a qual chamou
+        */
         $proximaSenha->update([
             'guiche_id' => $request->guiche_id,
             'status' => $this->constantesPainel::CHAMADA_RECEPCAO,
@@ -264,6 +265,11 @@ class SenhaController extends Controller
         broadcast(new SenhaChamada($proximaSenha));
 
         return response()->json($proximaSenha);
+    }
+
+    public function atenderSenha(Request $request){
+        $idSenha = $request->senha_id;
+
     }
 
     /**

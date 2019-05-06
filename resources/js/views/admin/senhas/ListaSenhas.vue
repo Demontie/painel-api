@@ -2,15 +2,15 @@
     <div>
         <v-container grid-list-sm class="px-0 py-0 mb-3">
             <v-layout wrap justify-end>
-                <v-flex sm3>
+                <v-flex sm2>
                     <v-toolbar-title class="headline text-uppercase mr-4">
                         <span>Senhas </span>
                     </v-toolbar-title>
                 </v-flex>
-                <v-flex sm4>
+                <v-flex sm3>
                     <!--<InputSearch :param="busca"></InputSearch>-->
                     <v-text-field
-                            class="mr-2"
+                            class="mr-1"
                             v-model="busca"
                             append-icon="search"
                             label="Pesquisar"
@@ -23,6 +23,9 @@
                 </v-flex>
                 <v-flex sm3>
                     <v-btn @click.prevent="chamarNovamente" color="primary darken-3">Chamar Novamente</v-btn>
+                </v-flex>
+                <v-flex sm2>
+                    <v-btn @click.prevent="chamarNovamente" color="primary darken-3">Atender</v-btn>
                 </v-flex>
             </v-layout>
         </v-container>

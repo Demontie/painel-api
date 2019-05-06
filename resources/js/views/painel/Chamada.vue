@@ -57,10 +57,12 @@
     }
 
     .titulo-card{
+        color: #fff;
         font-size: 3rem;
     }
 
     .subtitulo-card{
+        color: #fff;
         font-size: 2rem;
     }
 
