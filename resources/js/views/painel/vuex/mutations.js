@@ -7,5 +7,8 @@ export default {
     },
     setSenhasChamadas(state, senhasChamadas){
         state.senhasChamadas = senhasChamadas
+    },
+    setSenhaInSenhasChamadas(state, ultimaSenhaChamada){
+        state.senhasChamadas.push(ultimaSenhaChamada)
     }
 }

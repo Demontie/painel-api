@@ -40,6 +40,8 @@ class SenhaController extends Controller
                 'tipo_senhas.cor'
             ])
             ->join('tipo_senhas',"$this->tableName.tipo_senha_id",'=','tipo_senhas.id')
+            ->whereDay("$this->tableName.created_at",date('d'))
+            ->whereMonth("$this->tableName.created_at", date('m'))
             ->where("$this->tableName.ativo",true)
             ->where("$this->tableName.status",$this->constantesPainel::AGUARDANDO_CHAMADA)
             ->orWhere("$this->tableName.status",$this->constantesPainel::CHAMADA_RECEPCAO)
