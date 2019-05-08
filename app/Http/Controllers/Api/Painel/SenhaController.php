@@ -66,6 +66,9 @@ class SenhaController extends Controller
             ->whereDay("$this->tableName.created_at",date('d'))
             ->whereMonth("$this->tableName.created_at",date('m'))
             ->where("$this->tableName.status",$this->constantesPainel::CHAMADA_RECEPCAO)
+            ->orWhere("$this->tableName.status",$this->constantesPainel::ATENDIDA)
+            ->whereDay("$this->tableName.created_at",date('d'))
+            ->whereMonth("$this->tableName.created_at",date('m'))
             ->orderBy('updated_at','desc')
             ->take(4)
             ->get();
@@ -160,6 +163,17 @@ class SenhaController extends Controller
      */
     public function chamarProximo(Request $request){
 
+        $senhaAguardandoAtendimento = $this->senha
+            ->where('guiche_id',$request->guiche_id)
+            ->where("status",$this->constantesPainel::CHAMADA_RECEPCAO)
+            ->whereDay("created_at",date('d'))
+            ->whereMonth("created_at", date('m'))
+            ->first();
+
+        if(!is_null($senhaAguardandoAtendimento)){
+            return response()->json(['error' => 'Existe uma senha esperando atendimento.'],403);
+        }
+
         /*
          * Verifica ultima senha chamada
          */
@@ -168,12 +182,14 @@ class SenhaController extends Controller
                 'tipo_senha',
             ])
             ->where("ativo",true)
-            ->where("status",$this->constantesPainel::CHAMADA_RECEPCAO)
+            ->where("status",$this->constantesPainel::ATENDIDA)
             ->whereDay("created_at",date('d'))
             ->whereMonth("created_at", date('m'))
             ->orderBy('updated_at','desc')
             ->take(5)
             ->first();
+
+        //dd($ultimaSenhaChamada);
 
         /*
          * Analisa de a ultima senha é ou não prioridade, caso seja a próxima senha não será prioridade e virse e versa
@@ -270,8 +286,33 @@ class SenhaController extends Controller
     }
 
     public function atenderSenha(Request $request){
-        $idSenha = $request->senha_id;
+        $senha = $this->senha
+            ->with([
+                'tipo_senha',
+            ])
+            ->whereHas('tipo_senha', function ($query){
+                $query->select([
+                    'prefixo',
+                    'descricao',
+                    'prioridade'
+                ])
+                    ->where('prioridade',false);
+            })
+            ->where('guiche_id',$request->guiche_id)
+            ->where("status",$this->constantesPainel::CHAMADA_RECEPCAO)
+            ->whereDay("created_at",date('d'))
+            ->whereMonth("created_at", date('m'))
+            ->first();
 
+        if(is_null($senha)){
+            return response()->json(['error' => 'Senha não encontrada'],404);
+        }
+
+        $senha->update([
+            'status' => $this->constantesPainel::ATENDIDA,
+        ]);
+
+        return response()->json($senha);
     }
 
     /**

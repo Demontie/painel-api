@@ -25,7 +25,7 @@
                     <v-btn @click.prevent="chamarNovamente" color="primary darken-3">Chamar Novamente</v-btn>
                 </v-flex>
                 <v-flex sm2>
-                    <v-btn @click.prevent="chamarNovamente" color="primary darken-3">Atender</v-btn>
+                    <v-btn @click.prevent="atender" color="primary darken-3">Atender</v-btn>
                 </v-flex>
             </v-layout>
         </v-container>
@@ -51,13 +51,18 @@
                 </template>
             </v-data-table>
         </v-flex>
+        <Mensagens></Mensagens>
     </div>
 </template>
 
 <script>
     import { mapGetters,mapActions } from 'vuex'
+    import Mensagens from '../../../components/admin/views/Mensagens'
 
     export default {
+        components:{
+            Mensagens
+        },
         data(){
             return{
                 cabecalho:[
@@ -103,7 +108,9 @@
             ...mapActions({
                 loadSenhas: 'loadSenhas',
                 chamarProximo: 'chamarProximo',
-                chamarSenhaNovamente: 'chamarSenhaNovamente'
+                chamarSenhaNovamente: 'chamarSenhaNovamente',
+                atenderSenha: 'atenderSenha',
+                setMensagem: 'setMensagem'
             }),
             selecionarLinha(e, linhaSelecionada){
                 if(linhaSelecionada.selecionado){
@@ -126,7 +133,11 @@
 
                     this.loadSenhas()
                 }catch(e){
-
+                    this.setMensagem({
+                        texto: e.message,
+                        tipo: 'error darken-2',
+                        ativo: true
+                    })
                 }
             },
             async chamarNovamente(){
@@ -140,7 +151,30 @@
 
                     this.loadSenhas()
                 }catch(e){
+                    this.setMensagem({
+                        texto: e.message,
+                        tipo: 'error darken-2',
+                        ativo: true
+                    })
+                }
+            },
+            async atender(){
+                let chamadaObj = {
+                    guiche_id: this.guiche.id
+                }
 
+                try{
+                    const senha = await this.atenderSenha(chamadaObj)
+
+                    console.log(senha)
+
+                    this.loadSenhas()
+                }catch(e){
+                    this.setMensagem({
+                        texto: e.message,
+                        tipo: 'error darken-2',
+                        ativo: true
+                    })
                 }
             }
         },
