@@ -43,6 +43,11 @@ const router =  new Router({
  * Verificações para troca de rota
  */
 router.beforeEach(async (to,from, next) => {
+    if(localStorage.ipServidor){
+        store.dispatch('setDialogIpConfig',false)
+    }else{
+        store.dispatch('setDialogIpConfig',true)
+    }
     /*
     Atributos de autenticação
      */

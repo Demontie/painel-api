@@ -290,14 +290,6 @@ class SenhaController extends Controller
             ->with([
                 'tipo_senha',
             ])
-            ->whereHas('tipo_senha', function ($query){
-                $query->select([
-                    'prefixo',
-                    'descricao',
-                    'prioridade'
-                ])
-                    ->where('prioridade',false);
-            })
             ->where('guiche_id',$request->guiche_id)
             ->where("status",$this->constantesPainel::CHAMADA_RECEPCAO)
             ->whereDay("created_at",date('d'))
