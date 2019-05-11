@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import Login from './views/admin/Login'
 import routesAdmin from './views/admin/routes-admin'
 import Principal from './views/painel/Principal'
+import permissoes from './perfis'
 
 import storeCore from './store'
 import store from "./store";
@@ -42,6 +43,11 @@ const router =  new Router({
  * Verificações para troca de rota
  */
 router.beforeEach(async (to,from, next) => {
+    if(localStorage.ipServidor){
+        store.dispatch('setDialogIpConfig',false)
+    }else{
+        store.dispatch('setDialogIpConfig',true)
+    }
     /*
     Atributos de autenticação
      */

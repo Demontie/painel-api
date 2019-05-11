@@ -8,6 +8,9 @@ export default {
     setSenhasChamadas({commit}, senhasChamadas){
         commit('setSenhasChamadas', senhasChamadas)
     },
+    setSenhaInSenhasChamadas({commit}, ultimaSenhaChamada){
+        commit('setSenhaInSenhasChamadas', ultimaSenhaChamada)
+    },
     async loadSenhasChamadas(){
         try{
             const request = await axios.get('senhas/senhasChamadas')

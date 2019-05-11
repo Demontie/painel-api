@@ -1,6 +1,9 @@
 export default {
     mensagem:{
+        texto: '',
         tipo: 'success',
-        ativo: false
+        ativo: false,
+        dialogIpConfig: false,
+        ipServidor: localStorage.ipServidor,
     }
 }

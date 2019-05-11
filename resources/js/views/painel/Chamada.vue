@@ -17,13 +17,14 @@
 </template>
 
 <script>
-    import { mapGetters } from 'vuex'
+    import { mapGetters, mapActions } from 'vuex'
     import fabricaSenhasPainel from './factories/senhaPainelFactory'
 
     export default {
         computed:{
             ...mapGetters({
                 senha: 'getUltimaSenhaChamada',
+                senhasChamadas: 'getSenhasChamadas'
             })
         }
         ,
@@ -37,8 +38,18 @@
               deep: true
           }
         },
+        methods:{
+            ...mapActions({
+                setSenhaInSenhasChamadas: 'setSenhaInSenhasChamadas'
+            })
+        },
         updated(){
             let chamarPainel = fabricaSenhasPainel.fabricarChamadaAtual(this.senha)
+
+            // console.log(this.senhasChamadas)
+            // if(this.senhasChamadas[0].id !== this.senha.id && this.senha.status !== 2){
+            //     this.setSenhaInSenhasChamadas(this.senha)
+            // }
 
             var utterance = new SpeechSynthesisUtterance(chamarPainel)
             utterance.rate = 0.75
@@ -57,10 +68,12 @@
     }
 
     .titulo-card{
+        color: #fff;
         font-size: 3rem;
     }
 
     .subtitulo-card{
+        color: #fff;
         font-size: 2rem;
     }
 

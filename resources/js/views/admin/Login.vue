@@ -57,6 +57,7 @@
                 </v-container>
             </v-card>
         </v-layout>
+        <DialogConfig></DialogConfig>
         <Mensagens></Mensagens>
     </v-content>
 </template>
@@ -64,10 +65,12 @@
 <script>
     import { mapGetters, mapActions } from 'vuex'
     import Mensagens from './../../components/admin/views/Mensagens'
+    import DialogConfig from './../../components/admin/DialogConfig'
 
     export default {
         components:{
-            Mensagens
+            Mensagens,
+            DialogConfig
         },
         data(){
             return{
@@ -77,6 +80,19 @@
                     error: false
                 },
             }
+        },
+        computed:{
+            ...mapGetters({
+                ipServidor: 'getIpServidor'
+            }),
+            dialogConfig:{
+                get(){
+                    return this.$store.getters.getDialogConfig
+                },
+                set(valor){
+                    this.$store.dispatch('setDialogConfig',valor)
+                }
+            },
         },
         methods:{
             ...mapActions({
@@ -102,7 +118,19 @@
                     console.log(e.message)
                 }
             }
-        }
+        },
+        // async created(){
+        //     try{
+        //         const requisicao = await this.$http.get('/tipoSenhas')
+        //
+        //         this.$store.dispatch('setDialogConfig',false)
+        //         //this.$store.dispatch('setLoading',false)
+        //     }catch (e){
+        //         console.log(e)
+        //         //this.$store.dispatch('setLoading',false)
+        //         this.$store.dispatch('setDialogConfig',true)
+        //     }
+        // },
     }
 </script>
 

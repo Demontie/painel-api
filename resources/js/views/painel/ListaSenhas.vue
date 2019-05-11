@@ -61,13 +61,16 @@
         mounted(){
             Echo.channel('senha-chamada')
                 .listen('SenhaChamada', senha => {
+                    console.log(senha)
                     senha.senhaCompleta = `${senha.tipo_senha.prefixo} - ${senha.numero}`
 
-                    let ultimoElementoArray = this.senhasChamadas.length
-
-                    this.senhasChamadas.splice(ultimoElementoArray,1)
-
-                    if(this.ultimaSenhaChamada && this.ultimaSenhaChamada.quantidade_chamada == 0){
+                    if(this.ultimaSenhaChamada && this.ultimaSenhaChamada.id != senha.id){
+                        /*
+                    Caso já exista uma senha chama e o array tenha 4 elementos
+                     */
+                        if(this.ultimaSenhaChamada && this.senhasChamadas.length == 4){
+                            this.senhasChamadas.splice(3,1)
+                        }
                         this.senhasChamadas.unshift(this.ultimaSenhaChamada)
                     }
 
@@ -92,10 +95,12 @@
     }
 
     .titulo-card{
+        color: #fff;
         font-size: 3rem;
     }
 
     .subtitulo-card{
+        color: #fff;
         font-size: 2rem;
     }
 
