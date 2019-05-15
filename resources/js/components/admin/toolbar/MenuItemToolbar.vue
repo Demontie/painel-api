@@ -14,7 +14,12 @@
                     v-if="item.permissao"
                     :to="item.rota"
             >
-                <v-list-tile-title>
+                <v-list-tile-title v-if="!item.metodo">
+                    <span>{{item.texto}}</span>
+                    <v-icon flat v-if="item.icone">{{ item.icone }}</v-icon>
+                </v-list-tile-title>
+
+                <v-list-tile-title v-else v-on:click="item.metodo">
                     <span>{{item.texto}}</span>
                     <v-icon flat v-if="item.icone">{{ item.icone }}</v-icon>
                 </v-list-tile-title>

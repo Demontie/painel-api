@@ -155,7 +155,21 @@
                     },
                     {
                         texto:'Sair',
-                        rota: {name:'sair'},
+                        metodo:async () => {
+                            let res = await this.$confirm('Deseja realmente sair do sistema?',{
+                                title:'Atenção',
+                                icon:'warning',
+                                color:'warning'
+                            })
+
+                            if(res){
+                                try{
+                                    return this.$router.push({name:'sair'})
+                                }catch (e){
+                                    console.log(e)
+                                }
+                            }
+                        },
                         icone:'exit_to_app',
                         permissao: true
                     }

@@ -48,11 +48,6 @@ router.beforeEach(async (to,from, next) => {
     }else{
         store.dispatch('setDialogIpConfig',true)
     }
-    /*
-    Atributos de autenticação
-     */
-    const isLogado = storeCore.state.adminStore.isLogado
-    const autenticado = to.matched.some(m => m.meta.autenticado)
 
     /**
      * Sair
@@ -63,6 +58,21 @@ router.beforeEach(async (to,from, next) => {
 
         return router.push({name:'login'})
     }
+
+    /**
+     * Roteamento automatico para a tela de painel
+     */
+    if(localStorage.usuarioLogado && localStorage.usuarioLogado.length > 0){
+        const usuarioLogado = JSON.parse(localStorage.usuarioLogado)
+        if(usuarioLogado.perfil_id == permissoes.TELA && to.name !== 'painel-chamadas'){
+            return router.push({name:'painel-chamadas'});
+        }
+    }
+    /*
+    Atributos de autenticação
+     */
+    const isLogado = storeCore.state.adminStore.isLogado
+    const autenticado = to.matched.some(m => m.meta.autenticado)
 
     /**
      * Redirecionamento para rota anterior a navegação ou refresh

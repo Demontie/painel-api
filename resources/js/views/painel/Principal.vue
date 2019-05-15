@@ -1,5 +1,5 @@
 <template>
-    <v-layout row wrap>
+    <v-layout row wrap v-on:dblclick="sair">
         <v-flex d-flex  class="chamados-noticias">
             <v-layout column>
                 <div class="chamadas">
@@ -23,6 +23,23 @@
         components:{
             ListaSenhas,
             Chamada
+        },
+        methods:{
+            async sair(){
+                let res = await this.$confirm('Deseja realmente sair do sistema?',{
+                    title:'Atenção',
+                    icon:'warning',
+                    color:'warning'
+                })
+
+                if(res){
+                    try{
+                        return this.$router.push({name:'sair'})
+                    }catch (e){
+                        console.log(e)
+                    }
+                }
+            }
         }
     }
 </script>
