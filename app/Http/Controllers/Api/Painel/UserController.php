@@ -41,7 +41,9 @@ class UserController extends Controller
         $newUser = $request->only([
             'name',
             'email',
-            'password'
+            'password',
+            'perfil_id',
+            'medico'
         ]);
         $newUser['password'] = bcrypt($newUser['password']);
 
@@ -108,5 +110,14 @@ class UserController extends Controller
         ]);
 
         return response()->json($user,204);
+    }
+
+    public function medicos(){
+        $user = $this->user
+            ->where('ativo',true)
+            ->where('medico',true)
+            ->get();
+
+        return response()->json($user);
     }
 }

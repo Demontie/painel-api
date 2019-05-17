@@ -1,11 +1,13 @@
 const ADMIN = 1
 const GUICHE = 2
 const TELA = 3
+const MEDICO = 4
 
 export default {
     ADMIN,
     GUICHE,
     TELA,
+    MEDICO,
     /**
      * Retorna true ou false com base nas permissões definidas e as permissões do usuario
      * @param permissoes

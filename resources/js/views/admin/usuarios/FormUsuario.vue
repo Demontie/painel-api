@@ -47,6 +47,14 @@
                                     :label="labelAtivo"
                             ></v-switch>
                         </v-flex>
+
+                        <v-flex xs12 sm2>
+                            <v-switch
+                                    v-model="usuario.medico"
+                                    color="primary"
+                                    :label="'É medico?'"
+                            ></v-switch>
+                        </v-flex>
                     </v-layout>
                 </v-container>
             </v-card-text>

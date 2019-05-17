@@ -371,13 +371,13 @@ class SenhaController extends Controller
             ->orderBy('updated_at','desc')
             ->first();
 
+        if(is_null($ultimaSenha)){
+            return response()->json('Todas as senhas forma chamadas');
+        }
+
         $ultimaSenha->update([
             'quantidade_chamada' => ($ultimaSenha->quantidade_chamada + 1)
         ]);
-
-        if(is_null($ultimaSenha)){
-            return response()->json(['error' => 'Senha não encontrada'],404);
-        }
 
         broadcast(new SenhaChamada($ultimaSenha));
 

@@ -37,8 +37,6 @@ export default {
 
           commit('setSenhaChamada',request.data)
 
-          console.log(request)
-
           return request.data
       }catch (e){
           throw new Error(e.response.data.error)
@@ -55,9 +53,9 @@ export default {
             throw new Error(e.response.data.error)
         }
     },
-    async atenderSenha({commit, state}, dadosGuiche){
+    async atenderSenha({commit, state}, dadosPaciente){
         try{
-            const request = await axios.put(`senhas/atenderSenha`, dadosGuiche)
+            const request = await axios.put(`senhas/atenderSenha`, dadosPaciente)
 
             return request.data
         }catch (e){

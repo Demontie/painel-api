@@ -23,5 +23,9 @@ class PerfisTableSeeder extends Seeder
         Perfil::create([
            'descricao' => 'TELA'
         ]);
+
+        Perfil::create([
+            'descricao' => 'MEDICO'
+        ]);
     }
 }

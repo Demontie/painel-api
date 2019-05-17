@@ -35,7 +35,14 @@ $this->group([
         $this->apiResource('telas','TelaController');
         $this->apiResource('salas','SalaController');
         $this->apiResource('perfis','PerfilController');
+
+        $this->group([
+            'prefix' => 'users'
+        ],function (){
+            $this->get('medicos','UserController@medicos');
+        });
         $this->apiResource('users','UserController');
+        $this->apiResource('pacientes','PacienteController');
     });
 
 $this->group([

@@ -4,5 +4,8 @@ export default {
     },
     getUsuario(state){
         return state.usuario
+    },
+    getMedicos(state){
+        return state.medicos
     }
 }

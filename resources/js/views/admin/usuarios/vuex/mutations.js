@@ -4,5 +4,8 @@ export default {
     },
     setUsuario(state,usuario){
         state.usuario = usuario
+    },
+    setMedicos(state, medicos){
+        state.medicos = medicos
     }
 }

@@ -21,6 +21,15 @@ export default {
             throw new Error(e.response.data.error)
         }
     },
+    async loadMedicos({commit}){
+        try{
+            const request = await  axios.get('medicos')
+            commit('setMedicos',request.data)
+        }catch (e){
+            console.log(e)
+            throw new Error(e.response.data.error)
+        }
+    },
     async insertUsuario({ dispatch },usuario){
         try{
             const request = await  axios.post(`users`, usuario)

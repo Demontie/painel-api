@@ -8,6 +8,7 @@ import salasStore from './views/admin/salas/vuex/store'
 import telasStore from './views/admin/telas/vuex/store'
 import grupoTelasStore from './views/admin/grupoTelas/vuex/store'
 import perfisStore from './views/admin/perfis/vuex/store'
+import pacientesStore from './views/admin/pacientes/vuex/store'
 import usuariosStore from './views/admin/usuarios/vuex/store'
 import guichesStore from './views/admin/guiches/vuex/store'
 import painelWebStore from './views/painel/vuex/store'
@@ -27,5 +28,6 @@ export default new Vuex.Store({
       perfisStore,
       guichesStore,
       usuariosStore,
+      pacientesStore
   }
 })

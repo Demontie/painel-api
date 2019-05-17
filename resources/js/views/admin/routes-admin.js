@@ -6,6 +6,7 @@ import senhasRoutes from './senhas/routes'
 import telasRoutes from './telas/routes'
 import salasRoutes from './salas/routes'
 import grupoTelasRoutes from './grupoTelas/routes'
+import pacienteRoutes from './pacientes/routes'
 import perfisRoutes from './perfis/routes'
 import guichesRoutes from './guiches/routes'
 import usuariosRoutes from './usuarios/routes'
@@ -58,6 +59,10 @@ export default [
             Guiches
              */
             ...guichesRoutes,
+            /*
+            Pacientes
+             */
+            ...pacienteRoutes,
             /*
             Usuários
              */

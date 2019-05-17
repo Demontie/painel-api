@@ -52,16 +52,19 @@
             </v-data-table>
         </v-flex>
         <Mensagens></Mensagens>
+        <DialogPaciente></DialogPaciente>
     </div>
 </template>
 
 <script>
     import { mapGetters,mapActions } from 'vuex'
     import Mensagens from '../../../components/admin/views/Mensagens'
+    import DialogPaciente from '../pacientes/DialogPaciente'
 
     export default {
         components:{
-            Mensagens
+            Mensagens,
+            DialogPaciente
         },
         data(){
             return{
@@ -129,7 +132,9 @@
                 }
 
                 try{
-                    await this.chamarProximo(chamadaObj)
+                    const senha = await this.chamarProximo(chamadaObj)
+
+                    this.verificarArraySenha(senha)
 
                     this.loadSenhas()
                 }catch(e){
@@ -147,7 +152,8 @@
 
                 try{
                     const senha = await this.chamarSenhaNovamente(chamadaObj)
-                    console.log(senha)
+
+                    this.verificarArraySenha(senha)
 
                     this.loadSenhas()
                 }catch(e){
@@ -159,20 +165,30 @@
                 }
             },
             async atender(){
-                let chamadaObj = {
-                    guiche_id: this.guiche.id
-                }
-
-                try{
-                    const senha = await this.atenderSenha(chamadaObj)
-
-                    console.log(senha)
-
-                    this.loadSenhas()
-                }catch(e){
+                // let chamadaObj = {
+                //     guiche_id: this.guiche.id
+                // }
+                //
+                // try{
+                //     const senha = await this.atenderSenha(chamadaObj)
+                //
+                //     console.log(senha)
+                //
+                //     this.loadSenhas()
+                // }catch(e){
+                //     this.setMensagem({
+                //         texto: e.message,
+                //         tipo: 'error darken-2',
+                //         ativo: true
+                //     })
+                // }
+                this.$store.dispatch('setDialogPaciente',true)
+            },
+            verificarArraySenha(senhas){
+                if(!Array.isArray(senhas)){
                     this.setMensagem({
-                        texto: e.message,
-                        tipo: 'error darken-2',
+                        texto: senhas,
+                        tipo: 'success darken-2',
                         ativo: true
                     })
                 }
