@@ -23,7 +23,7 @@ export default {
     },
     async loadMedicos({commit}){
         try{
-            const request = await  axios.get('medicos')
+            const request = await  axios.get('users/medicos')
             commit('setMedicos',request.data)
         }catch (e){
             console.log(e)

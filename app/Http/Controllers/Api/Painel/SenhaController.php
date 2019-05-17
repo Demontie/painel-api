@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\Painel;
 use App\Classes\Utils\ConstantesPainel;
 use App\Events\SenhaChamada;
 use App\Events\SenhaGerada;
+use App\Models\Painel\Atendimento;
 use App\Models\Painel\Senha;
 use function foo\func;
 use Illuminate\Http\Request;
@@ -15,12 +16,15 @@ class SenhaController extends Controller
     protected $senha;
     private $constantesPainel;
     private $tableName;
+    private $atendimento;
 
     public function __construct(Senha $senha,
-                                ConstantesPainel $constantesPainel)
+                                ConstantesPainel $constantesPainel,
+                                Atendimento $atendimento)
     {
         $this->senha = $senha;
         $this->constantesPainel = $constantesPainel;
+        $this->atendimento = $atendimento;
         $this->tableName = $this->senha->getTable();
     }
 
@@ -202,13 +206,13 @@ class SenhaController extends Controller
                     'grupo_sala.grupo_tela.telas',
                     'grupo_sala.sala',
                 ])
-                    ->whereHas('tipo_senha', function ($query){
-                        $query->select([
-                            'prefixo',
-                            'descricao',
-                            'prioridade'
-                        ])
-                            ->where('prioridade',true);
+                ->whereHas('tipo_senha', function ($query){
+                    $query->select([
+                        'prefixo',
+                        'descricao',
+                        'prioridade'
+                    ])
+                        ->where('prioridade',true);
                 })
                 ->where("ativo",true)
                 ->where("status",$this->constantesPainel::AGUARDANDO_CHAMADA)
@@ -286,6 +290,11 @@ class SenhaController extends Controller
     }
 
     public function atenderSenha(Request $request){
+//        try{
+//
+//        }catch (\Exception $e){
+//            return response()->json(['error'=>'Houve um erro no atendimento da senha'],500);
+//        }
         $senha = $this->senha
             ->with([
                 'tipo_senha',
@@ -300,9 +309,33 @@ class SenhaController extends Controller
             return response()->json(['error' => 'Senha não encontrada'],404);
         }
 
+        $this->atendimento->create([
+            'paciente_id' => $request->paciente_id,
+            'medico_id' => $request->medico_id,
+            'senha_id' => $senha->senha_id
+        ]);
+
         $senha->update([
             'status' => $this->constantesPainel::ATENDIDA,
         ]);
+
+        return response()->json($senha);
+    }
+
+    public function ultimaSenhaChamada(Request $request){
+        $senha = $this->senha
+            ->with([
+                'tipo_senha',
+            ])
+            ->where('guiche_id',$request->guiche_id)
+            ->where("status",$this->constantesPainel::CHAMADA_RECEPCAO)
+            ->whereDay("created_at",date('d'))
+            ->whereMonth("created_at", date('m'))
+            ->first();
+
+        if(is_null($senha)){
+            return response()->json(['error' => 'Senha não encontrada'],404);
+        }
 
         return response()->json($senha);
     }

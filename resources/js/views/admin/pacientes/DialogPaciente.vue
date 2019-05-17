@@ -10,24 +10,38 @@
                     <v-layout wrap>
                         <v-flex xs12 sm4>
                             <v-text-field
-                                    :error-messages="descricaoError"
+                                    :error-messages="nomeError"
                                     v-model.trim="paciente.nome"
                                     label="Nome"/>
                         </v-flex>
                         <v-flex xs12 sm4>
                             <v-text-field
-                                    :error-messages="descricaoError"
+                                    :error-messages="cpfError"
                                     v-model.trim="paciente.cpf"
+                                    mask="###.###.###-##"
                                     label="CPF"/>
+                        </v-flex>
+                        <v-flex xs12 sm4>
+                            <v-select
+                                    :error-messages="medicoError"
+                                    v-model="paciente.medico_id"
+                                    :items="medicos"
+                                    menu-props="auto"
+                                    label="Médico"
+                                    item-text="name"
+                                    item-value="id"
+                                    hide-details
+                            ></v-select>
                         </v-flex>
                     </v-layout>
                 </v-container>
             </v-card-text>
 
             <v-card-actions>
-                <v-btn color="deafault" @click="cancelar">Cancelar</v-btn>
-                <v-spacer></v-spacer>
-                <v-btn :disabled="dasabilitarBotao" color="primary darken-1" @click="salvar">Salvar</v-btn>
+                <v-layout justify-end>
+                    <v-btn color="default" @click="cancelar">Cancelar</v-btn>
+                    <v-btn :disabled="dasabilitarBotao" color="primary darken-1" @click="salvar">Salvar</v-btn>
+                </v-layout>
             </v-card-actions>
         </v-card>
     </v-dialog>
@@ -49,33 +63,46 @@
         },
         computed:{
             ...mapGetters({
-                pacientes: 'getPacientes',
+                senha: 'getSenha',
+                paciente: 'getPaciente',
                 grupoTelas: 'getGrupoTelas',
-                guiche: 'getGuicheSelecionado'
+                guiche: 'getGuicheSelecionado',
+                medicos: 'getMedicos'
             }),
-            senha:{
-                get(){
-                    return this.$store.getters.getSenha
-                },
-                set(value){
-                    this.$store.dispatch('setSenha',value)
-                }
-            },
             dialogPaciente: {
                 get(){
-                    return this.$store.getters.dialogPaciente
+                    return this.$store.getters.getDialogPaciente
                 },
                 set(valor){
                     this.$store.dispatch('setDialogPaciente',valor)
                 }
             },
-            descricaoError(){
+            nomeError(){
                 const erros = []
-                const descricao = this.$v.paciente.descricao
+                const nome = this.$v.paciente.nome
 
-                if(descricao.$dirty) {return erros}
+                if(nome.$dirty) {return erros}
                 //!descricao.required && erros.push('Descrição obrigatória')
-                !descricao.minLength && erros.push(`Mínimo de ${descricao.$params.minLength.min} caracteres`)
+                !nome.minLength && erros.push(`Mínimo de ${nome.$params.minLength.min} caracteres`)
+
+                return erros
+            },
+            cpfError(){
+                const erros = []
+                const cpf = this.$v.paciente.cpf
+
+                if(cpf.$dirty) {return erros}
+                //!descricao.required && erros.push('Descrição obrigatória')
+                !cpf.minLength && erros.push(`Mínimo de ${cpf.$params.minLength.min} caracteres`)
+
+                return erros
+            },
+            medicoError(){
+                const erros = []
+                const medico_id = this.$v.paciente.medico_id
+
+                if(medico_id.$dirty) {return erros}
+                //!descricao.required && erros.push('Descrição obrigatória')
 
                 return erros
             },
@@ -85,25 +112,40 @@
         },
         validations: {
             paciente:{
-                descricao: {
+                nome: {
                     required,
                     minLength: minLength(4)
+                },
+                cpf: {
+                    required,
+                    minLength: minLength(11)
+                },
+                medico_id: {
+                    required
                 }
             },
         },
         methods:{
+            ...mapActions({
+                setMensagem: 'setMensagem',
+                loadMedicos: 'loadMedicos',
+                ultimaSenhaChamada: 'ultimaSenhaChamada',
+                atenderSenha: 'atenderSenha',
+            }),
             async salvar(){
                 try{
                     const paciente = await this.$store.dispatch('insertPaciente', this.paciente)
-
-                    paciente.guiche_id = this.guiche.id
-
+                    console.log(paciente)
                     try{
-                        const senha = await this.atenderSenha(paciente)
+                        let chamadaObj = {
+                            guiche_id: this.guiche.id,
+                            paciente_id: paciente.id,
+                            medico_id: this.paciente.medico_id
+                        }
 
+                        const senha = await this.atenderSenha(chamadaObj)
                         console.log(senha)
 
-                        this.loadSenhas()
                     }catch(e){
                         this.setMensagem({
                             texto: e.message,
@@ -112,9 +154,13 @@
                         })
                     }
 
-                    this.$store.dispatch('setDialogPaciente',valor)
+                    this.$store.dispatch('setDialogPaciente',false)
                 }catch (e){
-
+                    this.setMensagem({
+                        texto: e.message,
+                        tipo: 'error darken-2',
+                        ativo: true
+                    })
                 }
             },
             cancelar(){
@@ -130,15 +176,14 @@
         //   }
         // },
         created(){
-
-            if(!this.paciente.id && this.idPaciente){
-                this.$store.dispatch('loadPaciente',this.idPaciente)
-            }
-
-            if(this.paciente.length <= 0){
-                this.$store.dispatch('loadPaciente')
-            }
-
+            // if(!this.paciente.id && this.idPaciente){
+            //     this.$store.dispatch('loadPaciente',this.idPaciente)
+            // }
+            //
+            // if(this.paciente.length <= 0){
+            //     this.$store.dispatch('loadPaciente')
+            // }
+            this.loadMedicos();
         }
     }
 </script>

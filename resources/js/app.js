@@ -26,6 +26,10 @@ Vue.use(VuetifyConfirm,{
     property: '$confirm'
 })
 
+import VueTheMask from 'vue-the-mask'
+
+Vue.use(VueTheMask)
+
 const app = new Vue({
     router,
     store,

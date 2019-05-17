@@ -39,7 +39,7 @@ export default {
 
             dispatch('loadPacientes')
 
-            return request
+            return request.data
         }catch (e){
             console.log(e.response)
             throw new Error(e.response.data.error)

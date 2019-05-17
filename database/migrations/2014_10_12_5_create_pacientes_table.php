@@ -17,8 +17,6 @@ class CreatePacientesTable extends Migration
             $table->increments('id');
             $table->string('nome');
             $table->string('cpf');
-            $table->unsignedInteger('senha_id');
-            $table->foreign('senha_id')->references('id')->on('senhas');
             $table->timestamps();
         });
     }

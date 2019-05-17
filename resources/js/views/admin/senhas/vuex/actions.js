@@ -4,8 +4,10 @@ export default {
     setSenha({commit},senha){
         commit('setSenha',senha)
     },
-    setSenhaChamada({commit},senha){
-        commit('setSenhaChamada', senha)
+    async ultimaSenhaChamada({commit}, guiche){
+        const request = await axios.post(`senhas/ultimaSenhaChamada`, guiche)
+
+        return request.data;
     },
     async loadSenhas({commit}){
         try{

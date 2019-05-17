@@ -182,10 +182,19 @@
                 //         ativo: true
                 //     })
                 // }
-                this.$store.dispatch('setDialogPaciente',true)
+                if(this.senhas.length > 0){
+                    this.$store.dispatch('setDialogPaciente',true)
+                }else{
+                    this.setMensagem({
+                        texto: "Não há senhas para serem atendidas.",
+                        tipo: 'success darken-2',
+                        ativo: true
+                    })
+                }
             },
             verificarArraySenha(senhas){
-                if(!Array.isArray(senhas)){
+                console.log(senhas)
+                if(Array.isArray(senhas)){
                     this.setMensagem({
                         texto: senhas,
                         tipo: 'success darken-2',

@@ -13,6 +13,7 @@ $this->group([
             $this->put('chamarProximo','SenhaController@chamarProximo');
             $this->put('chamarNovamente','SenhaController@chamarNovamente');
             $this->get('senhasChamadas','SenhaController@getSenhasChamadas');
+            $this->post('ultimaSenhaChamada','SenhaController@ultimaSenhaChamada');
             $this->put('atenderSenha','SenhaController@atenderSenha');
         });
         $this->apiResource('senhas','SenhaController');

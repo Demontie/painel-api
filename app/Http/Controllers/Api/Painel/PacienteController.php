@@ -2,16 +2,20 @@
 
 namespace App\Http\Controllers\Api\Painel;
 
+use App\Models\Painel\Atendimento;
+use App\Models\Painel\Paciente;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 class PacienteController extends Controller
 {
     private $paciente;
+    private $atendimento;
 
-    public function __construct(Paciente $paciente)
+    public function __construct(Paciente $paciente, Atendimento $atendimento)
     {
         $this->paciente = $paciente;
+        $this->atendimento = $atendimento;
     }
 
     /**
@@ -22,9 +26,6 @@ class PacienteController extends Controller
     public function index()
     {
         $paciente = $this->paciente
-            ->with([
-                'grupo_tela'
-            ])
             ->get();
 
         return response()->json($paciente);
@@ -33,9 +34,6 @@ class PacienteController extends Controller
     public function pacientesDisponiveis()
     {
         $paciente = $this->paciente
-            ->with([
-                'grupo_tela'
-            ])
             ->where('ativo',true)
             ->get();
 
@@ -50,9 +48,13 @@ class PacienteController extends Controller
      */
     public function store(Request $request)
     {
-        $novoPaciente = $this->paciente->create($request->all());
+        $paciente = $this->paciente->where('cpf',$request->cpf)->first();
 
-        return response()->json($novoPaciente,201);
+        if(is_null($paciente)){
+            $paciente = $this->paciente->create($request->all());
+        }
+
+        return response()->json($paciente,201);
     }
 
     /**
