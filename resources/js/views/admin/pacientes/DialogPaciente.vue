@@ -128,9 +128,11 @@
         methods:{
             ...mapActions({
                 setMensagem: 'setMensagem',
+                setPaciente: 'setPaciente',
                 loadMedicos: 'loadMedicos',
                 ultimaSenhaChamada: 'ultimaSenhaChamada',
                 atenderSenha: 'atenderSenha',
+                loadSenhas: 'loadSenhas',
             }),
             async salvar(){
                 try{
@@ -146,6 +148,12 @@
                         const senha = await this.atenderSenha(chamadaObj)
                         console.log(senha)
 
+                        this.setMensagem({
+                            texto: 'Senha atendida.',
+                            tipo: 'success darken-2',
+                            ativo: true
+                        })
+
                     }catch(e){
                         this.setMensagem({
                             texto: e.message,
@@ -154,6 +162,8 @@
                         })
                     }
 
+                    this.loadSenhas()
+                    this.setPaciente({})
                     this.$store.dispatch('setDialogPaciente',false)
                 }catch (e){
                     this.setMensagem({

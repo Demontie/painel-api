@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Models\Painel\Atendimento;
 use App\Models\Painel\GuicheAtivo;
 use App\Models\Painel\Perfil;
 use Illuminate\Notifications\Notifiable;
@@ -69,5 +70,9 @@ class User extends Authenticatable implements JWTSubject
 
     public function guiche(){
         return $this->hasOne(GuicheAtivo::class);
+    }
+
+    public function atendimentos(){
+        return $this->hasMany(Atendimento::class);
     }
 }

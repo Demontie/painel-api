@@ -43,7 +43,22 @@ $this->group([
             $this->get('medicos','UserController@medicos');
         });
         $this->apiResource('users','UserController');
+
+        $this->group([
+            'prefix' => 'pacientes'
+        ],function (){
+            $this->post('pacientePorSenha','PacienteController@pacientePorSenha');
+            $this->post('pacientePorMedico','PacienteController@pacientePorMedico');
+            $this->post('proximoPaciente','PacienteController@proximoPaciente');
+        });
         $this->apiResource('pacientes','PacienteController');
+
+        $this->group([
+            'prefix' => 'atendimentos'
+        ],function (){
+            $this->apiResource('atendimentos','AtendimentosController');
+        });
+        $this->apiResource('atendimentos','AtendimentosController');
     });
 
 $this->group([

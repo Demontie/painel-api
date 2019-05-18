@@ -17,8 +17,10 @@ class CreateAtendimentosTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('paciente_id');
             $table->foreign('paciente_id')->references('id')->on('pacientes');
+
             $table->unsignedInteger('medico_id');
-            $table->foreign('medico_id')->references('id')->on('medicos');
+            $table->foreign('medico_id')->references('id')->on('users');
+
             $table->unsignedInteger('senha_id');
             $table->foreign('senha_id')->references('id')->on('senhas');
             $table->timestamps();

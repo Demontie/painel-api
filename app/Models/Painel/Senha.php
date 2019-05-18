@@ -31,4 +31,8 @@ class Senha extends Model
     public function paciente(){
         return $this->belongsTo(Paciente::class);
     }
+
+    public function atendimento(){
+        return $this->hasOne(Atendimento::class);
+    }
 }

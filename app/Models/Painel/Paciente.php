@@ -16,4 +16,8 @@ class Paciente extends Model
         return $this->hasMany(Senha::class);
     }
 
+    public function atendimentos(){
+        return $this->hasMany(Atendimento::class);
+    }
+
 }

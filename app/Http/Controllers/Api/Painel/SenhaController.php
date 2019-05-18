@@ -309,10 +309,12 @@ class SenhaController extends Controller
             return response()->json(['error' => 'Senha não encontrada'],404);
         }
 
+        //dd($request->medico_id);
+
         $this->atendimento->create([
             'paciente_id' => $request->paciente_id,
             'medico_id' => $request->medico_id,
-            'senha_id' => $senha->senha_id
+            'senha_id' => $senha->id
         ]);
 
         $senha->update([
