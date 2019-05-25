@@ -10,11 +10,16 @@ class Atendimento extends Model
     protected $fillable = [
         'paciente_id',
         'senha_id',
-        'medico_id'
+        'medico_id',
+        'sala_id'
     ];
 
     public function medico(){
         return $this->belongsTo(User::class);
+    }
+
+    public function sala(){
+        return $this->belongsTo(Sala::class);
     }
 
     public function senha(){

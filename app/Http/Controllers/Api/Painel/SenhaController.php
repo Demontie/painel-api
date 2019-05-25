@@ -314,7 +314,8 @@ class SenhaController extends Controller
         $this->atendimento->create([
             'paciente_id' => $request->paciente_id,
             'medico_id' => $request->medico_id,
-            'senha_id' => $senha->id
+            'senha_id' => $senha->id,
+            'sala_id' => $request->sala_id
         ]);
 
         $senha->update([

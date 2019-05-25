@@ -65,13 +65,26 @@
                     senha.senhaCompleta = `${senha.tipo_senha.prefixo} - ${senha.numero}`
 
                     if(this.ultimaSenhaChamada && this.ultimaSenhaChamada.id != senha.id){
-                        /*
-                    Caso já exista uma senha chama e o array tenha 4 elementos
-                     */
-                        if(this.ultimaSenhaChamada && this.senhasChamadas.length == 4){
-                            this.senhasChamadas.splice(3,1)
+                        let senhaExistente = this.senhasChamadas.find( senha => {
+                            if(senha.id == this.ultimaSenhaChamada.id){
+                                return senha;
+                            }
+                        })
+
+                        if(!senhaExistente){
+                            /*
+                            Caso já exista uma senha chama e o array tenha 4 elementos
+                             */
+                            if(this.ultimaSenhaChamada && this.senhasChamadas.length == 4){
+                                this.senhasChamadas.splice(3,1)
+                            }
+
+                            this.senhasChamadas.unshift(this.ultimaSenhaChamada)
                         }
-                        this.senhasChamadas.unshift(this.ultimaSenhaChamada)
+
+                        console.log(senhaExistente)
+                        console.log(senha)
+
                     }
 
                     this.setUltimaSenhaChamada(senha)

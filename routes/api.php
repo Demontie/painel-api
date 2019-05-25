@@ -49,7 +49,7 @@ $this->group([
         ],function (){
             $this->post('pacientePorSenha','PacienteController@pacientePorSenha');
             $this->post('pacientePorMedico','PacienteController@pacientePorMedico');
-            $this->post('proximoPaciente','PacienteController@proximoPaciente');
+            $this->put('proximoPaciente','PacienteController@proximoPaciente');
         });
         $this->apiResource('pacientes','PacienteController');
 

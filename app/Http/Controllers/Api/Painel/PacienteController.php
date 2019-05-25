@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Api\Painel;
 
 use App\Classes\Utils\ConstantesPainel;
+use App\Events\ChamadaMedico;
 use App\Models\Painel\Atendimento;
 use App\Models\Painel\Paciente;
+use App\Models\Painel\Senha;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -13,12 +15,14 @@ class PacienteController extends Controller
     private $paciente;
     private $atendimento;
     private $constantesPainel;
+    private $senha;
 
-    public function __construct(Paciente $paciente, ConstantesPainel $constantesPainel, Atendimento $atendimento)
+    public function __construct(Paciente $paciente, ConstantesPainel $constantesPainel, Atendimento $atendimento, Senha $senha)
     {
         $this->paciente = $paciente;
         $this->atendimento = $atendimento;
         $this->constantesPainel = $constantesPainel;
+        $this->senha = $senha;
     }
 
     /**
@@ -77,22 +81,58 @@ class PacienteController extends Controller
     }
 
     public function proximoPaciente(Request $request){
-        $paciente = $this->paciente
-            ->with([
-                'atendimentos',
-                //'atendimentos.senha'
-            ])
-            ->whereHas('atendimentos', function ($query) use ($request){
-                $query
-                    ->where('senha_id', 1);
-            })
-            ->get();
+//        $paciente = $this->paciente
+//            ->with([
+//                'atendimentos',
+//                'atendimentos.sala'
+//            ])
+//            ->whereHas('atendimentos', function ($query) use ($request){
+//                $query
+//                    ->where('senha_id', 1);
+//            })
+//            ->get();
 
-        if(is_null($paciente)){
-            return response()->json(['error' => 'Paciente não encontrado'],404);
+        $atendimento = $this->atendimento
+            ->with([
+                'paciente',
+                'sala',
+                'senha'
+            ])
+            ->whereHas('senha', function ($query) use ($request){
+                $query
+                    ->where('id', $request->senha_id);
+            })
+            ->whereDay("created_at",date('d'))
+            ->whereMonth("created_at", date('m'))
+            ->first();
+
+        if(is_null($atendimento)){
+            $atendimento = $this->atendimento
+                ->with([
+                    'paciente',
+                    'sala',
+                    'senha'
+                ])
+                ->whereHas('senha', function ($query) use ($request){
+                    $query
+                        ->where('id', $request->senha_id);
+                })
+                ->whereDay("created_at",date('d'))
+                ->whereMonth("created_at", date('m'))
+                ->first();
         }
 
-        return response()->json($paciente);
+        if(is_null($atendimento)){
+            return response()->json(['error' => 'Atendimento não encontrado'],404);
+        }
+
+        $this->senha->update([
+           'status' => ConstantesPainel::CHAMADA_MEDICO
+        ]);
+
+        broadcast(new ChamadaMedico($atendimento));
+
+        return response()->json($atendimento);
     }
 
     /**

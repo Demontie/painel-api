@@ -14,6 +14,7 @@ class ConstantesPainel
     const CHAMADA_MEDICO = 3;
     const ATENDIDA = 4;
     const CANCELADA = 5;
+    const FINALIZADA = 6;
 
     /**
      * Valor limite de senhas
